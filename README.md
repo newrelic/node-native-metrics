@@ -1,2 +1,3 @@
-# node-gc-metrics
-A module for generating V8 GC metrics.
+# @newrelic/native-metrics
+
+A module for generating metrics from V8.
