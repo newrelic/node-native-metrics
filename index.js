@@ -14,10 +14,15 @@ function NativeMetricEmitter(opts) {
   var self = this
   this.bound = false
   this._timeout = null
-  this._rusageMeter = new natives.RUsageMeter()
+
+  this._rusageMeter = natives.RUsageMeter ? new natives.RUsageMeter() : null
+  this.usageEnabled = !!this._rusageMeter
+
   this._gcBinder = new natives.GCBinder(function onGCCallback(duration) {
     self.emit('gc', {duration: duration})
   })
+  this.gcEnabled = true
+
   this.bind(opts.timeout)
 }
 util.inherits(NativeMetricEmitter, EventEmitter)
@@ -26,12 +31,13 @@ NativeMetricEmitter.prototype.bind = function bind(timeout) {
   timeout = timeout || DEFAULT_TIMEOUT
   this._gcBinder.bind()
 
-  var self = this
-  this._timeout = setTimeout(nativeMetricTimeout, timeout)
+  this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout)
   function nativeMetricTimeout() {
-    self.emit('usage', self._rusageMeter.read())
-    if (self.bound) {
-      self._timeout = setTimeout(nativeMetricTimeout, timeout)
+    if (this._rusageMeter) {
+      this.emit('usage', this._rusageMeter.read())
+    }
+    if (this.bound) {
+      this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout)
     }
   }
 

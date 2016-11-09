@@ -5,6 +5,8 @@
 
 #include "RUsageMeter.hpp"
 
+#ifndef NR_DISABLE_RUSAGE
+
 namespace nr {
 
 NAN_METHOD(RUsageMeter::Read) {
@@ -96,3 +98,5 @@ v8::Local<v8::Object> RUsageMeter::_usageToJSObj(const uv_rusage_t& usage) {
 }
 
 }
+
+#endif // NR_DISABLE_RUSAGE
