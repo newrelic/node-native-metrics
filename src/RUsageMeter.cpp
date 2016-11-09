@@ -35,24 +35,26 @@ void RUsageMeter::_read() {
   uv_rusage_t nextUsage;
   uv_getrusage(&nextUsage);
 
-  _usageDiff.ru_utime.tv_sec  = nextUsage.ru_utime.tv_sec   - _lastUsage.ru_utime.tv_sec;
-  _usageDiff.ru_utime.tv_usec = nextUsage.ru_utime.tv_usec  - _lastUsage.ru_utime.tv_usec;
-  _usageDiff.ru_stime.tv_sec  = nextUsage.ru_stime.tv_sec   - _lastUsage.ru_stime.tv_sec;
-  _usageDiff.ru_stime.tv_usec = nextUsage.ru_stime.tv_usec  - _lastUsage.ru_stime.tv_usec;
-  _usageDiff.ru_maxrss    = nextUsage.ru_maxrss   - _lastUsage.ru_maxrss;
-  _usageDiff.ru_ixrss     = nextUsage.ru_ixrss    - _lastUsage.ru_ixrss;
-  _usageDiff.ru_idrss     = nextUsage.ru_idrss    - _lastUsage.ru_idrss;
-  _usageDiff.ru_isrss     = nextUsage.ru_isrss    - _lastUsage.ru_isrss;
-  _usageDiff.ru_minflt    = nextUsage.ru_minflt   - _lastUsage.ru_minflt;
-  _usageDiff.ru_majflt    = nextUsage.ru_majflt   - _lastUsage.ru_majflt;
-  _usageDiff.ru_nswap     = nextUsage.ru_nswap    - _lastUsage.ru_nswap;
-  _usageDiff.ru_inblock   = nextUsage.ru_inblock  - _lastUsage.ru_inblock;
-  _usageDiff.ru_oublock   = nextUsage.ru_oublock  - _lastUsage.ru_oublock;
-  _usageDiff.ru_msgsnd    = nextUsage.ru_msgsnd   - _lastUsage.ru_msgsnd;
-  _usageDiff.ru_msgrcv    = nextUsage.ru_msgrcv   - _lastUsage.ru_msgrcv;
-  _usageDiff.ru_nsignals  = nextUsage.ru_nsignals - _lastUsage.ru_nsignals;
-  _usageDiff.ru_nvcsw     = nextUsage.ru_nvcsw    - _lastUsage.ru_nvcsw;
-  _usageDiff.ru_nivcsw    = nextUsage.ru_nivcsw   - _lastUsage.ru_nivcsw;
+  #define DIFF(X) _usageDiff.X = nextUsage.X - _lastUsage.X
+  DIFF(ru_utime.tv_sec);
+  DIFF(ru_utime.tv_usec);
+  DIFF(ru_stime.tv_sec);
+  DIFF(ru_stime.tv_usec);
+  DIFF(ru_maxrss);
+  DIFF(ru_ixrss);
+  DIFF(ru_idrss);
+  DIFF(ru_isrss);
+  DIFF(ru_minflt);
+  DIFF(ru_majflt);
+  DIFF(ru_nswap);
+  DIFF(ru_inblock);
+  DIFF(ru_oublock);
+  DIFF(ru_msgsnd);
+  DIFF(ru_msgrcv);
+  DIFF(ru_nsignals);
+  DIFF(ru_nvcsw);
+  DIFF(ru_nivcsw);
+  #undef DIFF
 
   std::memcpy(&_lastUsage, &nextUsage, sizeof(uv_rusage_t));
 }
@@ -69,9 +71,9 @@ v8::Local<v8::Object> RUsageMeter::_usageToJSObj(const uv_rusage_t& usage) {
   );
 
   // Copy all the values to V8 objects.
-  v8::Local<v8::Object> jsUsage = Nan::New<v8::Object>();
+  v8::Local<v8::Object> obj = Nan::New<v8::Object>();
   #define SET(key, val) \
-    Nan::Set(jsUsage, Nan::New(key).ToLocalChecked(), Nan::New<v8::Number>((double)val));
+    Nan::Set(obj, Nan::New(key).ToLocalChecked(), Nan::New<v8::Number>((double)val))
   SET("ru_utime",     utime);
   SET("ru_stime",     stime);
   SET("ru_maxrss",    usage.ru_maxrss);
@@ -90,7 +92,7 @@ v8::Local<v8::Object> RUsageMeter::_usageToJSObj(const uv_rusage_t& usage) {
   SET("ru_nivcsw",    usage.ru_nivcsw);
   #undef SET
 
-  return jsUsage;
+  return obj;
 }
 
 }
