@@ -18,8 +18,10 @@
     "metrics",
     "stats",
     "gc-stats",
+    "gc stats",
     "gc metrics",
-    "gc stats"
+    "native-metrics",
+    "native metrics"
   ],
   "author": "New Relic Node.js agent team <nodejs@newrelic.com>",
   "contributors": [
@@ -31,7 +33,10 @@
   ],
   "license": "LicenseRef-LICENSE",
   "binary": {
-    "module_name": "native_metrics"
+    "module_name": "native_metrics",
+    "module_path": "./build/Release",
+    "host": "https://download.newrelic.com",
+    "remote_path": "./nodejs-agent/bin/{node_abi}-{platform}/{name}"
   },
   "engines": {
     "node": ">=0.10"
