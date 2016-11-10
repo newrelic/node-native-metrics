@@ -1,0 +1,47 @@
+{
+  "name": "@newrelic/native-metrics",
+  "version": "0.0.0",
+  "description": "A module for generating metrics from V8.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ./*.js lib",
+    "unit": "tap --expose-gc tests/**/*.tap.js",
+    "test": "npm run unit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@source.datanerd.us:Nodejs-agent/node-native-metrics"
+  },
+  "keywords": [
+    "newrelic",
+    "gc",
+    "metrics",
+    "stats",
+    "gc-stats",
+    "gc metrics",
+    "gc stats"
+  ],
+  "author": "New Relic Node.js agent team <nodejs@newrelic.com>",
+  "contributors": [
+    {
+      "name": "Natalie Wolfe",
+      "email": "nwolfe@newrelic.com",
+      "web": "https://newrelic.com"
+    }
+  ],
+  "license": "LicenseRef-LICENSE",
+  "binary": {
+    "module_name": "native_metrics"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
+  "devDependencies": {
+    "eslint": "^3.9.1",
+    "tap": "^8.0.0"
+  },
+  "dependencies": {
+    "nan": "^2.4.0",
+    "node-pre-gyp": "^0.6.31"
+  }
+}
