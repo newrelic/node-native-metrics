@@ -4,9 +4,13 @@
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
+    "preinstall": "npm install node-pre-gyp",
+    "install": "node-pre-gyp install --fallback-to-build",
     "lint": "eslint ./*.js lib",
     "unit": "tap --expose-gc tests/**/*.tap.js",
-    "test": "npm run unit"
+    "test": "npm run unit",
+
+    "publish-binary": "node-pre-gyp --acl='' package publish"
   },
   "repository": {
     "type": "git",
@@ -34,14 +38,15 @@
   "license": "LicenseRef-LICENSE",
   "binary": {
     "module_name": "native_metrics",
-    "module_path": "./build/Release",
-    "host": "https://download.newrelic.com",
-    "remote_path": "./nodejs-agent/bin/{node_abi}-{platform}/{name}"
+    "module_path": "./lib/binary",
+    "host": "https://nr-downloads-main.s3.amazonaws.com",
+    "remote_path": "./nodejs_agent/builds"
   },
   "engines": {
     "node": ">=0.10"
   },
   "devDependencies": {
+    "aws-sdk": "^2.7.0",
     "eslint": "^3.9.1",
     "semver": "^5.3.0",
     "tap": "^8.0.0"
