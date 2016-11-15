@@ -28,7 +28,13 @@ public:
     }
 
     v8::Local<v8::Function> onGCCallback = info[0].As<v8::Function>();
-    GCBinder* obj = new GCBinder(onGCCallback);
+    Nan::Set(
+      info.This(),
+      Nan::New("_onGCCallback").ToLocalChecked(),
+      onGCCallback
+    );
+
+    GCBinder* obj = new GCBinder();
     obj->Wrap(info.This());
     info.GetReturnValue().Set(info.This());
   }
@@ -47,9 +53,8 @@ public:
     _unbind();
   }
 
-  GCBinder(const v8::Local<v8::Function>& onGCCallback):
-    _gcStartTimeHR(uv_hrtime()),
-    _onGCCallback(onGCCallback)
+  GCBinder():
+    _gcStartTimeHR(uv_hrtime())
   {
     _instance = this;
   }
@@ -102,11 +107,14 @@ private:
     Nan::HandleScope scope;
     double duration = (double)(gcEndTimeHR - _gcStartTimeHR);
     v8::Local<v8::Value> args[] = {Nan::New<v8::Number>(duration)};
-    _onGCCallback.Call(1, args);
+    Nan::MakeCallback(
+      this->handle(),
+      Nan::New("_onGCCallback").ToLocalChecked(),
+      1, args
+    );
   }
 
   uint64_t _gcStartTimeHR;
-  Nan::Callback _onGCCallback;
 };
 
 }
