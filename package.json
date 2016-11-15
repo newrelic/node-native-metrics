@@ -10,7 +10,7 @@
     "unit": "tap --expose-gc tests/**/*.tap.js",
     "test": "npm run unit",
 
-    "publish-binary": "node-pre-gyp --acl='' package publish"
+    "publish-binary": "node-pre-gyp --acl='' unpublish package publish"
   },
   "repository": {
     "type": "git",
