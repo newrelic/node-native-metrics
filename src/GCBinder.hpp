@@ -26,7 +26,12 @@ public:
     if (info.Length() != 1 || !info[0]->IsFunction()) {
       return Nan::ThrowError("GC callback function is required.");
     }
+    if (_instance != NULL) {
+      return Nan::ThrowError("GCBinder instance already created.");
+    }
 
+    // Store the callback on the JS object so its lifetime is properly tied to
+    // the lifetime of this object.
     v8::Local<v8::Function> onGCCallback = info[0].As<v8::Function>();
     Nan::Set(
       info.This(),
