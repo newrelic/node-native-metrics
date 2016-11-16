@@ -13,15 +13,7 @@ addons:
     packages:
       - gcc-5
       - g++-5
-env:
-  - SUITE=unit
-  - SUITE=lint
-matrix:
-  exclude:
-    - node_js: "0.10"
-      env: SUITE=lint
-    - node_js: "0.12"
-      env: SUITE=lint
+
 cache:
   apt: true
 before_install:
@@ -32,4 +24,33 @@ before_install:
   - sudo update-alternatives --auto gcc
   - export CXX="g++-5" CC="gcc-5"
 
-script: npm run $SUITE
+  # get commit message
+  - COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
+  # put local node-pre-gyp on PATH
+  - export PATH=./node_modules/.bin/:$PATH
+  # put global node-gyp on PATH
+  - npm install node-gyp -g
+  # install aws-sdk so it is available for publishing
+  - npm install aws-sdk
+  # figure out if we should publish
+  - PUBLISH_BINARY=false
+  # if we are building a tag then publish
+  - if [[ $TRAVIS_BRANCH == `git describe --tags --always HEAD` ]]; then PUBLISH_BINARY=true; fi;
+  # or if we put [publish binary] in the commit message
+  - if test "${COMMIT_MESSAGE#*'[publish binary]'}" != "$COMMIT_MESSAGE"; then PUBLISH_BINARY=true; fi;
+
+install:
+  - npm install --build-from-source
+
+script:
+  - echo "PUBLISH_BINARY $PUBLISH_BINARY"
+  - if [[ "$PUBLISH_BINARY" == "true" ]]; then npm run publish-binary && node-pre-gyp clean && node-gyp clean; fi;
+  - if [[ "$PUBLISH_BINARY" == "true" ]]; then npm install --fallback-to-build=false; fi;
+  # Only lint on Node v1+
+  - if node -e 'process.exit(!(process.version[1] > 1))'; then npm run lint; fi;
+  - npm test
+
+after_success:
+  - if [[ "$PUBLISH_BINARY" == "true" ]]; then node-pre-gyp info; fi;
+after_failure:
+  - if [[ "$PUBLISH_BINARY" == "true" ]]; then node-pre-gyp unpublish; fi;
