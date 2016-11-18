@@ -80,11 +80,7 @@ private:
     return _constructor;
   }
 
-  #if NODE_MAJOR_VERSION == 0 && NODE_MINOR_VERSION == 10
-    static void _doCallback(uv_timer_t* handle, int);
-  #else
-    static void _doCallback(uv_timer_t* handle);
-  #endif
+  static void _doCallback(uv_work_t* handle, int);
 
   void _gcStart() {
     _gcStartTimeHR = uv_hrtime();

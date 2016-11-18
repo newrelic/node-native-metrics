@@ -34,11 +34,7 @@ NAN_METHOD(GCBinder::New) {
   info.GetReturnValue().Set(info.This());
 }
 
-#if NODE_MAJOR_VERSION == 0 && NODE_MINOR_VERSION == 10
-void GCBinder::_doCallback(uv_timer_t* handle, int) {
-#else
-void GCBinder::_doCallback(uv_timer_t* handle) {
-#endif
+void GCBinder::_doCallback(uv_work_t* handle, int) {
   GCResults* res = (GCResults*)handle->data;
 
   if (_instance) {
@@ -66,12 +62,11 @@ void GCBinder::_gcEnd(const v8::GCType type) {
   uint64_t gcEndTimeHR = uv_hrtime();
 
   // Schedule the callback on the event loop.
-  // XXX uv_async_t causes process to hang. No idea why, so using uv_timer_t
-  // instead.
-  uv_timer_t* handle = new uv_timer_t;
-  uv_timer_init(uv_default_loop(), handle);
+  // XXX uv_async_t causes process to hang. No idea why. uv_timer_t causes
+  // segmentation faults. No idea why. uv_work_t works, so going with that.
+  uv_work_t* handle = new uv_work_t;
   handle->data = new GCResults(gcEndTimeHR - _gcStartTimeHR, type);
-  uv_timer_start(handle, &_doCallback, 0, false);
+  uv_queue_work(uv_default_loop(), handle, &_noopWork, &_doCallback);
 }
 
 }
