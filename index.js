@@ -29,7 +29,8 @@ var GC_TYPE_NAMES = {
  * @classdesc
  *  Emits events for various native events or periodic sampling.
  *
- * @param {number} [opts.timeout] - The number of milliseconds between samplings.
+ * @param {number} [opts.timeout]
+ *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
 function NativeMetricEmitter(opts) {
   opts = opts || {timeout: DEFAULT_TIMEOUT}
@@ -100,7 +101,8 @@ util.inherits(NativeMetricEmitter, EventEmitter)
  * @fires NativeMetricEmitter#gc
  * @fires NativeMetricEmitter#usage
  *
- * @param {number} timeout - The number of milliseconds between samplings.
+ * @param {number} [timeout]
+ *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
 NativeMetricEmitter.prototype.bind = function bind(timeout) {
   timeout = timeout || DEFAULT_TIMEOUT
@@ -142,7 +144,9 @@ var emitter = null
 /**
  * Retrieves the {@link NativeMetricEmitter} singleton instance.
  *
- * @param {object} [opts] - Options for constructing the emitter if it hasn't been.
+ * @param {object} [opts]
+ *  Options for constructing the emitter. See {@link NativeMetricEmitter} for
+ *  default values. Only used on the first call to construct the instance.
  */
 module.exports = function getMetricEmitter(opts) {
   if (!emitter) {

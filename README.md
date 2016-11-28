@@ -37,3 +37,12 @@ events. For a graceful shutdown of the process call `NativeMetricEmitter#unbind`
 ```js
 getMetricEmitter().unbind() // Process will now close gracefully.
 ```
+
+If you would like to change the period of the sampling, simply unbind and then
+call `NativeMetricEmitter#bind` with the new period.
+
+```js
+var emitter = getMetricEmitter({timeout: 15000})
+emitter.unbind()
+emitter.bind(10000) // Samples will now fire once every 10 seconds.
+```
