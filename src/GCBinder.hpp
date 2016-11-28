@@ -80,6 +80,8 @@ private:
     return _constructor;
   }
 
+  static void _doCallback(uv_work_t* handle, int);
+
   void _gcStart() {
     _gcStartTimeHR = uv_hrtime();
   }
