@@ -14,9 +14,8 @@ addons:
       - gcc-5
       - g++-5
 
-os:
-  - linux
-  - osx
+env:
+  - CC=gcc-5 CXX=g++-5
 
 cache:
   apt: true
@@ -26,8 +25,6 @@ before_install:
   - COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
   # put local node-pre-gyp on PATH
   - export PATH=./node_modules/.bin/:$PATH
-  # export gcc env vars
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CC=gcc-5 CXX=g++-5; fi;
   # put global node-gyp on PATH
   - npm install node-gyp -g
   # install aws-sdk so it is available for publishing
