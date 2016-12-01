@@ -7,14 +7,14 @@
     "preinstall": "npm install node-pre-gyp",
     "install": "node-pre-gyp install --fallback-to-build",
     "lint": "eslint ./*.js lib",
-    "unit": "tap --expose-gc tests/**/*.tap.js",
-    "integration": "node tests/integration/server.js",
+    "unit": "tap --expose-gc tests/unit/**/*.tap.js",
+    "integration": "tap --timeout 6m tests/integration/**/*.tap.js",
     "test": "npm run unit && npm run integration",
     "publish-binary": "node-pre-gyp --acl='' unpublish package publish"
   },
   "repository": {
     "type": "git",
-    "url": "git@source.datanerd.us:Nodejs-agent/node-native-metrics"
+    "url": "git@github.com:newrelic/node-native-metrics"
   },
   "keywords": [
     "newrelic",
