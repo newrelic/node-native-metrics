@@ -22,11 +22,10 @@ NAN_METHOD(GCBinder::New) {
 
   // Store the callback on the JS object so its lifetime is properly tied to
   // the lifetime of this object.
-  v8::Local<v8::Function> onGCCallback = info[0].As<v8::Function>();
   Nan::Set(
     info.This(),
     Nan::New("_onGCCallback").ToLocalChecked(),
-    onGCCallback
+    info[0].As<v8::Function>()
   );
 
   GCBinder* obj = new GCBinder();
