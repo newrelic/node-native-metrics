@@ -75,7 +75,6 @@ private:
   }
 
   static inline Nan::Persistent<v8::Function> & constructor() {
-    // ???
     static Nan::Persistent<v8::Function> _constructor;
     return _constructor;
   }

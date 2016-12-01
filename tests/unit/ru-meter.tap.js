@@ -4,7 +4,7 @@ var tap = require('tap')
 var semver = require('semver')
 
 
-var RU_AVAILABLE = semver.gte(process.version, '0.12.0')
+var RU_AVAILABLE = false && semver.gte(process.version, '0.12.0')
 
 
 tap.test('Resource Usage Meter', {skip: !RU_AVAILABLE}, function(t) {

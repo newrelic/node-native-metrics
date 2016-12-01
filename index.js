@@ -8,7 +8,6 @@ var util = require('util')
 var binding_path = npg.find(path.resolve(__dirname, './package.json'))
 var natives = require(binding_path)
 
-var DEFAULT_TIMEOUT = 15 * 1000 // 15 seconds
 var GC_TYPE_NAMES = {
   '1': 'Scavenge',
   '2': 'MarkSweepCompact',
@@ -28,18 +27,16 @@ var GC_TYPE_NAMES = {
  * @constructor
  * @classdesc
  *  Emits events for various native events or periodic sampling.
- *
- * @param {number} [opts.timeout]
- *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
-function NativeMetricEmitter(opts) {
-  opts = opts || {timeout: DEFAULT_TIMEOUT}
+function NativeMetricEmitter() {
   EventEmitter.call(this)
   var self = this
   this.bound = false
   this._timeout = null
 
-  this._rusageMeter = natives.RUsageMeter ? new natives.RUsageMeter() : null
+  // TODO Enable resource usage using an interface other than a timeout.
+  // this._rusageMeter = natives.RUsageMeter ? new natives.RUsageMeter() : null
+  this._rusageMeter = null
   this.usageEnabled = !!this._rusageMeter
 
   this._gcBinder = new natives.GCBinder(function onGCCallback(type, duration) {
@@ -61,7 +58,7 @@ function NativeMetricEmitter(opts) {
   })
   this.gcEnabled = true
 
-  this.bind(opts.timeout)
+  this.bind()
 }
 util.inherits(NativeMetricEmitter, EventEmitter)
 
@@ -100,33 +97,9 @@ util.inherits(NativeMetricEmitter, EventEmitter)
  *
  * @fires NativeMetricEmitter#gc
  * @fires NativeMetricEmitter#usage
- *
- * @param {number} [timeout]
- *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
-NativeMetricEmitter.prototype.bind = function bind(timeout) {
-  timeout = timeout || DEFAULT_TIMEOUT
+NativeMetricEmitter.prototype.bind = function bind() {
   this._gcBinder.bind()
-
-  this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout)
-  function nativeMetricTimeout() {
-    if (this._rusageMeter) {
-      /**
-       * Resource usage sampling event.
-       *
-       * @event NativeMetricEmitter#usage
-       * @type {object}
-       *
-       * @property {RUsageStats} diff     - The change in stats since last sampling.
-       * @property {RUsageStats} current  - The current usage statistics.
-       */
-      this.emit('usage', this._rusageMeter.read())
-    }
-    if (this.bound) {
-      this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout)
-    }
-  }
-
   this.bound = true
 }
 
@@ -143,14 +116,10 @@ var emitter = null
 
 /**
  * Retrieves the {@link NativeMetricEmitter} singleton instance.
- *
- * @param {object} [opts]
- *  Options for constructing the emitter. See {@link NativeMetricEmitter} for
- *  default values. Only used on the first call to construct the instance.
  */
-module.exports = function getMetricEmitter(opts) {
+module.exports = function getMetricEmitter() {
   if (!emitter) {
-    emitter = new NativeMetricEmitter(opts)
+    emitter = new NativeMetricEmitter()
   }
   return emitter
 }
