@@ -46,6 +46,7 @@
     "node": ">=0.10"
   },
   "devDependencies": {
+    "async": "^2.1.4",
     "aws-sdk": "^2.7.0",
     "eslint": "^3.9.1",
     "segfault-handler": "^1.0.0",
