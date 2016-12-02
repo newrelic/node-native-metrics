@@ -105,6 +105,10 @@ util.inherits(NativeMetricEmitter, EventEmitter)
  *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
 NativeMetricEmitter.prototype.bind = function bind(timeout) {
+  if (this.bound) {
+    return
+  }
+
   timeout = timeout || DEFAULT_TIMEOUT
   this._gcBinder.bind()
 
@@ -134,6 +138,10 @@ NativeMetricEmitter.prototype.bind = function bind(timeout) {
  * Removes internal hooks and stops any open sampling timers.
  */
 NativeMetricEmitter.prototype.unbind = function unbind() {
+  if (!this.bound) {
+    return
+  }
+
   this._gcBinder.unbind()
   clearTimeout(this._timeout)
   this.bound = false

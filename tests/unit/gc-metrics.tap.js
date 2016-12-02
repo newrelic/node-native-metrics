@@ -4,11 +4,11 @@ var tap = require('tap')
 
 tap.test('GC Metrics', function(t) {
   var metricEmitter = require('../../')()
-  t.plan(6)
+  t.plan(7)
 
-  t.tearDown(function() {
-    metricEmitter.unbind()
-  })
+  // Testing double bind. If this is not protected against tap will error due to
+  // too many tests (the `gc` event is emitted twice).
+  metricEmitter.bind()
 
   metricEmitter.on('gc', function(stats) {
     t.pass('should emit gc event')
@@ -17,6 +17,11 @@ tap.test('GC Metrics', function(t) {
     t.type(stats.typeId, 'number', 'should have a type ID')
     t.type(stats.type, 'string', 'should have a type name')
     t.ok(stats.duration > 0, 'duration should be greater than zero')
+
+    metricEmitter.unbind()
+    t.doesNotThrow(function() {
+      metricEmitter.unbind()
+    }, 'should not throw when double unbound')
   })
 
   global.gc()
