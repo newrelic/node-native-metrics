@@ -1,3 +1,7 @@
+### v1.0.0 (2016-12-07):
+
+* General release. No code changes from v0.1.1.
+
 ### v0.1.1 (2016-12-05):
 
 * Added guard against binding GC events more than once.
