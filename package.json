@@ -43,7 +43,7 @@
     "remote_path": "./nodejs_agent/builds"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": ">=0.12"
   },
   "devDependencies": {
     "async": "^2.1.4",
