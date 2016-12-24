@@ -4,7 +4,6 @@
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
-    "preinstall": "npm install node-pre-gyp",
     "install": "node-pre-gyp install --fallback-to-build",
     "lint": "eslint ./*.js lib",
     "unit": "tap --expose-gc tests/**/*.tap.js",
@@ -43,7 +42,8 @@
     "remote_path": "./nodejs_agent/builds"
   },
   "engines": {
-    "node": ">=0.12"
+    "node": ">=0.12",
+    "npm": ">=2"
   },
   "devDependencies": {
     "async": "^2.1.4",
@@ -56,5 +56,8 @@
   "dependencies": {
     "nan": "^2.4.0",
     "node-pre-gyp": "^0.6.31"
-  }
+  },
+  "bundledDependencies": [
+    "node-pre-gyp"
+  ]
 }
