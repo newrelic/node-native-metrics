@@ -28,6 +28,13 @@ if (emitter.gcEnabled) {
 if (emitter.usageEnabled) {
   emitter.on('usage', (usage) => console.log('ru'))
 }
+if (emitter.loopEnabled) {
+  setInterval(function printLoopMetrics() {
+    var loopMetrics = emitter.getLoopMetrics()
+    console.log("Loop time:", loopMetrics.loop)
+    console.log("IO wait time:", loopMetrics.ioWait)
+  }, 1000)
+}
 ```
 
 The metric emitter keeps a referenced timer running for its periodic sampling
