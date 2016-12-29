@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@source.datanerd.us:Nodejs-agent/node-native-metrics"
+    "url": "git@github.com:newrelic/node-native-metrics"
   },
   "keywords": [
     "newrelic",

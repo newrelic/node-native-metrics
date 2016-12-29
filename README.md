@@ -46,3 +46,9 @@ var emitter = getMetricEmitter({timeout: 15000})
 emitter.unbind()
 emitter.bind(10000) // Samples will now fire once every 10 seconds.
 ```
+
+## License
+
+The New Relic native metrics module is free-to-use, proprietary software. Please
+see the full license (found in [LICENSE](LICENSE)) for details on its license
+and the licenses of its dependencies.
