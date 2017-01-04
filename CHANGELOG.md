@@ -1,3 +1,17 @@
+### v2.0.0 (2017-01-04):
+
+* Removed support for Node 0.10.
+
+  The `segfault-handler` dependency no longer compiles on Node 0.10 in our tests.
+
+* The `node-pre-gyp` module is now a bundled dependency.
+
+  Previously it was installed using a preinstall script, which was causing an issue with
+  shrinkwrapping parent projects.  Thanks to Robert Rossman (@Alaneor) for
+  the contribution!
+
+* Added License section to the Readme file.
+
 ### v1.0.0 (2016-12-07):
 
 * General release. No code changes from v0.1.1.
