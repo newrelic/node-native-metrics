@@ -51,7 +51,7 @@
     "eslint": "^3.9.1",
     "segfault-handler": "^1.0.0",
     "semver": "^5.3.0",
-    "tap": "^8.0.0"
+    "tap": "^9.0.3"
   },
   "dependencies": {
     "nan": "^2.4.0",
