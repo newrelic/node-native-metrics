@@ -73,15 +73,12 @@ tap.test('Resource Usage Meter', {skip: !RU_AVAILABLE}, function(t) {
       )
     })
 
-    // On Travis, CPU usage measurements are... weird. Disabling this assertion
-    // for Travis builds for now.
-    if (!process.env.TRAVIS) {
-      t.comment('cpu usage')
-      t.ok(
-        usage.diff.ru_utime > SPIN_TIME - CPU_EPSILON,
-        'should have expected CPU usage time (is ' + usage.diff.ru_utime + ')'
-      )
-    }
+    t.comment('cpu usage')
+    var time = usage.diff.ru_utime + usage.diff.ru_stime
+    t.ok(
+      time > SPIN_TIME - CPU_EPSILON,
+      'should have expected CPU usage time (is ' + time + ')'
+    )
     t.end()
   }
 })
