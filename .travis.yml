@@ -5,19 +5,8 @@ node_js:
   - "5"
   - "6"
   - "7"
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - gcc-5
-      - g++-5
 
-env:
-  - CC=gcc-5 CXX=g++-5
-
-cache:
-  apt: true
+dist: trusty
 
 before_install:
   # get commit message
