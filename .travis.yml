@@ -7,33 +7,10 @@ node_js:
   - "7"
 
 dist: trusty
-
-before_install:
-  # get commit message
-  - COMMIT_MESSAGE=$(git show -s --format=%B $TRAVIS_COMMIT | tr -d '\n')
-  # put local node-pre-gyp on PATH
-  - export PATH=./node_modules/.bin/:$PATH
-  # put global node-gyp on PATH
-  - npm install node-gyp -g
-  # install aws-sdk so it is available for publishing
-  - npm install aws-sdk
-  # figure out if we should publish
-  - PUBLISH_BINARY=false
-  # if we are building a tag then publish
-  - if [[ $TRAVIS_BRANCH == `git describe --tags --always HEAD` ]]; then PUBLISH_BINARY=true; fi;
-
-install:
-  - npm install --build-from-source
+env:
+  - SUITE=lint
+  - SUITE=unit
+  - SUITE=integration
 
 script:
-  - echo "PUBLISH_BINARY $PUBLISH_BINARY"
-  - if [[ "$PUBLISH_BINARY" == "true" ]]; then npm run publish-binary && node-pre-gyp clean && node-gyp clean; fi;
-  - if [[ "$PUBLISH_BINARY" == "true" ]]; then npm install --fallback-to-build=false; fi;
-  # Only lint on Node v1+
-  - if node -e 'process.exit(!(process.version[1] > 1))'; then npm run lint; fi;
-  - npm test
-
-after_success:
-  - if [[ "$PUBLISH_BINARY" == "true" ]]; then node-pre-gyp info; fi;
-after_failure:
-  - if [[ "$PUBLISH_BINARY" == "true" ]]; then node-pre-gyp unpublish; fi;
+  - npm run $SUITE

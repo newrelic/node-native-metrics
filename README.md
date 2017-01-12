@@ -11,10 +11,10 @@ goal is to use it with that package, there is nothing that needs to be done.
 
 `npm install @newrelic/native-metrics`
 
-Note that this is a native module and thus must be compiled to function. We
-provide pre-built Linux binaries for Node v0.12, and v4-v7. If you are not using
-Linux, or are using a version of Node other than we've listed above you will
-need to have a compiler installed on the machine where this is to be deployed.
+Note that this is a native module and thus must be compiled to function. You
+will need to have a compiler installed on the machine where this is to be
+deployed. See [node-gyp](https://www.npmjs.com/package/node-gyp#installation)
+for more information on compiling native addons.
 
 ## Usage
 
