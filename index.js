@@ -1,12 +1,9 @@
 'use strict'
 
 var EventEmitter = require('events').EventEmitter
-var npg = require('node-pre-gyp')
-var path = require('path')
 var util = require('util')
+var natives = require('./build/Release/native_metrics')
 
-var binding_path = npg.find(path.resolve(__dirname, './package.json'))
-var natives = require(binding_path)
 
 var DEFAULT_TIMEOUT = 15 * 1000 // 15 seconds
 var GC_TYPE_NAMES = {

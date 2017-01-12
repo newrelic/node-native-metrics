@@ -1,6 +1,6 @@
 {
   "targets": [{
-    "target_name": "<(module_name)",
+    "target_name": "native_metrics",
     "sources": [
       "src/native_metrics.cpp",
       "src/GCBinder.hpp",
@@ -11,16 +11,6 @@
     "include_dirs": [
       "src",
       "<!(node -e \"require('nan')\")"
-    ]
-  }, {
-    "target_name": "action_after_build",
-    "type": "none",
-    "dependencies": [ "<(module_name)" ],
-    "copies": [
-      {
-        "files": [ "<(PRODUCT_DIR)/<(module_name).node" ],
-        "destination": "<(module_path)"
-      }
     ]
   }]
 }

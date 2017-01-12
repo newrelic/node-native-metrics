@@ -46,4 +46,3 @@ The New Relic Node.js agent also uses code from the following open source
 projects under the following licenses:
 
 nan                         http://opensource.org/licenses/MIT
-node-pre-gyp                http://opensource.org/licenses/BSD-3-Clause

@@ -9,8 +9,7 @@ var tap = require('tap')
 
 var MODULE_DIR = path.resolve(__dirname, '../../node_modules')
 var LICENSES = {
-  'nan': 'MIT',
-  'node-pre-gyp': 'BSD-3-Clause'
+  'nan': 'MIT'
 }
 
 
