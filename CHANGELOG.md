@@ -1,3 +1,15 @@
+### v2.0.2 (2017-01-19):
+
+* Removed pre-compiling binaries using the `node-pre-gyp` module.
+
+  Previously we provided pre-compiled binaries for certain platforms and versions of Node.
+  However, this caused issues for customers using shrinkwrapping.  In order to support
+  shrinkwrapping as well as all versions of Node and npm that our customers use, we have
+  decided to remove this feature.  This means that in order to use this module, users now
+  need to have a compiler on the machine where it is being installed.
+  See [node-gyp] (https://www.npmjs.com/package/node-gyp#installation) for more
+  information on compiling native addons.
+
 ### v2.0.0 (2017-01-04):
 
 * Removed support for Node 0.10.
