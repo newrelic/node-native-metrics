@@ -58,6 +58,9 @@ function NativeMetricEmitter(opts) {
   })
   this.gcEnabled = true
 
+  this._loopChecker = new natives.LoopChecker()
+  this.loopEnabled = true
+
   this.bind(opts.timeout)
 }
 util.inherits(NativeMetricEmitter, EventEmitter)
@@ -93,6 +96,29 @@ util.inherits(NativeMetricEmitter, EventEmitter)
  */
 
 /**
+ * @interface LoopMetrics
+ *
+ * @description
+ *  A mapping of loop concepts to metrics about them. All values are in
+ *  microseconds.
+ *
+ * @property {Metric} usage - CPU usage per tick metrics.
+ */
+
+/**
+ * @interface Metric
+ *
+ * @description
+ *  A bundle of values taken from some measurement.
+ *
+ * @property {number} total         - The sum of all values measured.
+ * @property {number} min           - The smallest value measured.
+ * @property {number} max           - The largest value measured.
+ * @property {number} sumOfSquares  - The sum of the square of each value.
+ * @property {number} count         - The number of values measured.
+ */
+
+/**
  * Binds the emitter to the internal, V8 hooks to start populating data.
  *
  * @fires NativeMetricEmitter#gc
@@ -108,6 +134,7 @@ NativeMetricEmitter.prototype.bind = function bind(timeout) {
 
   timeout = timeout || DEFAULT_TIMEOUT
   this._gcBinder.bind()
+  this._loopChecker.bind()
 
   this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout)
   function nativeMetricTimeout() {
@@ -140,8 +167,18 @@ NativeMetricEmitter.prototype.unbind = function unbind() {
   }
 
   this._gcBinder.unbind()
+  this._loopChecker.unbind()
   clearTimeout(this._timeout)
   this.bound = false
+}
+
+/**
+ * Retrieves the current loop metrics and resets the counters.
+ *
+ * @return {LoopMetrics} The current loop metrics.
+ */
+NativeMetricEmitter.prototype.getLoopMetrics = function getLoopMetrics() {
+  return this._loopChecker.read()
 }
 
 var emitter = null

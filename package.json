@@ -4,9 +4,11 @@
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
+    "build": "node-gyp build -j 4",
+    "rebuild": "node-gyp rebuild -j 4",
     "lint": "eslint ./*.js lib",
-    "unit": "tap --expose-gc tests/**/*.tap.js",
-    "integration": "node tests/integration/server.js",
+    "unit": "tap --expose-gc tests/unit/*.tap.js",
+    "integration": "tap --timeout 6m tests/integration/*.tap.js",
     "test": "npm run unit && npm run integration"
   },
   "repository": {
