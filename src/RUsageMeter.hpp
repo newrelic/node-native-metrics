@@ -2,12 +2,6 @@
 
 #include <nan.h>
 
-#if NODE_MODULE_VERSION < 40 && !(NODE_MAJOR_VERSION == 0 && NODE_MINOR_VERSION == 12)
-  #define NR_DISABLE_RUSAGE
-#endif
-
-#ifndef NR_DISABLE_RUSAGE
-
 namespace nr {
 
 class RUsageMeter : public Nan::ObjectWrap {
@@ -76,5 +70,3 @@ private:
 };
 
 }
-
-#endif // NR_DISABLE_RUSAGE

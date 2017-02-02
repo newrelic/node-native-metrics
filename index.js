@@ -36,8 +36,8 @@ function NativeMetricEmitter(opts) {
   this.bound = false
   this._timeout = null
 
-  this._rusageMeter = natives.RUsageMeter ? new natives.RUsageMeter() : null
-  this.usageEnabled = !!this._rusageMeter
+  this._rusageMeter = new natives.RUsageMeter()
+  this.usageEnabled = true
 
   this._gcBinder = new natives.GCBinder(function onGCCallback(type, duration) {
     /**
