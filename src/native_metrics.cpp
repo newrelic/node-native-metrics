@@ -2,6 +2,7 @@
 #include <nan.h>
 
 #include "GCBinder.hpp"
+#include "LoopChecker.hpp"
 #include "RUsageMeter.hpp"
 
 namespace nr {
@@ -9,6 +10,7 @@ namespace nr {
 NAN_MODULE_INIT(Init) {
   Nan::HandleScope scope;
   GCBinder::Init(target);
+  LoopChecker::Init(target);
 
   #ifndef NR_DISABLE_RUSAGE
     RUsageMeter::Init(target);
