@@ -1,3 +1,11 @@
+### v2.1.0 (2017-02-06):
+
+* Added an event loop CPU usage metric.
+
+  The module will now report round trip CPU usage metrics for Node's event loop. This
+  metric can be read off with `nativeMetrics.getLoopMetrics()` and will
+  represent the amount of CPU time per tick of the event loop.
+
 ### v2.0.2 (2017-01-19):
 
 * Removed pre-compiling binaries using the `node-pre-gyp` module.
