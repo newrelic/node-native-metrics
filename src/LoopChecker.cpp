@@ -4,7 +4,7 @@
 
 #include "LoopChecker.hpp"
 
-const uint64_t SEC_TO_MICRO = 1e6;
+const uint64_t SEC_TO_MICRO = static_cast<uint64_t>(1e6);
 
 namespace nr {
 
