@@ -11,6 +11,9 @@
       "src/RUsageMeter.hpp",
       "src/RUsageMeter.cpp"
     ],
+    "defines": [
+      "NOMINMAX"
+    ],
     "include_dirs": [
       "src",
       "<!(node -e \"require('nan')\")"
