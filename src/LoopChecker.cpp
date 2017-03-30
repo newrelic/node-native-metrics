@@ -5,7 +5,6 @@
 #include "LoopChecker.hpp"
 
 const uint64_t SEC_TO_MICRO = 1e6;
-const uint64_t MICRO_TO_NANO = 1e3;
 
 namespace nr {
 
