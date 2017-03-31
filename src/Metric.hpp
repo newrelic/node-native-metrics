@@ -20,8 +20,12 @@ public:
 
   Metric& operator+=(const value_type& val) {
     _total += val;
-    _min = _count ? std::min(_min, val) : val;
-    _max = std::max(_max, val);
+    if (_count == 0) {
+      _min = _max = val;
+    } else {
+      _min = std::min(_min, val);
+      _max = std::max(_max, val);
+    }
     _sumOfSquares += val * val;
     ++_count;
 
