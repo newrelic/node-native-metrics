@@ -10,8 +10,7 @@
     "unit": "tap --expose-gc tests/unit/*.tap.js",
     "integration": "tap --timeout 6m tests/integration/*.tap.js",
     "native": "node tests/native/*.js",
-    "test": "npm run native && npm run unit && npm run integration",
-    "install": "node-gyp configure build -j 4 'native_metrics'"
+    "test": "npm run unit && npm run integration"
   },
   "repository": {
     "type": "git",
