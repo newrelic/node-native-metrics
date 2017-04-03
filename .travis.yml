@@ -10,6 +10,7 @@ dist: trusty
 
 env:
   - SUITE=lint
+  - SUITE=native
   - SUITE=unit
   - SUITE=integration
 matrix:
@@ -17,5 +18,6 @@ matrix:
     - node_js: "0.12"
       env: SUITE=lint
 
+install: npm install && npm run build
 script:
   - npm run $SUITE
