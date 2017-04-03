@@ -2,10 +2,11 @@
 # Native Metrics for New Relic Node Agent
 
 This module provides hooks into the native layer of Node to provide metrics for
-the [New Relic Node Agent](https://www.npmjs.com/package/newrelic). It gathers
+the [New Relic Node Agent][npm-newrelic]. It gathers
 information that isn't available at the JS layer about the V8 virtual machine
-and the process health. It comes packaged with the New Relic Agent, so if your
-goal is to use it with that package, there is nothing that needs to be done.
+and the process health. It comes packaged with the New Relic Agent v2, and there
+is nothing that needs to be done. For Agent v1 you need only to install the
+module alongside [`newrelic`][npm-newrelic].
 
 ## Installation
 
@@ -26,10 +27,10 @@ if (emitter.gcEnabled) {
   emitter.on('gc', (gc) => console.log(gc.type + ': ' + gc.duration))
 }
 if (emitter.usageEnabled) {
-  emitter.on('usage', (usage) => console.log('ru'))
+  emitter.on('usage', (usage) => console.log(usage))
 }
 if (emitter.loopEnabled) {
-  setInterval(function printLoopMetrics() {
+  setInterval(() => {
     var loopMetrics = emitter.getLoopMetrics()
     console.log("Loop time:", loopMetrics.loop)
     console.log("IO wait time:", loopMetrics.ioWait)
@@ -58,3 +59,5 @@ emitter.bind(10000) // Samples will now fire once every 10 seconds.
 The New Relic native metrics module is free-to-use, proprietary software. Please
 see the full license (found in [LICENSE](LICENSE)) for details on its license
 and the licenses of its dependencies.
+
+[npm-newrelic]: https://www.npmjs.com/package/newrelic
