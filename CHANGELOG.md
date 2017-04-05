@@ -1,3 +1,12 @@
+
+### v2.1.1 (2017-04-03):
+
+* Fixed build error on Windows thanks to Maximilian Haupt (@0x7f).
+
+* Added C++-layer unit testing using [gtest](https://github.com/google/googletest).
+
+* Updated readme with correct installation for the New Relic Agent v1.
+
 ### v2.1.0 (2017-02-06):
 
 * Added an event loop CPU usage metric.

@@ -1,6 +1,6 @@
 {
   "name": "@newrelic/native-metrics",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
@@ -10,8 +10,7 @@
     "unit": "tap --expose-gc tests/unit/*.tap.js",
     "integration": "tap --timeout 6m tests/integration/*.tap.js",
     "native": "node tests/native/*.js",
-    "test": "npm run native && npm run unit && npm run integration",
-    "install": "node-gyp configure build -j 4 'native_metrics'"
+    "test": "npm run unit && npm run integration"
   },
   "repository": {
     "type": "git",

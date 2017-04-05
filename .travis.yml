@@ -10,7 +10,6 @@ dist: trusty
 
 env:
   - SUITE=lint
-  - SUITE=native
   - SUITE=unit
   - SUITE=integration
 matrix:
