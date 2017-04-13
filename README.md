@@ -2,20 +2,27 @@
 # Native Metrics for New Relic Node Agent
 
 This module provides hooks into the native layer of Node to provide metrics for
-the [New Relic Node Agent][npm-newrelic]. It gathers
-information that isn't available at the JS layer about the V8 virtual machine
-and the process health. It comes packaged with the New Relic Agent v2, and there
-is nothing that needs to be done. For Agent v1 you need only to install the
-module alongside [`newrelic`][npm-newrelic].
+the [New Relic Node Agent][npm-newrelic]. It gathers information that isn't
+available at the JS layer about the V8 virtual machine and the process health.
+It comes packaged with the New Relic Agent v2, and there is nothing that needs
+to be done. For Agent v1 you need only to install the module alongside
+[`newrelic`][npm-newrelic].
 
 ## Installation
 
-`npm install @newrelic/native-metrics`
+`npm install --save @newrelic/native-metrics`
 
-Note that this is a native module and thus must be compiled to function. You
+Note that this is a native module and thus must be compiled to function.
+Pre-built binaries are provided for Linux servers running supported versions of
+Node. If you are not using Linux or not using a supported version of Node, you
 will need to have a compiler installed on the machine where this is to be
 deployed. See [node-gyp](https://www.npmjs.com/package/node-gyp#installation)
 for more information on compiling native addons.
+
+If you prepare and package deployments on one machine and install them on
+another, the two machines must have the same operating system and architecture.
+If they are not, you will need to re-build the native module after deploying in
+order to get the correct binaries.
 
 ## Usage
 

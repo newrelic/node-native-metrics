@@ -2,7 +2,8 @@
 
 var EventEmitter = require('events').EventEmitter
 var util = require('util')
-var natives = require('./build/Release/native_metrics')
+var preBuild = require('./lib/pre-build')
+var natives = preBuild.load()
 
 
 var DEFAULT_TIMEOUT = 15 * 1000 // 15 seconds

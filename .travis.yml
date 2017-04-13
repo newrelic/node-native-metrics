@@ -8,15 +8,15 @@ node_js:
 
 dist: trusty
 
-env:
-  - SUITE=lint
-  - SUITE=unit
-  - SUITE=integration
-matrix:
-  exclude:
-    - node_js: "0.12"
-      env: SUITE=lint
+before_install:
+  - UPLOAD_BUILD=false
+  - if [[ $TRAVIS_BRANCH == `git describe --tags --always HEAD` ]]; then UPLOAD_BUILD=true; fi;
 
-install: npm install && npm run build
+install: npm install && npm run rebuild
+
 script:
-  - npm run $SUITE
+  - if [[ "$TRAVIS_NODE_VERSION" != "0.12" ]]; then npm run lint; fi
+  - npm run unit && npm run integration
+
+after_success:
+  - if [[ "$UPLOAD_BUILD" == "true" ]]; then npm run upload; fi
