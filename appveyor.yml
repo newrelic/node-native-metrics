@@ -2,32 +2,16 @@
 environment:
   matrix:
     - nodejs_version: "0.12"
-      suite: "unit"
     - nodejs_version: "4"
-      suite: "unit"
     - nodejs_version: "5"
-      suite: "unit"
     - nodejs_version: "6"
-      suite: "unit"
     - nodejs_version: "7"
-      suite: "unit"
-
-    - nodejs_version: "0.12"
-      suite: "integration"
-    - nodejs_version: "4"
-      suite: "integration"
-    - nodejs_version: "5"
-      suite: "integration"
-    - nodejs_version: "6"
-      suite: "integration"
-    - nodejs_version: "7"
-      suite: "integration"
 
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
-  # install modules
+  # Install modules
   - npm install
 
 # Post-install test scripts.
@@ -35,5 +19,7 @@ test_script:
   # Output useful info for debugging.
   - node --version
   - npm --version
-  # run tests
-  - ps: npm run $env:suite
+
+  # Run tests
+  - ps: npm run unit
+  - ps: npm run integration
