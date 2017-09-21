@@ -137,7 +137,7 @@ NativeMetricEmitter.prototype.bind = function bind(timeout) {
   this._gcBinder.bind()
   this._loopChecker.bind()
 
-  this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout)
+  this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout).unref()
   function nativeMetricTimeout() {
     if (this._rusageMeter) {
       /**
@@ -152,7 +152,7 @@ NativeMetricEmitter.prototype.bind = function bind(timeout) {
       this.emit('usage', this._rusageMeter.read())
     }
     if (this.bound) {
-      this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout)
+      this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout).unref()
     }
   }
 
