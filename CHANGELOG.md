@@ -1,3 +1,8 @@
+### v2.1.2 (2017-09-26):
+
+* Metric timers no longer hold the process open.
+
+Thanks to @samshull for the contribution!
 
 ### v2.1.1 (2017-04-03):
 
