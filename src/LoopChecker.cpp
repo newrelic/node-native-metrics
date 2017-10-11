@@ -34,6 +34,7 @@ LoopChecker::LoopChecker():
   _checkUsage(getUsageSumInUS())
 {
   uv_check_init(uv_default_loop(), &_checkHandle);
+  uv_unref((uv_handle_t*)&_checkHandle);
   _checkHandle.data = (void*)this;
 }
 
