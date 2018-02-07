@@ -8,7 +8,7 @@
     "clean": "node-gyp clean",
     "rebuild": "node ./lib/pre-build.js rebuild native_metrics",
     "upload": "node ./lib/pre-build.js upload native_metrics",
-    "lint": "eslint ./*.js lib",
+    "lint": "eslint .",
     "unit": "tap --expose-gc tests/unit/*.tap.js",
     "integration": "tap --timeout 6m tests/integration/*.tap.js",
     "native": "node tests/native/*.js",
@@ -44,14 +44,14 @@
     "npm": ">=2"
   },
   "devDependencies": {
-    "async": "^2.1.4",
-    "aws-sdk": "^2.41.0",
-    "eslint": "^3.9.1",
+    "async": "^2.6.0",
+    "aws-sdk": "^2.190.0",
+    "eslint": "^4.17.0",
     "segfault-handler": "^1.0.0",
-    "semver": "^5.3.0",
-    "tap": "^9.0.3"
+    "semver": "^5.5.0",
+    "tap": "^10.7.3"
   },
   "dependencies": {
-    "nan": "^2.4.0"
+    "nan": "^2.8.0"
   }
 }
