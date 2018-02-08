@@ -24,6 +24,15 @@ another, the two machines must have the same operating system and architecture.
 If they are not, you will need to re-build the native module after deploying in
 order to get the correct binaries.
 
+During installation, the module will first attempt build from source on the
+target machine. If that fails, it will attempt to download a pre-built binary
+for your system. You can disable the download attempt by passing the flag
+`--no-download` during installation.
+
+```sh
+$ npm install @newrelic/native-metrics --no-download
+```
+
 ## Usage
 
 ```js
