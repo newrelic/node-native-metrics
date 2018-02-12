@@ -1,3 +1,17 @@
+### v2.2.0 (2018-02-12):
+
+* The package will now pull down pre-built binaries if compilation fails.
+
+  After confirming that the binary downloading functionality works, the feature
+  has been enabled by default.  The installation script will still default to a
+  fresh build where possible, using the download option as a fall back.
+
+* The process will no longer be held open due to pending timers.
+
+  Previously, the timer used to calculate the CPU usage by a tick of the event
+  loop was left pending, causing the process to hang.  
+
+
 ### v2.1.2 (2017-09-26):
 
 * Metric timers no longer hold the process open.
