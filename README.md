@@ -33,6 +33,15 @@ for your system. You can disable the download attempt by passing the flag
 $ npm install @newrelic/native-metrics --no-download
 ```
 
+If you would like to skip the build step and only attempt to download a
+pre-build binary, use the `--no-build` flag.
+
+```sh
+$ npm install @newrelic/native-metrics --no-build
+```
+
+If both flags are supplied, `--no-build` will override `--no-download`.
+
 ## Usage
 
 ```js
