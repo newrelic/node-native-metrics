@@ -1,6 +1,6 @@
 {
-  "name": "@newrelic/native-metrics",
-  "version": "2.3.0",
+  "name": "@psvet/native-metrics",
+  "version": "0.0.1",
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
