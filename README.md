@@ -26,21 +26,24 @@ order to get the correct binaries.
 
 During installation, the module will first attempt build from source on the
 target machine. If that fails, it will attempt to download a pre-built binary
-for your system. You can disable the download attempt by passing the flag
-`--no-download` during installation.
+for your system. You can disable the download attempt by setting
+`NR_NATIVE_METRICS_NO_DOWNLOAD` to `true` in your environment before
+installation.
 
 ```sh
-$ npm install @newrelic/native-metrics --no-download
+$ export NR_NATIVE_METRICS_NO_DOWNLOAD=true
+$ npm install @newrelic/native-metrics
 ```
 
 If you would like to skip the build step and only attempt to download a
-pre-build binary, use the `--no-build` flag.
+pre-build binary, set `NR_NATIVE_METRICS_NO_BUILD` to `true`.
 
 ```sh
-$ npm install @newrelic/native-metrics --no-build
+$ export NR_NATIVE_METRICS_NO_BUILD=true
+$ npm install @newrelic/native-metrics
 ```
 
-If both flags are supplied, `--no-build` will override `--no-download`.
+If both env vars are suppsetlied, `NO_BUILD` will override `NO_DOWNLOAD`.
 
 ## Usage
 
