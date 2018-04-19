@@ -43,7 +43,7 @@ $ export NR_NATIVE_METRICS_NO_BUILD=true
 $ npm install @newrelic/native-metrics
 ```
 
-If both env vars are suppsetlied, `NO_BUILD` will override `NO_DOWNLOAD`.
+If both env vars are set, `NO_BUILD` will override `NO_DOWNLOAD`.
 
 ## Usage
 
