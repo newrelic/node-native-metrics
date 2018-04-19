@@ -1,6 +1,6 @@
 {
   "name": "@psvet/native-metrics",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
