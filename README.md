@@ -60,8 +60,11 @@ if (emitter.usageEnabled) {
 if (emitter.loopEnabled) {
   setInterval(() => {
     var loopMetrics = emitter.getLoopMetrics()
-    console.log("Loop time:", loopMetrics.loop)
-    console.log("IO wait time:", loopMetrics.ioWait)
+    console.log("Total time:", loopMetrics.usage.total)
+    console.log("Min time:", loopMetrics.usage.min)
+    console.log("Max time:", loopMetrics.usage.max)
+    console.log("Sum of squares:", loopMetrics.usage.sumOfSquares)
+    console.log("Count:", loopMetrics.usage.count)
   }, 1000)
 }
 ```
