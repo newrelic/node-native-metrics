@@ -2,7 +2,7 @@
 
 . "$(brew --prefix nvm)/nvm.sh"
 
-NODE_VERSIONS=(0.12 4 6 8 9)
+NODE_VERSIONS=(0.12 4 6 8 9 10)
 
 for version in ${NODE_VERSIONS[@]}; do
   echo " -- Node $version"
