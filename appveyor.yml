@@ -10,6 +10,9 @@ environment:
 
 # Install scripts. (runs after repo cloning)
 install:
+  # Update npm to 4 on node 5
+  - ps: if ($(node --version) -match "v5") {npm i -g npm@4}
+
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
   # Install modules
