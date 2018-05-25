@@ -1,6 +1,9 @@
 #pragma once
 
+#include <map>
 #include <nan.h>
+
+#include "Metric.hpp"
 
 namespace nr {
 
@@ -13,6 +16,7 @@ public:
 
     SetPrototypeMethod(clas, "bind", Bind);
     SetPrototypeMethod(clas, "unbind", Unbind);
+    SetPrototypeMethod(clas, "read", Read);
 
     constructor().Reset(Nan::GetFunction(clas).ToLocalChecked());
     Nan::Set(
@@ -37,6 +41,8 @@ public:
   static NAN_METHOD(Unbind) {
     _unbind();
   }
+
+  static NAN_METHOD(Read);
 
   GCBinder():
     _gcStartTimeHR(uv_hrtime())
@@ -80,8 +86,6 @@ private:
     return _constructor;
   }
 
-  static void _doCallback(uv_work_t* handle, int);
-
   void _gcStart() {
     _gcStartTimeHR = uv_hrtime();
   }
@@ -89,6 +93,7 @@ private:
   void _gcEnd(const v8::GCType type);
 
   uint64_t _gcStartTimeHR;
+  std::map<v8::GCType, Metric<double>> _gcMetrics;
 };
 
 }

@@ -3,26 +3,39 @@
 var tap = require('tap')
 
 tap.test('GC Metrics', function(t) {
+  t.plan(17)
   var metricEmitter = require('../../')()
-  t.plan(7)
-
-  // Testing double bind. If this is not protected against tap will error due to
-  // too many tests (the `gc` event is emitted twice).
-  metricEmitter.bind()
-
-  metricEmitter.on('gc', function(stats) {
-    t.pass('should emit gc event')
-    t.type(stats, Object, 'should provide stats object')
-    t.type(stats.duration, 'number', 'should have a duration')
-    t.type(stats.typeId, 'number', 'should have a type ID')
-    t.type(stats.type, 'string', 'should have a type name')
-    t.ok(stats.duration > 0, 'duration should be greater than zero')
-
-    metricEmitter.unbind()
-    t.doesNotThrow(function() {
-      metricEmitter.unbind()
-    }, 'should not throw when double unbound')
-  })
 
   global.gc()
+
+  var gcs = metricEmitter.getGCMetrics()
+  var keys = Object.keys(gcs)
+  if (!t.ok(keys.length > 0, 'should notice at least one GC')) {
+    return t.end()
+  }
+  t.type(keys[0], 'string', 'should have strings as keys')
+
+  t.comment('GC stats objects')
+  var stats = gcs[keys[0]]
+  t.type(stats, 'object', 'should have stats objects')
+  t.type(stats.typeId, 'number', 'should have the type ID')
+  t.type(stats.type, 'string', 'should have the type name')
+  if (!t.type(stats.metrics, 'object', 'should have a metrics object')) {
+    return t.end()
+  }
+
+  t.comment('GC stats metrics')
+  var metrics = stats.metrics
+  t.type(metrics.total, 'number', 'should have total field')
+  t.type(metrics.min, 'number', 'should have min field')
+  t.type(metrics.max, 'number', 'should have max field')
+  t.type(metrics.sumOfSquares, 'number', 'should have sumOfSquares field')
+  t.type(metrics.count, 'number', 'should have count field')
+
+  t.ok(metrics.total > 0, 'should have reasonable values for total')
+  t.ok(metrics.min > 0, 'should have reasonable values for min')
+  t.ok(metrics.max > 0, 'should have reasonable values for max')
+  t.ok(metrics.max >= metrics.min, 'should have a max larger than a min')
+  t.ok(metrics.sumOfSquares > 0, 'should have reasonable values for sumOfSquares')
+  t.ok(metrics.count > 0, 'should have reasonable values for count')
 })

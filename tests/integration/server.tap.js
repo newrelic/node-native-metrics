@@ -10,10 +10,6 @@ var RUN_TIME = 5 * 60 * 1000 // 5 minutes
 segs.registerHandler('crash.log')
 
 tap.test('server soak test', {timeout: RUN_TIME + 10000}, function(t) {
-  natives.on('gc', function(data) {
-    t.ok(data.type, 'should have a recognized type name')
-  })
-
   t.comment('Running test server for ' + RUN_TIME + 'ms')
   var server = http.createServer(function(req, res) {
     res.write('ok')
@@ -32,6 +28,11 @@ tap.test('server soak test', {timeout: RUN_TIME + 10000}, function(t) {
     t.comment('stopping')
     keepSending = false
   }, RUN_TIME)
+
+  setInterval(function() {
+    t.ok(natives.getGCMetrics(), 'should have readable gc metrics')
+    t.ok(natives.getLoopMetrics(), 'should have readable loop metrics')
+  }, 5000).unref()
 
   function sendRequest() {
     http.get('http://localhost:' + port, function(res) {
