@@ -17,9 +17,12 @@ tap.test('server soak test', {timeout: RUN_TIME + 10000}, function(t) {
   })
 
   server.on('close', function() {
+    t.pass('server closed')
     natives.unbind()
   })
-  server.listen(8080)
+  server.listen(0, function() {
+    t.pass('server started')
+  })
   var port = server.address().port
 
   var keepSending = true
@@ -30,14 +33,20 @@ tap.test('server soak test', {timeout: RUN_TIME + 10000}, function(t) {
   }, RUN_TIME)
 
   setInterval(function() {
-    t.ok(natives.getGCMetrics(), 'should have readable gc metrics')
-    t.ok(natives.getLoopMetrics(), 'should have readable loop metrics')
+    if (!natives.getGCMetrics()) {
+      t.fail('should have readable gc metrics')
+    }
+    if (!natives.getLoopMetrics()) {
+      t.fail('should have readable loop metrics')
+    }
   }, 5000).unref()
 
   function sendRequest() {
     http.get('http://localhost:' + port, function(res) {
-      t.ok(res, 'should have a response object')
-      t.equal(res.statusCode, 200, 'should have a successful response')
+      if (!res || res.statusCode !== 200) {
+        t.ok(res, 'should have a response object')
+        t.equal(res.statusCode, 200, 'should have a successful response')
+      }
 
       if (keepSending) {
         setTimeout(sendRequest, 10)
