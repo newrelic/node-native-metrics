@@ -1,9 +1,10 @@
 # Test against the latest version of this Node.js version
 environment:
   matrix:
-    - nodejs_version: "0.12"
     - nodejs_version: "4"
+    - nodejs_version: "5"
     - nodejs_version: "6"
+    - nodejs_version: "7"
     - nodejs_version: "8"
     - nodejs_version: "9"
 
@@ -11,6 +12,10 @@ environment:
 install:
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
+
+  # Update npm to 4 on node 5
+  - ps: if ($(node --version) -match "v5") {npm i -g npm@4}
+
   # Install modules
   - npm install
   - npm run rebuild # Ensure this is not a downloaded build!

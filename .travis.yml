@@ -1,8 +1,9 @@
 language: node_js
 node_js:
-  - "0.12"
   - "4"
+  - "5"
   - "6"
+  - "7"
   - "8"
   - "9"
 
@@ -15,8 +16,7 @@ before_install:
 install: npm install && npm run rebuild
 
 script:
-  - if [[ "$TRAVIS_NODE_VERSION" != "0.12" ]]; then npm run lint; fi
-  - npm run unit && npm run integration
+  - npm run lint && npm run unit && npm run integration
 
 after_success:
   - if [[ "$UPLOAD_BUILD" == "true" ]]; then npm run upload; fi
