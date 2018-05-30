@@ -51,8 +51,10 @@ tap.test('server soak test', {timeout: RUN_TIME + 10000}, function(t) {
       if (keepSending) {
         setTimeout(sendRequest, 10)
       } else {
-        server.close()
-        t.end()
+        server.close(function(err) {
+          t.error(err, 'should not fail to close')
+          t.end()
+        })
       }
     })
   }
