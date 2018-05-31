@@ -4,8 +4,8 @@
 This module provides hooks into the native layer of Node to provide metrics for
 the [New Relic Node Agent][npm-newrelic]. It gathers information that isn't
 available at the JS layer about the V8 virtual machine and the process health.
-It comes packaged with the New Relic Agent v2, and there is nothing that needs
-to be done. For Agent v1 you need only to install the module alongside
+It comes packaged with the New Relic Agent since v2, and there is nothing that
+needs to be done. For Agent v1 you need only to install the module alongside
 [`newrelic`][npm-newrelic].
 
 ## Installation
@@ -52,7 +52,14 @@ var getMetricEmitter = require('@newrelic/native-metrics')
 
 var emitter = getMetricEmitter()
 if (emitter.gcEnabled) {
-  emitter.on('gc', (gc) => console.log(gc.type + ': ' + gc.duration))
+  setInterval(() => {
+    var gcMetrics = emitter.getGCMetrics()
+    for (var type in gcMetrics) {
+      console.log('GC type name:', type)
+      console.log('GC type id:', gcMetrics[type].typeId)
+      console.log('GC metrics:', gcMetrics[type].metrics)
+    }
+  }, 1000)
 }
 if (emitter.usageEnabled) {
   emitter.on('usage', (usage) => console.log(usage))
@@ -60,11 +67,11 @@ if (emitter.usageEnabled) {
 if (emitter.loopEnabled) {
   setInterval(() => {
     var loopMetrics = emitter.getLoopMetrics()
-    console.log("Total time:", loopMetrics.usage.total)
-    console.log("Min time:", loopMetrics.usage.min)
-    console.log("Max time:", loopMetrics.usage.max)
-    console.log("Sum of squares:", loopMetrics.usage.sumOfSquares)
-    console.log("Count:", loopMetrics.usage.count)
+    console.log('Total time:', loopMetrics.usage.total)
+    console.log('Min time:', loopMetrics.usage.min)
+    console.log('Max time:', loopMetrics.usage.max)
+    console.log('Sum of squares:', loopMetrics.usage.sumOfSquares)
+    console.log('Count:', loopMetrics.usage.count)
   }, 1000)
 }
 ```

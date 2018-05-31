@@ -33,30 +33,13 @@ var GC_TYPE_NAMES = {
 function NativeMetricEmitter(opts) {
   opts = opts || {timeout: DEFAULT_TIMEOUT}
   EventEmitter.call(this)
-  var self = this
   this.bound = false
   this._timeout = null
 
   this._rusageMeter = new natives.RUsageMeter()
   this.usageEnabled = true
 
-  this._gcBinder = new natives.GCBinder(function onGCCallback(type, duration) {
-    /**
-     * Garbage collection event.
-     *
-     * @event NativeMetricEmitter#gc
-     * @type {object}
-     *
-     * @property {number} typeId    - The numeric ID of the gc type.
-     * @property {string} type      - The nice name version of the gc type.
-     * @property {number} duration  - The duration of the gc in nanoseconds.
-     */
-    self.emit('gc', {
-      typeId: type,
-      type: GC_TYPE_NAMES[String(type)],
-      duration: duration
-    })
-  })
+  this._gcBinder = new natives.GCBinder()
   this.gcEnabled = true
 
   this._loopChecker = new natives.LoopChecker()
@@ -104,6 +87,17 @@ util.inherits(NativeMetricEmitter, EventEmitter)
  *  microseconds.
  *
  * @property {Metric} usage - CPU usage per tick metrics.
+ */
+
+/**
+ * @interface GCMetrics
+ *
+ * @description
+ *  Garbage collection results.
+ *
+ * @property {number} typeId  - The numeric ID of the gc type.
+ * @property {string} type    - The nice name version of the gc type.
+ * @property {Metric} metrics - Accumulated metric data in milliseconds.
  */
 
 /**
@@ -180,6 +174,32 @@ NativeMetricEmitter.prototype.unbind = function unbind() {
  */
 NativeMetricEmitter.prototype.getLoopMetrics = function getLoopMetrics() {
   return this._loopChecker.read()
+}
+
+/**
+ * Retrieves the accumulated garbage collection metrics.
+ *
+ * After retrieval, the metrics are reset internally. Only GC types that have
+ * happened at least once since the last retrieval are returned.
+ *
+ * @return {object.<string,GCMetrics>} An object mapping GC type names to
+ *  information on the GC events that happened.
+ */
+NativeMetricEmitter.prototype.getGCMetrics = function getGCMetrics() {
+  var gcMetrics = this._gcBinder.read()
+  var results = Object.create(null)
+  for (var typeId in gcMetrics) {
+    if (gcMetrics.hasOwnProperty(typeId) && gcMetrics[typeId].count > 0) {
+      var typeName = GC_TYPE_NAMES[String(typeId)]
+      results[typeName] = {
+        typeId: parseInt(typeId, 10),
+        type: typeName,
+        metrics: gcMetrics[typeId]
+      }
+    }
+  }
+
+  return results
 }
 
 var emitter = null
