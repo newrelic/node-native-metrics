@@ -1,3 +1,33 @@
+### v3.0.0 (2018-06-04):
+
+* **BREAKING** Removed support for Node 0.12.
+
+  The minimum supported version of the native metrics module is now Node v4.
+
+* **BREAKING** Removed `gc` event in favor of `getGCMetrics()` method.
+
+  The `gc` event will no longer be emitted for each garbage collection by V8.
+  Instead, metrics for garbage collections are aggregated in C++ and can be
+  retrieved by calling `getGCMetrics()`. Like `getLoopMetrics()`, this new
+  method will reset the aggregated metrics.
+
+* Added pre-built binaries for Node 5 and 7.
+
+### v2.4.0 (2018-04-20):
+
+* Added `NR_NATIVE_METRICS_NO_BUILD` and `NR_NATIVE_METRICS_NO_DOWNLOAD`
+  environment variables.
+
+  These are just environment variable versions of the `--no-build` and
+  `--no-download` flags introduced in v2.3.0.
+
+### v2.3.0 (2018-04-19):
+
+* Added `--no-build` and `--no-download` flags for install script.
+
+  These flags prevent the installer for the native metrics from either building
+  or downloading binaries. If both are specified, `--no-download` is ignored.
+
 ### v2.2.0 (2018-02-12):
 
 * The package will now pull down pre-built binaries if compilation fails.
