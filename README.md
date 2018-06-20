@@ -45,6 +45,16 @@ $ npm install @newrelic/native-metrics
 
 If both env vars are set, `NO_BUILD` will override `NO_DOWNLOAD`.
 
+If you are working behind a firewall and want to cache the downloads internally
+you can set the value of the download host and remote path instead of forcing a
+build:
+
+```sh
+$ export NR_NATIVE_METRICS_DOWNLOAD_HOST=http://your-internal-cache/
+$ export NR_NATIVE_METRICS_REMOTE_PATH=path/to/download/folder/
+$ npm install @newrelic/native-metrics
+```
+
 ## Usage
 
 ```js
