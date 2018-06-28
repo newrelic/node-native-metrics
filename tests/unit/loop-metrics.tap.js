@@ -51,16 +51,19 @@ tap.test('Loop Metrics', function(t) {
     // Finally, wait another tick and then check the loop stats.
     setTimeout(function() {
       metric = metricEmitter.getLoopMetrics()
-      var testDuration = Date.now() - testStart
+      var testDuration = Date.now() - testStart + CPU_EPSILON
       var durationSquare = testDuration * testDuration
       var usage = metric.usage
 
       var meanTime = usage.total / usage.count
       t.ok(
         usage.total * MICRO_TO_MILLIS > SPIN_TIME - CPU_EPSILON,
-        'should have expected total'
+        'should have total greater than spin time'
       )
-      t.ok(usage.total * MICRO_TO_MILLIS <= testDuration, 'should have expected total')
+      t.ok(
+        usage.total * MICRO_TO_MILLIS <= testDuration,
+        'should have total less than wall-clock time'
+      )
       t.ok(usage.min < meanTime, 'should have min less than the mean usage time')
       t.ok(usage.max > meanTime, 'should have max greater than the mean usage time')
       t.ok(

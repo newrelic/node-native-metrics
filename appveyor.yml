@@ -7,10 +7,11 @@ environment:
     - nodejs_version: "7"
     - nodejs_version: "8"
     - nodejs_version: "9"
+    - nodejs_version: "10"
 
 # Install scripts. (runs after repo cloning)
 install:
-  # Get the latest stable version of Node.js or io.js
+  # Get the latest stable version of Node.js.
   - ps: Install-Product node $env:nodejs_version
 
   # Update npm to 4 on node 5
