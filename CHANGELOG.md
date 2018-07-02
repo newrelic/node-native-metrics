@@ -1,3 +1,16 @@
+### v3.1.0 (2018-07-02):
+
+* Added support for caching prebuilt binaries for firewalled deployments.
+
+  Simply set the `NR_NATIVE_METRICS_DOWNLOAD_HOST` environment variable to the
+  protocol and host for the download (e.g. `http://your-internal-cache/`) and
+  `NR_NATIVE_METRICS_REMOTE_PATH` to the path to the download folder (e.g.
+  `path/to/downloads/folder`).
+
+  Special thanks to Adam Brett (@adambrett) for contributing this feature.
+
+* Added support and pre-built binaries for Node 10.
+
 ### v3.0.0 (2018-06-04):
 
 * **BREAKING** Removed support for Node 0.12.
