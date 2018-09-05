@@ -9,7 +9,8 @@ var tap = require('tap')
 
 var MODULE_DIR = path.resolve(__dirname, '../../node_modules')
 var LICENSES = {
-  'nan': 'MIT'
+  'nan': 'MIT',
+  'semver': 'ISC'
 }
 
 
