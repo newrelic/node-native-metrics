@@ -1,3 +1,9 @@
+### v3.1.1 (2018-09-10):
+
+* Fixed building the module on Windows with Node v10.8.0 or greater.
+
+  Special thanks to Elmar Burke (@elmarburke) for this contribution!
+
 ### v3.1.0 (2018-07-02):
 
 * Added support for caching prebuilt binaries for firewalled deployments.
