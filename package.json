@@ -38,7 +38,7 @@
       "web": "https://newrelic.com"
     }
   ],
-  "license": "LicenseRef-LICENSE",
+  "license": "MIT",
   "engines": {
     "node": ">=0.12",
     "npm": ">=2"
