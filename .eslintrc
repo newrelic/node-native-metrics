@@ -1,7 +1,8 @@
 {
   "env": {
     "node": true,
-    "browser": false
+    "browser": false,
+    "es6": true
   },
   "globals": {
     "Promise": true
