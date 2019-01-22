@@ -1,3 +1,13 @@
+### v4.0.0 (2019-01-22):
+
+* BREAKING: Dropped support for Node versions <6.
+
+* Added pre-execution log message calling out that this is an optional
+  dependency in the agent.
+  
+* Simplified final error by removing most of the confusing `Failed to...`
+  messages.
+
 ### v3.1.2 (2018-10-22):
 
 * Corrected check for build flags to base on gyp version, not Node version.
