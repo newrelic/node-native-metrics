@@ -1,10 +1,20 @@
+### v4.1.0 (2019-02-07):
+
+* Added support for insecure (http) binary hosts. Use at your own discretion.
+
+  The default host remains as New Relic's binary repository behind an `https`
+  server. To use an `http` endpoint you must manually configure it yourself.
+
+  Special thanks to Adam Brett (@adambrett) and Guilherme Nagatomo (@guilhermehn)
+  for contributing this feature.
+
 ### v4.0.0 (2019-01-22):
 
-* BREAKING: Dropped support for Node versions <6.
+* **BREAKING**: Dropped support for Node versions <6.
 
 * Added pre-execution log message calling out that this is an optional
   dependency in the agent.
-  
+
 * Simplified final error by removing most of the confusing `Failed to...`
   messages.
 
