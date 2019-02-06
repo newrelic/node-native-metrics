@@ -1,6 +1,6 @@
 {
   "name": "@newrelic/native-metrics",
-  "version": "3.1.1",
+  "version": "4.0.0",
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
@@ -36,12 +36,17 @@
       "name": "Natalie Wolfe",
       "email": "nwolfe@newrelic.com",
       "web": "https://newrelic.com"
+    },
+    {
+      "name": "Peter Svetlichny",
+      "email": "psvetlichny@newrelic.com",
+      "web": "https://newrelic.com"
     }
   ],
-  "license": "LicenseRef-LICENSE",
+  "license": "SEE LICENSE IN LICENSE",
   "engines": {
-    "node": ">=0.12",
-    "npm": ">=2"
+    "node": ">=6",
+    "npm": ">=3"
   },
   "devDependencies": {
     "async": "^2.6.1",
@@ -51,7 +56,7 @@
     "tap": "^12.0.1"
   },
   "dependencies": {
-    "nan": "^2.10.0",
+    "nan": "^2.12.1",
     "semver": "^5.5.1"
   }
 }

@@ -1,3 +1,23 @@
+### v4.0.0 (2019-01-22):
+
+* BREAKING: Dropped support for Node versions <6.
+
+* Added pre-execution log message calling out that this is an optional
+  dependency in the agent.
+  
+* Simplified final error by removing most of the confusing `Failed to...`
+  messages.
+
+### v3.1.2 (2018-10-22):
+
+* Corrected check for build flags to base on gyp version, not Node version.
+
+  Previously, when checking if the old `\t:` syntax should be used, this looked
+  for Node <10.8.0. Now this looks for node-gyp <3.7.0. This accounts for
+  situations where users install their own versions of node-gyp.
+
+  Special thanks to Eric Boureau (@eboureau) for contributing this fix.
+
 ### v3.1.1 (2018-09-10):
 
 * Fixed building the module on Windows with Node v10.8.0 or greater.
