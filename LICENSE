@@ -1,4 +1,4 @@
-All components of this product are Copyright (c) 2016 New Relic, Inc.  All
+All components of this product are Copyright (c) 2016-2019 New Relic, Inc.  All
 rights reserved.
 
 Certain inventions disclosed in this file may be claimed within patents owned or
@@ -41,8 +41,3 @@ PARTICULAR PURPOSE, TITLE, or NON-INFRINGEMENT.  As a condition to your use of
 these files, you are solely responsible for such use. New Relic will have no
 liability to you for direct, indirect, consequential, incidental, special, or
 punitive damages or for lost profits or data.
-
-The New Relic Node.js agent also uses code from the following open source
-projects under the following licenses:
-
-nan                         http://opensource.org/licenses/MIT
