@@ -1,6 +1,6 @@
 {
   "name": "@newrelic/native-metrics",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "upload": "node ./lib/pre-build.js upload native_metrics",
     "lint": "eslint .",
     "unit": "tap --expose-gc tests/unit/*.tap.js",
-    "integration": "tap --timeout 6m tests/integration/*.tap.js",
+    "integration": "tap --timeout 360000 tests/integration/*.tap.js",
     "native": "node tests/native/*.js",
     "test": "npm run lint && npm run unit && npm run integration",
     "install": "node ./lib/pre-build.js install native_metrics"
@@ -53,7 +53,7 @@
     "aws-sdk": "^2.266.1",
     "eslint": "^4.19.1",
     "segfault-handler": "^1.3.0",
-    "tap": "^12.0.1"
+    "tap": "^14.7.0"
   },
   "dependencies": {
     "nan": "^2.14.0",

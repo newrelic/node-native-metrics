@@ -29,3 +29,6 @@ node_modules
 
 # Misc Other
 .DS_store
+
+# tap output
+.nyc_output
