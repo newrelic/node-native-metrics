@@ -10,7 +10,7 @@
     "upload": "node ./lib/pre-build.js upload native_metrics",
     "lint": "eslint .",
     "unit": "tap --expose-gc tests/unit/*.tap.js",
-    "integration": "tap --timeout 360000 tests/integration/*.tap.js",
+    "integration": "tap --timeout 360000 --no-coverage tests/integration/*.tap.js",
     "native": "node tests/native/*.js",
     "test": "npm run lint && npm run unit && npm run integration",
     "install": "node ./lib/pre-build.js install native_metrics"
