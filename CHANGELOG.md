@@ -1,6 +1,6 @@
 ### v5.0.0 (2019-10-16):
 
-* **BREAKING** Removed support for Node 6 and 7.
+* **BREAKING** Removed support for Node 6, 7, 9 and 11.
 
   The minimum supported version of the native metrics module is now Node v8.
 
