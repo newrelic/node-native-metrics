@@ -1,3 +1,11 @@
+### v5.0.0 (2019-10-16):
+
+* **BREAKING** Removed support for Node 6, 7, 9 and 11.
+
+  The minimum supported version of the native metrics module is now Node v8. For further information on our support policy, see: https://docs.newrelic.com/docs/agents/nodejs-agent/getting-started/compatibility-requirements-nodejs-agent.
+
+* Added support for Node v12.
+
 ### v4.1.0 (2019-02-07):
 
 * Added support for insecure (http) binary hosts. Use at your own discretion.
