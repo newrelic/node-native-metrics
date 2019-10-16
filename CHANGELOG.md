@@ -2,7 +2,7 @@
 
 * **BREAKING** Removed support for Node 6, 7, 9 and 11.
 
-  The minimum supported version of the native metrics module is now Node v8.
+  The minimum supported version of the native metrics module is now Node v8. For further information on our support policy, see: https://docs.newrelic.com/docs/agents/nodejs-agent/getting-started/compatibility-requirements-nodejs-agent.
 
 * Added support for Node v12.
 
