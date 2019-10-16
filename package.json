@@ -9,7 +9,7 @@
     "rebuild": "node ./lib/pre-build.js rebuild native_metrics",
     "upload": "node ./lib/pre-build.js upload native_metrics",
     "lint": "eslint .",
-    "unit": "tap --expose-gc --jobs=1 tests/unit/*.tap.js",
+    "unit": "tap --expose-gc --jobs=1 --no-coverage tests/unit/*.tap.js",
     "integration": "tap --timeout 360000 --jobs=1 --no-coverage tests/integration/*.tap.js",
     "native": "node tests/native/*.js",
     "test": "npm run lint && npm run unit && npm run integration",
