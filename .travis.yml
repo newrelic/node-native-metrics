@@ -7,7 +7,7 @@ node_js:
 dist: trusty
 
 before_install:
-  - UPLOAD_BUILD=false
+  - UPLOAD_BUILD=true
   - if [[ $TRAVIS_BRANCH == `git describe --tags --always HEAD` ]]; then UPLOAD_BUILD=true; fi;
 
 install: npm install && npm run rebuild
