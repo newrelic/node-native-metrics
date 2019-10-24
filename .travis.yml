@@ -8,8 +8,8 @@ dist: trusty
 
 before_install:
   - UPLOAD_BUILD=false
-  - echo "TRAVIS_BRANCH: " $TRAVIS_BRANCH
-  - echo "git describe: " `git describe --tags --always HEAD`
+  - echo 'TRAVIS_BRANCH: ' $TRAVIS_BRANCH
+  - echo 'git describe: ' `git describe --tags --always HEAD`
   - if [[ $TRAVIS_BRANCH == `git describe --tags --always HEAD` ]]; then UPLOAD_BUILD=true;
   else echo "Not performing upload"; fi;
 
