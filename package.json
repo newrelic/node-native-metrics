@@ -41,6 +41,31 @@
       "name": "Peter Svetlichny",
       "email": "psvetlichny@newrelic.com",
       "web": "https://newrelic.com"
+    },
+    {
+      "name": "Alan Storm",
+      "email": "astorm@newrelic.com",
+      "web": "https://newrelic.com"
+    },
+    {
+      "name": "Bryan Clement",
+      "email": "bclement@newrelic.com",
+      "web": "https://newrelic.com"
+    },
+    {
+      "name": "Michael Goin",
+      "email": "mgoin@newrelic.com",
+      "web": "https://newrelic.com"
+    },
+    {
+      "name": "Nick Tzaperas",
+      "email": "ntzaperas@newrelic.com",
+      "web": "https://newrelic.com"
+    },
+    {
+      "name": "Carlo Pearson",
+      "email": "cpearson@newrelic.com",
+      "web": "https://newrelic.com"
     }
   ],
   "license": "SEE LICENSE IN LICENSE",
