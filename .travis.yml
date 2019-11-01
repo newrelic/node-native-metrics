@@ -8,7 +8,9 @@ dist: trusty
 
 before_install:
   - UPLOAD_BUILD=false
-  - if [[ $TRAVIS_BRANCH == `git describe --tags --always HEAD` ]]; then UPLOAD_BUILD=true; fi;
+  - echo $TRAVIS_BRANCH
+  - echo `git describe --tags --always HEAD`
+  - if [[ $TRAVIS_BRANCH == `git describe --tags --always HEAD` ]]; then UPLOAD_BUILD=true; else echo "Not performing upload"; fi;
 
 install: npm install && npm run rebuild
 
