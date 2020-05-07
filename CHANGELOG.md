@@ -1,3 +1,9 @@
+### v5.1.0 (2020-05-6):
+
+* Upgraded `nan` to ^2.14.1 to resolve 'GetContents' deprecation warning with Node 14.
+
+  Includes addition of Node 14 coverage and builds. Many thanks to @abetomo for the contribution.
+
 ### v5.0.0 (2019-10-16):
 
 * **BREAKING** Removed support for Node 6, 7, 9 and 11.
@@ -96,7 +102,7 @@
 * The process will no longer be held open due to pending timers.
 
   Previously, the timer used to calculate the CPU usage by a tick of the event
-  loop was left pending, causing the process to hang.  
+  loop was left pending, causing the process to hang.
 
 
 ### v2.1.2 (2017-09-26):
