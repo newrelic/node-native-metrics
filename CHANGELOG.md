@@ -1,4 +1,14 @@
-### v5.1.0 (2020-05-6):
+### v5.2.0 (2020-06-01):
+
+* Added special binary naming case to enable usage in Electron environments.
+
+  Enables the module to be used in Electron environments when built with tools that add 'electron' to `npm_config_runtime` or `npm_config_disturl` (such as `electron-rebuild` or `electron-builder`). In this case, the ABI is left-off of the file name.
+
+  Many thanks to @frankrobert-ls for raising the issue and providing a patch!
+
+  Please Note: Electron is not officially supported and other issues may still exist with the module in these environments.
+
+### v5.1.0 (2020-05-06):
 
 * Upgraded `nan` to ^2.14.1 to resolve 'GetContents' deprecation warning with Node 14.
 
