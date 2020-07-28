@@ -1,4 +1,4 @@
-name: Node Agent Windows CI
+name: Native Metrics Windows CI
 
 on: [push]
 

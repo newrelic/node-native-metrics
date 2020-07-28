@@ -1,4 +1,4 @@
-name: Node Agent Linux CI
+name: Native Metrics Linux CI
 
 on: [push]
 
