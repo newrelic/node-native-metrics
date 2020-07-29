@@ -1,4 +1,4 @@
-name: Native Metrics Windows CI
+name: native-metrics Windows CI
 
 on: [push]
 
