@@ -1,7 +1,6 @@
 tests
 src/tests
 build
-
 package-lock.json
 newrelic_agent.log
 **/node_modules/**
