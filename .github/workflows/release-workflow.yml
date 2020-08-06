@@ -1,4 +1,4 @@
-name: native-metrics CI
+name: native-metrics Binary Upload
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - 'v*' # Push events to matching v*, e.g. v1.0, v20.15.10
 
 jobs:
-  build:
+  build-test-upload:
     runs-on: ubuntu-latest
 
     strategy:
