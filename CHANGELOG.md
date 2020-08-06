@@ -1,3 +1,16 @@
+### v5.3.0 (2020-08-06):
+
+* Updated to Apache 2.0 license.
+* Added third party notices file and metadata for dependencies.
+* Updated README with more detail.
+* Added issue templates for bugs and enhancements.
+* Added code of conduct file.
+* Updated contributing guide.
+* Added pull request template.
+* Migrated CI to GitHub Actions.
+* Added copyright headers to all source files.
+* Added additional items to .npmignore.
+
 ### v5.2.0 (2020-06-01):
 
 * Added special binary naming case to enable usage in Electron environments.
