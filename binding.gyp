@@ -17,6 +17,13 @@
     "include_dirs": [
       "src",
       "<!(node -e \"require('nan')\")"
+    ],
+    "conditions": [
+      ["OS == 'linux'", {
+        "cflags_cc": [
+          "-Wno-cast-function-type" # nan issue: https://github.com/nodejs/nan/issues/807
+        ]
+      }]
     ]
   # }, {
   #   "target_name": "tests",
