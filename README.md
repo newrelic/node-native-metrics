@@ -9,7 +9,7 @@ It comes packaged with the New Relic Agent since v2, and there is nothing that
 needs to be done. For Agent v1 you need only to install the module alongside
 [`newrelic`][npm-newrelic].
 
-## Installation and getting started
+## Installation and Getting Started
 
 Typically, most users use the version auto-installed by the agent.
 
@@ -147,7 +147,7 @@ Please review [New Relic’s General Data Privacy Notice](https://newrelic.com/t
 ## Roadmap
 See our [roadmap](https://github.com/newrelic/node-newrelic/blob/main/ROADMAP_Node.md), to learn more about our product vision, understand our plans, and provide us valuable feedback.
 
-## Contributing
+## Contribute
 
 We encourage your contributions to improve Native Metrics for the New Relic Node.js Agent! Keep in mind when you submit your pull request, you'll need to sign the CLA via the click-through using CLA-Assistant. You only have to sign the CLA one time per project.
 
