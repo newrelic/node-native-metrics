@@ -1,4 +1,4 @@
-### v6.0.0 (2020-11-02):
+### v6.0.0 (2020-11-03):
 
 * Removed Node v8.x from ci.
 * Updated README to be consistent with OSS template.
