@@ -1,3 +1,13 @@
+### v6.0.0 (2020-11-03):
+
+* Removed Node v8.x from ci.
+* Updated README to be consistent with OSS template.
+* Added open source policy workflow.
+* Supressing warnings during installation on alpine docker image.
+  Thank you @eyedean for the contribution.
+* Updated name and job-name in release workflow.
+* Filtered out tags for CI workflow to prevent running on tag push for releases. The release job handles full testing.
+
 ### v5.3.0 (2020-08-06):
 
 * Updated to Apache 2.0 license.
