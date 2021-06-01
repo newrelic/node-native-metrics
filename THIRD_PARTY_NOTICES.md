@@ -30,7 +30,7 @@ code, the source code can be found at [https://github.com/newrelic/node-native-m
 
 ### nan
 
-This product includes source derived from [nan](https://github.com/nodejs/nan) ([v2.14.1](https://github.com/nodejs/nan/tree/v2.14.1)), distributed under the [MIT License](https://github.com/nodejs/nan/blob/v2.14.1/LICENSE.md):
+This product includes source derived from [nan](https://github.com/nodejs/nan) ([v2.14.2](https://github.com/nodejs/nan/tree/v2.14.2)), distributed under the [MIT License](https://github.com/nodejs/nan/blob/v2.14.2/LICENSE.md):
 
 ```
 The MIT License (MIT)
@@ -77,7 +77,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ### async
 
-This product includes source derived from [async](https://github.com/caolan/async) ([v2.6.3](https://github.com/caolan/async/tree/v2.6.3)), distributed under the [MIT License](https://github.com/caolan/async/blob/v2.6.3/LICENSE):
+This product includes source derived from [async](https://github.com/caolan/async) ([v3.2.0](https://github.com/caolan/async/tree/v3.2.0)), distributed under the [MIT License](https://github.com/caolan/async/blob/v3.2.0/LICENSE):
 
 ```
 Copyright (c) 2010-2018 Caolan McMahon
@@ -314,7 +314,7 @@ This product includes source derived from [aws-sdk](https://github.com/aws/aws-s
 
 ### eslint
 
-This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v4.19.1](https://github.com/eslint/eslint/tree/v4.19.1)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v4.19.1/LICENSE):
+This product includes source derived from [eslint](https://github.com/eslint/eslint) ([v7.27.0](https://github.com/eslint/eslint/tree/v7.27.0)), distributed under the [MIT License](https://github.com/eslint/eslint/blob/v7.27.0/LICENSE):
 
 ```
 Copyright JS Foundation and other contributors, https://js.foundation
@@ -375,7 +375,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### tap
 
-This product includes source derived from [tap](https://github.com/tapjs/node-tap) ([v14.10.7](https://github.com/tapjs/node-tap/tree/v14.10.7)), distributed under the [ISC License](https://github.com/tapjs/node-tap/blob/v14.10.7/LICENSE):
+This product includes source derived from [tap](https://github.com/tapjs/node-tap) ([v15.0.9](https://github.com/tapjs/node-tap/tree/v15.0.9)), distributed under the [ISC License](https://github.com/tapjs/node-tap/blob/v15.0.9/LICENSE):
 
 ```
 The ISC License
