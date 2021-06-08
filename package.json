@@ -4,10 +4,10 @@
   "description": "A module for generating metrics from V8.",
   "main": "index.js",
   "scripts": {
-    "build": "node ./lib/pre-build.js build native_metrics",
+    "build": "node ./lib/pre-build build native_metrics",
     "clean": "node-gyp clean",
-    "rebuild": "node ./lib/pre-build.js rebuild native_metrics",
-    "upload": "node ./lib/pre-build.js upload native_metrics",
+    "rebuild": "node ./lib/pre-build rebuild native_metrics",
+    "upload": "node ./lib/upload native_metrics",
     "lint": "eslint .",
     "unit": "tap --expose-gc --jobs=1 --no-coverage tests/unit/*.tap.js",
     "integration": "tap --timeout 360000 --jobs=1 --no-coverage tests/integration/*.tap.js",

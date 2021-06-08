@@ -15,7 +15,7 @@ tap.test('Loop Metrics', function(t) {
   var metricEmitter = require('../../')()
   var testStart = Date.now()
 
-  t.tearDown(function() {
+  t.teardown(function() {
     metricEmitter.unbind()
   })
 
@@ -36,7 +36,7 @@ tap.test('Loop Metrics', function(t) {
   // Check that the values are reset after the first call. Since this is
   // synchronous with the previous call, all results should be zero.
   metric = metricEmitter.getLoopMetrics().usage
-  t.deepEqual(metric, {
+  t.same(metric, {
     total:        0,
     min:          0,
     max:          0,

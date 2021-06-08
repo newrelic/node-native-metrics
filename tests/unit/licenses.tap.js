@@ -46,7 +46,7 @@ tap.test('Dependency licenses', function(t) {
         return obj
       }, {})
 
-      t.deepEqual(depLicenses, LICENSES, 'should have expected licenses')
+      t.same(depLicenses, LICENSES, 'should have expected licenses')
     }
     t.end()
   })
