@@ -21,7 +21,7 @@ tap.test('Resource Usage Meter', {skip: !RU_AVAILABLE}, function(t) {
   // complete
   setTimeout(function() {}, SPIN_TIME)
 
-  t.tearDown(function() {
+  t.teardown(function() {
     metricEmitter.unbind()
   })
 

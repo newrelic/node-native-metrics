@@ -14,7 +14,7 @@ tap.test('loop performance test', {timeout: 2 * TEST_DURATION + 1000}, function(
   var callCount = 0
   var natives = null
 
-  t.tearDown(function() {
+  t.teardown(function() {
     if (natives) {
       natives.unbind()
     }
