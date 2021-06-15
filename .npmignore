@@ -8,3 +8,4 @@ newrelic_agent.log
 .vscode
 .eslint*
 .github
+lib/upload.js
