@@ -5,6 +5,7 @@
 * Replaced deprecated tap methods with preferred ones.
 * Updated CONTRIBUTING.md to reference the New Relic org wide Code of Conduct.
 * Added lib/upload.js to the .npmignore as it is not needed for the module to function.
+* Bumped nan to ^2.14.2.
 
 ### v6.0.0 (2020-11-03):
 
