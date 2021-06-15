@@ -1,3 +1,11 @@
+### v6.0.1 (2021-06-15):
+
+* Created a standalone upload script to avoid issues where aws-sdk does not exist.
+* Bumped tap to ^15.0.9.
+* Replaced deprecated tap methods with preferred ones.
+* Updated CONTRIBUTING.md to reference the New Relic org wide Code of Conduct.
+* Added lib/upload.js to the .npmignore as it is not needed for the module to function.
+
 ### v6.0.0 (2020-11-03):
 
 * Removed Node v8.x from ci.
