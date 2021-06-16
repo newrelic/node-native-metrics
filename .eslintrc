@@ -8,6 +8,7 @@
     "Promise": true
   },
   "rules": {
+    "no-const-assign": "error",
     "brace-style": "error",
     "comma-style": ["error", "last"],
     "consistent-return": "off",
