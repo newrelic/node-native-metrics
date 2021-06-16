@@ -1,3 +1,9 @@
+### v6.0.2 (2021-06-16):
+
+* Changes hasCalledBack from a constant to a variable to avoid failure when it gets reassigned.
+Thank you @paulgoertzen-merico for the bug fix.
+* Added 'no-const-assign' lint rule.
+
 ### v6.0.1 (2021-06-15):
 
 * Created a standalone upload script to avoid issues where aws-sdk does not exist.
