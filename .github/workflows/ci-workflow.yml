@@ -7,6 +7,8 @@ on:
       - '**'
     tags-ignore: # Do not run for tags
       - '**'
+  workflow_dispatch:
+
 
 jobs:
   lint:
