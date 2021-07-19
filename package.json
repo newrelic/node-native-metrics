@@ -86,7 +86,8 @@
   },
   "files": [
     "index.js",
-    "src/*",
+    "src/*cpp",
+    "src/*.hpp",
     "lib/common.js",
     "lib/pre-build.js",
     "*.md"
