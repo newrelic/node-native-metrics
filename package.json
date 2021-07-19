@@ -70,8 +70,8 @@
   ],
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10",
-    "npm": ">=3"
+    "node": ">=12",
+    "npm": ">=6"
   },
   "devDependencies": {
     "async": "^3.2.0",
@@ -83,5 +83,13 @@
   "dependencies": {
     "nan": "^2.14.2",
     "semver": "^5.5.1"
-  }
+  },
+  "files": [
+    "index.js",
+    "src/*cpp",
+    "src/*.hpp",
+    "lib/common.js",
+    "lib/pre-build.js",
+    "*.md"
+  ]
 }
