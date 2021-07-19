@@ -5,17 +5,12 @@
 
 'use strict'
 
-var tap = require('tap')
-var semver = require('semver')
+const tap = require('tap')
 
-
-var RU_AVAILABLE = semver.gte(process.version, '0.12.0')
-
-
-tap.test('Resource Usage Meter', {skip: !RU_AVAILABLE}, function(t) {
-  var CPU_EPSILON = 50 // Allowed fudge factor for CPU times in MS
-  var SPIN_TIME = 2000
-  var metricEmitter = require('../../')({timeout: 200})
+tap.test('Resource Usage Meter', function(t) {
+  const CPU_EPSILON = 50 // Allowed fudge factor for CPU times in MS
+  const SPIN_TIME = 2000
+  const metricEmitter = require('../../')({timeout: 200})
 
   // set a timeout to keep the process from closing before the tests
   // complete
@@ -25,7 +20,7 @@ tap.test('Resource Usage Meter', {skip: !RU_AVAILABLE}, function(t) {
     metricEmitter.unbind()
   })
 
-  var firstUsage = null
+  let firstUsage = null
   metricEmitter.on('usage', function(data) {
     t.comment('usage emitted')
     if (!t.type(data, Object, 'should have usage data object')) {
@@ -46,13 +41,13 @@ tap.test('Resource Usage Meter', {skip: !RU_AVAILABLE}, function(t) {
   })
 
   function spin() {
-    var start = Date.now()
+    const start = Date.now()
     while (Date.now() - start < SPIN_TIME) {} // Spin the CPU for 2 seconds.
     t.comment('cpu spin completed')
   }
 
   function checkValues(startUsage, usage) {
-    var keys = [
+    const keys = [
       'ru_utime',
       'ru_stime',
       'ru_maxrss',
@@ -83,7 +78,7 @@ tap.test('Resource Usage Meter', {skip: !RU_AVAILABLE}, function(t) {
     })
 
     t.comment('cpu usage')
-    var time = usage.diff.ru_utime + usage.diff.ru_stime
+    const time = usage.diff.ru_utime + usage.diff.ru_stime
     t.ok(
       time > SPIN_TIME - CPU_EPSILON,
       'should have expected CPU usage time (is ' + time + ')'
