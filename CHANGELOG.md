@@ -1,3 +1,7 @@
+### v7.0.1 (2021-07-20):
+
+* Updated release workflow to run on Node v12.x, 14.x, and v16.x.
+
 ### v7.0.0 (2021-07-20):
 
 * **BREAKING** Removed support for Node 10.
