@@ -1,4 +1,4 @@
-### v7.0.0 (2021-07-19):
+### v7.0.0 (2021-07-20):
 
 * **BREAKING** Removed support for Node 10.
 
