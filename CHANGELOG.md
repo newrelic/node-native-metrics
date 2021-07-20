@@ -1,17 +1,18 @@
 ### v7.0.1 (2021-07-20):
 
-* Updated release workflow to run on Node v12.x, 14.x, and v16.x.
-
-### v7.0.0 (2021-07-20):
-
+* Added support for Node 16.
 * **BREAKING** Removed support for Node 10.
 
   The minimum supported version is now Node v12. For further information on our support policy, see: https://docs.newrelic.com/docs/agents/nodejs-agent/getting-started/compatibility-requirements-nodejs-agent.
 
-* Added support for Node 16.
+* Updated release workflow to run on Node v12.x, 14.x, and v16.x.
 * Added files list to package.json instead of relying on `.npmignore`.
 * Removed unused `bin/test-all-node.sh`.
 * Removed semver check for Resource Unit meter availability.
+
+### v7.0.0 (2021-07-20):
+
+* **This release has been deprecated.** Please use version 7.0.1 or higher.
 
 ### v6.0.2 (2021-06-16):
 
