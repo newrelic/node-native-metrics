@@ -9,6 +9,7 @@
 * Added files list to package.json instead of relying on `.npmignore`.
 * Removed unused `bin/test-all-node.sh`.
 * Removed semver check for Resource Unit meter availability.
+* Fixed v7.0.0 by adding `binding.gyp` to package.json files list.
 
 ### v7.0.0 (2021-07-20):
 
