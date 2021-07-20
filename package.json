@@ -90,6 +90,7 @@
     "src/*.hpp",
     "lib/common.js",
     "lib/pre-build.js",
+    "binding.gyp",
     "*.md"
   ]
 }
