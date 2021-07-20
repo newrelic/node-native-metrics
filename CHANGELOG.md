@@ -1,3 +1,14 @@
+### v7.0.0 (2021-07-20):
+
+* **BREAKING** Removed support for Node 10.
+
+  The minimum supported version is now Node v12. For further information on our support policy, see: https://docs.newrelic.com/docs/agents/nodejs-agent/getting-started/compatibility-requirements-nodejs-agent.
+
+* Added support for Node 16.
+* Added files list to package.json instead of relying on `.npmignore`.
+* Removed unused `bin/test-all-node.sh`.
+* Removed semver check for Resource Unit meter availability.
+
 ### v6.0.2 (2021-06-16):
 
 * Changes hasCalledBack from a constant to a variable to avoid failure when it gets reassigned.
