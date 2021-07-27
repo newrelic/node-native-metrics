@@ -5,18 +5,20 @@
 
 'use strict'
 
-var tap = require('tap')
-var http = require('http')
-var natives = require('../../')()
-var segs = require('segfault-handler')
+const tap = require('tap')
+const http = require('http')
+const segs = require('segfault-handler')
+const { execSync } = require('child_process')
 
-var RUN_TIME = 5 * 60 * 1000 // 5 minutes
+const RUN_TIME = 5 * 60 * 1000 // 5 minutes
 
 segs.registerHandler('crash.log')
 
 tap.test('server soak test', {timeout: RUN_TIME + 10000}, function(t) {
+  execSync(`node ./lib/pre-build install native_metrics`)
+  const natives = require('../../')()
   t.comment('Running test server for ' + RUN_TIME + 'ms')
-  var server = http.createServer(function(req, res) {
+  const server = http.createServer(function(req, res) {
     res.write('ok')
     res.end()
   })
@@ -28,9 +30,9 @@ tap.test('server soak test', {timeout: RUN_TIME + 10000}, function(t) {
   server.listen(0, function() {
     t.pass('server started')
   })
-  var port = server.address().port
+  const port = server.address().port
 
-  var keepSending = true
+  let keepSending = true
   setTimeout(sendRequest, 1000)
   setTimeout(function() {
     t.comment('stopping')

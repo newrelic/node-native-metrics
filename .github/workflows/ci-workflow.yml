@@ -50,9 +50,6 @@ jobs:
       run: npm run unit
     - name: Run Integration
       run: npm run integration
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.S3_BUCKET_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_BUCKET_SECRET_ACCESS_KEY }}
 
   windows:
     runs-on: windows-latest
@@ -75,6 +72,3 @@ jobs:
       run: npm run unit
     - name: Run Integration
       run: npm run integration
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.S3_BUCKET_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_BUCKET_SECRET_ACCESS_KEY }}

@@ -26,7 +26,7 @@ tap.test('upload failure', function(t) {
   execSync('rm -rf ./build/Release/*')
   execSync(`node ./lib/pre-build build native_metrics`)
   upload('native_metrics', (err) => {
-    t.equal(err.message, 'Failed to upload file: null', 'should fail upload')
+    t.ok(err, 'should error when not returning 200')
     t.end()
   })
 })
