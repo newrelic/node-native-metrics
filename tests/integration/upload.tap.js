@@ -28,5 +28,5 @@ tap.test('upload failure', function(t) {
   upload('native_metrics', (err) => {
     t.equal(err.message, 'Failed to upload file: null', 'should fail upload')
     t.end()
-  });
+  })
 })
