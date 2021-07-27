@@ -45,6 +45,7 @@ tap.test('common tests', (t) => {
 
   tap.test('logStart', (t) => {
     common.logStart('install')
+    // eslint-disable-next-line no-console
     const [[msg]] = console.log.args
     t.match(msg,
       /Attempting install in native-metrics/,
@@ -58,6 +59,7 @@ tap.test('common tests', (t) => {
       const err = new Error('unit test error')
       sinon.stub(process, 'exit')
       common.logFinish('build', 'target', err)
+      // eslint-disable-next-line no-console
       const [[msg]] = console.error.args
       t.equal(msg,
       `Failed to execute native-metrics build: ${err.message}`,
@@ -72,6 +74,7 @@ tap.test('common tests', (t) => {
 
     t.test('log success', (t) => {
       common.logFinish('build', 'target')
+      // eslint-disable-next-line no-console
       const [, [msg]] = console.log.args
       t.match(msg,
       /build successful: _newrelic_native_metrics/,
@@ -93,6 +96,7 @@ tap.test('common tests', (t) => {
     t.test('electron naming', (t) => {
       process.env.npm_config_runtime = 'electron'
       const name = common.getFileName('target')
+      // eslint-disable-next-line max-len
       const regex = new RegExp(`_newrelic_native_metrics-\\d{1,3}_\\d{1,3}_\\d{1,3}-target-${process.platform}-${process.arch}`)
       t.match(name, regex, 'should match electron convention')
       t.end()
@@ -101,6 +105,7 @@ tap.test('common tests', (t) => {
     t.test('standard naming', (t) => {
       process.env.npm_config_runtime = ''
       const name = common.getFileName('target')
+      // eslint-disable-next-line max-len
       const regex = new RegExp(`_newrelic_native_metrics-\\d{1,3}_\\d{1,3}_\\d{1,3}-target-${process.versions.modules}-${process.platform}-${process.arch}`)
       t.match(name, regex, 'should match electron convention')
       t.end()
