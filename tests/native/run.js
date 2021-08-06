@@ -5,5 +5,7 @@
 
 'use strict'
 
-var nativeTests = require('../../build/Release/tests')
+// eslint-disable-next-line node/no-missing-require
+const nativeTests = require('../../build/Release/tests')
+// eslint-disable-next-line no-process-exit
 process.exit(nativeTests.test())

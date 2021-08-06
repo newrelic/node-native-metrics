@@ -10,7 +10,7 @@ const { execSync } = require('child_process')
 const upload = require('../../lib/upload')
 const nock = require('nock')
 
-tap.test('upload', function(t) {
+tap.test('upload', function (t) {
   t.before(() => {
     nock.disableNetConnect()
   })
@@ -42,4 +42,3 @@ tap.test('upload', function(t) {
 
   t.end()
 })
-

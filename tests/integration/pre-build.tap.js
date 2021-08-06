@@ -19,48 +19,49 @@ function findBinary() {
   })
 }
 
-tap.test('pre-build commands', function(t) {
+tap.test('pre-build commands', function (t) {
   t.beforeEach(() => {
     execSync('rm -rf ./build/Release/*')
   })
 
   CMDS.forEach((cmd) => {
-    t.test(`${cmd} test`, function(t) {
+    t.test(`${cmd} test`, function (t) {
       execSync(`node ./lib/pre-build ${cmd} native_metrics`)
       const binary = findBinary()
       t.match(
         binary,
         /_newrelic_native_metrics-\d{1,3}_\d{1,3}_\d{1,3}-native_metrics.*\.node/,
-        'should build binary')
+        'should build binary'
+      )
       t.end()
     })
   })
 
-  t.test('failed download', { skip: !NO_PREBUILTS.includes(platform) }, function(t) {
-    t.throws(() => execSync('node ./lib/pre-build --no-build install native_metrics'),
-      `should error when trying to download on ${platform}`)
+  t.test('failed download', { skip: !NO_PREBUILTS.includes(platform) }, function (t) {
+    t.throws(
+      () => execSync('node ./lib/pre-build --no-build install native_metrics'),
+      `should error when trying to download on ${platform}`
+    )
     const binary = findBinary()
     t.same(binary, [], `should not download binary for ${platform}`)
     t.end()
   })
 
-  t.test('download', { skip: NO_PREBUILTS.includes(platform) }, function(t) {
+  t.test('download', { skip: NO_PREBUILTS.includes(platform) }, function (t) {
     execSync('node ./lib/pre-build --no-build install native_metrics')
     const binary = findBinary()
     t.match(
       binary,
       /_newrelic_native_metrics-\d{1,3}_\d{1,3}_\d{1,3}-native_metrics.*\.node/,
-      'should download binary')
+      'should download binary'
+    )
     t.end()
   })
 
-  t.test('invalid cmd(no-op)', function(t) {
+  t.test('invalid cmd(no-op)', function (t) {
     execSync('node ./lib/pre-build invalid-command native_metrics')
     const binary = findBinary()
-    t.same(
-      binary,
-      [],
-      'should not build with invalid command')
+    t.same(binary, [], 'should not build with invalid command')
     t.end()
   })
 
