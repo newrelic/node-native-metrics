@@ -80,8 +80,7 @@ tap.test('server soak test', function(t) {
 
 function installNativeMetrics() {
   const start = new Date()
-  const output =
-    execSync(`node ./lib/pre-build install native_metrics`, {encoding: 'utf-8'})
+  const output = execSync(`node ./lib/pre-build install native_metrics`, { encoding: 'utf-8' })
 
   const elapsed = new Date() - start
   return {
