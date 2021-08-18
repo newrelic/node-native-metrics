@@ -16,28 +16,17 @@ tap.test('common tests', (t) => {
   })
 
   tap.test('parseArgs', (t) => {
-    const argv = [
-      'arg1',
-      'arg2',
-      '--opt1',
-      '--opt2'
-    ]
+    const argv = ['arg1', 'arg2', '--opt1', '--opt2']
     const opts = {}
     t.test('set args with -- as opts', (t) => {
       common.parseArgs(argv, opts)
-      t.same(opts,
-        { opt1: true, opt2: true },
-        'should set opts properly'
-      )
+      t.same(opts, { opt1: true, opt2: true }, 'should set opts properly')
       t.end()
     })
 
     t.test('set all args without -- as args', (t) => {
       const args = common.parseArgs(argv, opts)
-      t.same(args,
-        ['arg1', 'arg2'],
-        'should set args properly'
-      )
+      t.same(args, ['arg1', 'arg2'], 'should set args properly')
       t.end()
     })
     t.end()
@@ -47,10 +36,7 @@ tap.test('common tests', (t) => {
     common.logStart('install')
     // eslint-disable-next-line no-console
     const [[msg]] = console.log.args
-    t.match(msg,
-      /Attempting install in native-metrics/,
-      'should log msg with proper command'
-    )
+    t.match(msg, /Attempting install in native-metrics/, 'should log msg with proper command')
     t.end()
   })
 
@@ -61,13 +47,12 @@ tap.test('common tests', (t) => {
       common.logFinish('build', 'target', err)
       // eslint-disable-next-line no-console
       const [[msg]] = console.error.args
-      t.equal(msg,
-      `Failed to execute native-metrics build: ${err.message}`,
-      'should log console.error message'
+      t.equal(
+        msg,
+        `Failed to execute native-metrics build: ${err.message}`,
+        'should log console.error message'
       )
-      t.equal(process.exit.args[0][0], 1,
-        'should exit with code 1'
-      )
+      t.equal(process.exit.args[0][0], 1, 'should exit with code 1')
       process.exit.restore()
       t.end()
     })
@@ -76,9 +61,7 @@ tap.test('common tests', (t) => {
       common.logFinish('build', 'target')
       // eslint-disable-next-line no-console
       const [, [msg]] = console.log.args
-      t.match(msg,
-      /build successful: _newrelic_native_metrics/,
-      'should log finish message')
+      t.match(msg, /build successful: _newrelic_native_metrics/, 'should log finish message')
       t.end()
     })
 
@@ -87,9 +70,11 @@ tap.test('common tests', (t) => {
 
   tap.test('getFileName', (t) => {
     t.test('missing target', (t) => {
-      t.throws(() => common.getFileName(),
+      t.throws(
+        () => common.getFileName(),
         'Missing information for naming compiled binary.',
-        'should throw error when missing target')
+        'should throw error when missing target'
+      )
       t.end()
     })
 
@@ -97,7 +82,9 @@ tap.test('common tests', (t) => {
       process.env.npm_config_runtime = 'electron'
       const name = common.getFileName('target')
       // eslint-disable-next-line max-len
-      const regex = new RegExp(`_newrelic_native_metrics-\\d{1,3}_\\d{1,3}_\\d{1,3}-target-${process.platform}-${process.arch}`)
+      const regex = new RegExp(
+        `_newrelic_native_metrics-\\d{1,3}_\\d{1,3}_\\d{1,3}-target-${process.platform}-${process.arch}`
+      )
       t.match(name, regex, 'should match electron convention')
       t.end()
     })
@@ -106,7 +93,9 @@ tap.test('common tests', (t) => {
       process.env.npm_config_runtime = ''
       const name = common.getFileName('target')
       // eslint-disable-next-line max-len
-      const regex = new RegExp(`_newrelic_native_metrics-\\d{1,3}_\\d{1,3}_\\d{1,3}-target-${process.versions.modules}-${process.platform}-${process.arch}`)
+      const regex = new RegExp(
+        `_newrelic_native_metrics-\\d{1,3}_\\d{1,3}_\\d{1,3}-target-${process.versions.modules}-${process.platform}-${process.arch}`
+      )
       t.match(name, regex, 'should match electron convention')
       t.end()
     })

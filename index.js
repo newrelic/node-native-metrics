@@ -10,18 +10,16 @@ var util = require('util')
 var preBuild = require('./lib/pre-build')
 var natives = preBuild.load('native_metrics')
 
-
 var DEFAULT_TIMEOUT = 15 * 1000 // 15 seconds
 var GC_TYPE_NAMES = {
-  '1': 'Scavenge',
-  '2': 'MarkSweepCompact',
-  '4': 'IncrementalMarking',
-  '8': 'ProcessWeakCallbacks',
+  1: 'Scavenge',
+  2: 'MarkSweepCompact',
+  4: 'IncrementalMarking',
+  8: 'ProcessWeakCallbacks',
 
-  '3': 'All', // Node v4 and earlier only have Scavenge and MarkSweepCompact.
-  '15': 'All'
+  3: 'All', // Node v4 and earlier only have Scavenge and MarkSweepCompact.
+  15: 'All'
 }
-
 
 /**
  * Constructs a metric emitter. This constructor is for internal use only.
@@ -36,7 +34,7 @@ var GC_TYPE_NAMES = {
  *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
 function NativeMetricEmitter(opts) {
-  opts = opts || {timeout: DEFAULT_TIMEOUT}
+  opts = opts || { timeout: DEFAULT_TIMEOUT }
   EventEmitter.call(this)
   this.bound = false
   this._timeout = null

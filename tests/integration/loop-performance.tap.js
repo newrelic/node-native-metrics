@@ -9,12 +9,12 @@ var tap = require('tap')
 
 var TEST_DURATION = 30 * 1000
 
-tap.test('loop performance test', {timeout: 2 * TEST_DURATION + 1000}, function(t) {
+tap.test('loop performance test', { timeout: 2 * TEST_DURATION + 1000 }, function (t) {
   var timeout = null
   var callCount = 0
   var natives = null
 
-  t.teardown(function() {
+  t.teardown(function () {
     if (natives) {
       natives.unbind()
     }
@@ -22,19 +22,19 @@ tap.test('loop performance test', {timeout: 2 * TEST_DURATION + 1000}, function(
 
   t.comment('measuring without loop counter')
   setTimeoutCount()
-  setTimeout(function() {
+  setTimeout(function () {
     var noMetricsCount = callCount
     callCount = 0
     clearTimeout(timeout)
 
     natives = require('../../')()
-    var readInterval = setInterval(function() {
+    var readInterval = setInterval(function () {
       natives.getLoopMetrics() // To reset the metrics
     }, 1000)
 
     t.comment('measuring with loop counter')
     setTimeoutCount()
-    setTimeout(function() {
+    setTimeout(function () {
       var withMetricsCount = callCount
       callCount = 0
       clearTimeout(timeout)
@@ -50,7 +50,7 @@ tap.test('loop performance test', {timeout: 2 * TEST_DURATION + 1000}, function(
   }, TEST_DURATION)
 
   function setTimeoutCount() {
-    timeout = setTimeout(function() {
+    timeout = setTimeout(function () {
       ++callCount
       setTimeoutCount()
     }, 1)

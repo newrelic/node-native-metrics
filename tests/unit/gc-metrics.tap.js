@@ -7,7 +7,7 @@
 
 var tap = require('tap')
 
-tap.test('GC Metrics', function(t) {
+tap.test('GC Metrics', function (t) {
   t.plan(17)
   var metricEmitter = require('../../')()
 

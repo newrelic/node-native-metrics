@@ -7,21 +7,21 @@
 
 const tap = require('tap')
 
-tap.test('Resource Usage Meter', function(t) {
+tap.test('Resource Usage Meter', function (t) {
   const CPU_EPSILON = 50 // Allowed fudge factor for CPU times in MS
   const SPIN_TIME = 2000
-  const metricEmitter = require('../../')({timeout: 200})
+  const metricEmitter = require('../../')({ timeout: 200 })
 
   // set a timeout to keep the process from closing before the tests
   // complete
-  setTimeout(function() {}, SPIN_TIME)
+  setTimeout(function () {}, SPIN_TIME)
 
-  t.teardown(function() {
+  t.teardown(function () {
     metricEmitter.unbind()
   })
 
   let firstUsage = null
-  metricEmitter.on('usage', function(data) {
+  metricEmitter.on('usage', function (data) {
     t.comment('usage emitted')
     if (!t.type(data, Object, 'should have usage data object')) {
       return t.end()
@@ -65,7 +65,7 @@ tap.test('Resource Usage Meter', function(t) {
       'ru_nvcsw',
       'ru_nivcsw'
     ]
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
       t.comment(key)
       t.type(usage.diff[key], 'number', 'usage.diff should have key')
       t.type(usage.current[key], 'number', 'usage.current should have key')
@@ -79,10 +79,7 @@ tap.test('Resource Usage Meter', function(t) {
 
     t.comment('cpu usage')
     const time = usage.diff.ru_utime + usage.diff.ru_stime
-    t.ok(
-      time > SPIN_TIME - CPU_EPSILON,
-      'should have expected CPU usage time (is ' + time + ')'
-    )
+    t.ok(time > SPIN_TIME - CPU_EPSILON, 'should have expected CPU usage time (is ' + time + ')')
     t.end()
   }
 })
