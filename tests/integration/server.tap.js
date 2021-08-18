@@ -15,10 +15,11 @@ const TEST_TIMEOUT = RUN_TIME + 10000
 
 segs.registerHandler('crash.log')
 
-tap.test('server soak test', { timeout: TEST_TIMEOUT }, function(t) {
+tap.test('server soak test', function(t) {
   t.comment('Installing native metrics')
   const { output, elapsed } = installNativeMetrics()
-  t.comment(output)
+  t.comment('Finished installing')
+  t.comment('Output: ', output)
 
   // We increase the timeout by the install time to avoid counting against the
   // execution time threshold while still setting up in the test execution.
