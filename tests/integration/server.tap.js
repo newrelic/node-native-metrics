@@ -15,7 +15,7 @@ const TEST_TIMEOUT = RUN_TIME + 10000
 
 segs.registerHandler('crash.log')
 
-tap.test('server soak test', function(t) {
+tap.test('server soak test', function (t) {
   t.comment('Installing native metrics')
   const { output, elapsed } = installNativeMetrics()
   t.comment('Finished installing')
