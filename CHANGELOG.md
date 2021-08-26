@@ -1,3 +1,14 @@
+### v7.0.2 (2021-08-26):
+* Updated code to only check `node-gyp` version when the module needs to be built to avoid hanging node and subsequently causing OOM errors.
+* Added a pre-commit hook to check if package.json changes and run `oss third-party manifest` and `oss third-party notices`. This will ensure the `third_party_manifest.json` and `THIRD_PARTY_NOTICES.md` are up to date.
+* Fixed intermittent timeout issue with the server smoke integration test.
+
+  Excluded native metric install setup time from server soak test timeout.
+* Added `@newrelic/eslint-config` to rely on a centralized eslint ruleset.
+* Added `husky` + `lint-staged` to run linting on all staged js files.
+* Added integration tests for pre-build and upload tasks.
+* Upgraded setup-node CI job to v2 and changed the linting node version to `lts/*` for future proofing.
+
 ### v7.0.1 (2021-07-20):
 
 * Added support for Node 16.
