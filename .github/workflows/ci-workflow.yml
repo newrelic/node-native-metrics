@@ -91,12 +91,21 @@ jobs:
         githubToken: ${{ github.token }}
         install: |
           apt-get update -q -y
-          apt-get install -q -y curl
+          apt-get install -q -y curl python build-essential
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-          exec bash
+          export NVM_DIR="$HOME/.nvm"
+          . "$NVM_DIR/nvm.sh"
           nvm install ${{ matrix.node-version }}
         run: |
+          export NVM_DIR="$HOME/.nvm"
+          . "$NVM_DIR/nvm.sh"
+          echo "Checking current node"
+          nvm current
+          echo "install deps"
           npm ci
+          echo "rebuild native metrics module"
           npm run rebuild
+          echo "run unit tests"
           npm run unit
+          echo "run integration tests"
           npm run integration
