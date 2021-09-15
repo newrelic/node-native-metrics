@@ -72,14 +72,20 @@ tap.test('Loop Metrics', function (t) {
         usage.total * MICRO_TO_MILLIS <= testDuration,
         'should have total less than wall-clock time'
       )
-      t.ok(usage.min < meanTime, 'should have min less than the mean usage time')
-      t.ok(usage.max > meanTime, 'should have max greater than the mean usage time')
+      t.ok(
+        usage.min < meanTime,
+        `should have min(${usage.min}) less than the mean usage time(${meanTime})`
+      )
+      t.ok(
+        usage.max > meanTime,
+        `should have max(${usage.max})) greater than the mean usage time(${meanTime})`
+      )
       t.ok(usage.max * MICRO_TO_MILLIS > SPIN_TIME - CPU_EPSILON, 'should have expected max')
       t.ok(
         usage.sumOfSquares * MICRO_TO_MILLIS * MICRO_TO_MILLIS < durationSquare,
         'should have expected sumOfSquares'
       )
-      t.ok(usage.count >= 2, 'should have expected count')
+      t.ok(usage.count >= 2, `should have expected count(${usage.count})`)
 
       // Done!
       t.end()
