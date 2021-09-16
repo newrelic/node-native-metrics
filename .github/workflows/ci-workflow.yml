@@ -11,74 +11,74 @@ on:
 
 
 jobs:
-  # lint:
-  #   runs-on: ubuntu-latest
-  #
-  #   strategy:
-  #     matrix:
-  #       node-version: [lts/*]
-  #
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Use Node.js ${{ matrix.node-version }}
-  #     uses: actions/setup-node@v2
-  #     with:
-  #       node-version: ${{ matrix.node-version }}
-  #   - name: Install Dependencies
-  #     run: npm ci
-  #   - name: Run Linting
-  #     run: npm run lint
-  #
-  # linux:
-  #   runs-on: ubuntu-latest
-  #
-  #   strategy:
-  #     matrix:
-  #       node-version: [12.x, 14.x, 16.x]
-  #
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Use Node.js ${{ matrix.node-version }}
-  #     uses: actions/setup-node@v2
-  #     with:
-  #       node-version: ${{ matrix.node-version }}
-  #   - name: Install Dependencies
-  #     run: npm ci
-  #   - name: Rebuild
-  #     run: npm run rebuild
-  #   - name: Run Unit
-  #     run: npm run unit
-  #   - name: Run Integration
-  #     run: npm run integration
-  #
-  # windows:
-  #   runs-on: windows-latest
-  #
-  #   strategy:
-  #     matrix:
-  #       node-version: [12.x, 14.x, 16.x]
-  #
-  #   steps:
-  #   - uses: actions/checkout@v2
-  #   - name: Use Node.js ${{ matrix.node-version }}
-  #     uses: actions/setup-node@v2
-  #     with:
-  #       node-version: ${{ matrix.node-version }}
-  #   - name: Install Dependencies
-  #     run: npm ci
-  #   - name: Rebuild
-  #     run: npm run rebuild
-  #   - name: Run Unit
-  #     run: npm run unit
-  #   - name: Run Integration
-  #     run: npm run integration
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [lts/*]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Dependencies
+      run: npm ci
+    - name: Run Linting
+      run: npm run lint
+
+  linux:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Dependencies
+      run: npm ci
+    - name: Rebuild
+      run: npm run rebuild
+    - name: Run Unit
+      run: npm run unit
+    - name: Run Integration
+      run: npm run integration
+
+  windows:
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Dependencies
+      run: npm ci
+    - name: Rebuild
+      run: npm run rebuild
+    - name: Run Unit
+      run: npm run unit
+    - name: Run Integration
+      run: npm run integration
 
   arm64:
     runs-on: ubuntu-18.04
 
     strategy:
       matrix:
-        node-version: [12]
+        node-version: [12, 14, 16]
 
     steps:
     - uses: actions/checkout@v2
