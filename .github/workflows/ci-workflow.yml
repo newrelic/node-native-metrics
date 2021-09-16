@@ -101,9 +101,8 @@ jobs:
           . "$NVM_DIR/nvm.sh"
           echo "Checking current node"
           nvm current
-          npm config ls -l | grep 'cache ='
           echo "install deps"
-          npm ci
+          npm ci --unsafe-perm
           echo "rebuild native metrics module"
           npm run rebuild
           echo "run unit tests"
