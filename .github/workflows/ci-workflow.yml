@@ -101,7 +101,7 @@ jobs:
           . "$NVM_DIR/nvm.sh"
           echo "Checking current node"
           nvm current
-	  npm config set user 0
+          npm config set user 0
           echo "install deps"
           npm ci
           echo "rebuild native metrics module"
