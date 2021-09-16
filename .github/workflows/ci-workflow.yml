@@ -78,7 +78,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12, 14, 16]
+        node-version: [12]
 
     steps:
     - uses: actions/checkout@v2
@@ -102,7 +102,7 @@ jobs:
           echo "Checking current node"
           nvm current
           echo "install deps"
-          npm ci --unsafe-perm
+          npm ci
           echo "rebuild native metrics module"
           npm run rebuild
           echo "run unit tests"
