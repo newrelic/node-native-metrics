@@ -78,7 +78,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12, 14]
+        node-version: [12, 14, 16]
 
     steps:
     - uses: actions/checkout@v2
@@ -101,6 +101,7 @@ jobs:
           . "$NVM_DIR/nvm.sh"
           echo "Checking current node"
           nvm current
+	  npm config set user 0
           echo "install deps"
           npm ci
           echo "rebuild native metrics module"
