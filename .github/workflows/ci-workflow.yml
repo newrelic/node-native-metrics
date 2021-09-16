@@ -101,7 +101,7 @@ jobs:
           . "$NVM_DIR/nvm.sh"
           echo "Checking current node"
           nvm current
-          sudo chown -R $(whoami) $HOME/.npm
+          chown -R $(whoami) $HOME/.npm
           echo "install deps"
           npm ci
           echo "rebuild native metrics module"
