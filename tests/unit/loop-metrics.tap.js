@@ -59,7 +59,6 @@ tap.test('Loop Metrics', function (t) {
     // Finally, wait another tick and then check the loop stats.
     setTimeout(function () {
       metric = metricEmitter.getLoopMetrics()
-      console.log(metric)
       var testDuration = Date.now() - testStart + CPU_EPSILON
       var durationSquare = testDuration * testDuration
       var usage = metric.usage
