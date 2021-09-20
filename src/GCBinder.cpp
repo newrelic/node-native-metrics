@@ -8,7 +8,7 @@
 
 namespace nr {
 
-GCBinder* GCBinder::_instance = NULL; // TODO: nullptr once we drop Node <4.
+GCBinder* GCBinder::_instance = nullptr;
 
 NAN_METHOD(GCBinder::New) {
   if (_instance != NULL) {
