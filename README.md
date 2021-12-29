@@ -62,6 +62,14 @@ $ export NR_NATIVE_METRICS_REMOTE_PATH=path/to/download/folder/
 $ npm install @newrelic/native-metrics
 ```
 
+You can also specify a proxy host to route requests through using the `NR_NATIVE_METRICS_PROXY_HOST` environment variable:
+
+```sh
+$ export NR_NATIVE_METRICS_NO_BUILD=true
+$ export NR_NATIVE_METRICS_PROXY_HOST=http://your-proxy-host/
+$ npm install @newrelic/native-metrics
+```
+
 For more information, please see the agent [installation guide][install-node] and [compatibility and requirements][compatibility].
 
 ## Usage
