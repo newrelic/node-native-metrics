@@ -13,8 +13,9 @@ var tap = require('tap')
 
 var MODULE_DIR = path.resolve(__dirname, '../../node_modules')
 var LICENSES = {
-  nan: 'MIT',
-  semver: 'ISC'
+  'nan': 'MIT',
+  'proxy-agent': 'MIT',
+  'semver': 'ISC'
 }
 
 tap.test('Dependency licenses', function (t) {
