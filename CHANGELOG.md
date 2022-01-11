@@ -1,3 +1,13 @@
+### v7.1.0 (2022-01-11)
+
+* Added workflow to automate preparing release notes by reusing the newrelic/node-newrelic/.github/workflows/prep-release.yml@main workflow from agent repository.
+
+- Use `NR_NATIVE_METRICS_PROXY_HOST` env var to support downloading binaries through a proxy host.
+
+* Added job to automatically add issues/pr to Node.js Engineering board
+
+- Fix deprecated code, such as `fs.existsSync` and using `NULL` vs. the more modern `nullptr`.
+
 ### v7.0.2 (2021-08-26):
 * Updated code to only check `node-gyp` version when the module needs to be built to avoid hanging node and subsequently causing OOM errors.
 * Added a pre-commit hook to check if package.json changes and run `oss third-party manifest` and `oss third-party notices`. This will ensure the `third_party_manifest.json` and `THIRD_PARTY_NOTICES.md` are up to date.
