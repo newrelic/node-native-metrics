@@ -2,12 +2,15 @@ name: native-metrics Binary Upload
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*' # Push events to matching v*, e.g. v1.0, v20.15.10
+  workflow_run:
+    workflows: ["Create Release"]
+    types:
+      - completed
 
 jobs:
   build-test-upload:
+     # Check if this was a manual invocation(workflow_dispatch) or triggered(workflow_run) and successful
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run && github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     strategy:
