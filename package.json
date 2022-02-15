@@ -95,8 +95,8 @@
     "tap": "^15.0.9"
   },
   "dependencies": {
+    "https-proxy-agent": "^5.0.0",
     "nan": "^2.14.2",
-    "proxy-agent": "^5.0.0",
     "semver": "^5.5.1"
   },
   "files": [

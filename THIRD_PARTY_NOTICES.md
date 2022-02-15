@@ -14,8 +14,8 @@ code, the source code can be found at [https://github.com/newrelic/node-native-m
 
 **[dependencies](#dependencies)**
 
+* [https-proxy-agent](#https-proxy-agent)
 * [nan](#nan)
-* [proxy-agent](#proxy-agent)
 * [semver](#semver)
 
 **[devDependencies](#devDependencies)**
@@ -40,6 +40,22 @@ code, the source code can be found at [https://github.com/newrelic/node-native-m
 
 ## dependencies
 
+### https-proxy-agent
+
+This product includes source derived from [https-proxy-agent](https://github.com/TooTallNate/node-https-proxy-agent) ([v5.0.0](https://github.com/TooTallNate/node-https-proxy-agent/tree/v5.0.0)), distributed under the [MIT License](https://github.com/TooTallNate/node-https-proxy-agent/blob/v5.0.0/README.md):
+
+```
+MIT License
+
+Copyright (c) <year> <copyright holders>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+
 ### nan
 
 This product includes source derived from [nan](https://github.com/nodejs/nan) ([v2.14.2](https://github.com/nodejs/nan/tree/v2.14.2)), distributed under the [MIT License](https://github.com/nodejs/nan/blob/v2.14.2/LICENSE.md):
@@ -59,22 +75,6 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-```
-
-### proxy-agent
-
-This product includes source derived from [proxy-agent](https://github.com/TooTallNate/node-proxy-agent) ([v5.0.0](https://github.com/TooTallNate/node-proxy-agent/tree/v5.0.0)), distributed under the [MIT License](https://github.com/TooTallNate/node-proxy-agent/blob/v5.0.0/README.md):
-
-```
-MIT License
-
-Copyright (c) <year> <copyright holders>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ```
 
 ### semver
