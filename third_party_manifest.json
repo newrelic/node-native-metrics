@@ -1,10 +1,24 @@
 {
-  "lastUpdated": "Tue Dec 21 2021 11:51:39 GMT-0800 (Pacific Standard Time)",
+  "lastUpdated": "Mon Feb 14 2022 17:08:33 GMT-0800 (Pacific Standard Time)",
   "projectName": "Native Metrics for New Relic Node Agent",
   "projectUrl": "https://github.com/newrelic/node-native-metrics",
   "includeOptDeps": false,
   "includeDev": true,
   "dependencies": {
+    "https-proxy-agent@5.0.0": {
+      "name": "https-proxy-agent",
+      "version": "5.0.0",
+      "range": "^5.0.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/TooTallNate/node-https-proxy-agent",
+      "versionedRepoUrl": "https://github.com/TooTallNate/node-https-proxy-agent/tree/v5.0.0",
+      "licenseFile": "node_modules/https-proxy-agent/README.md",
+      "licenseUrl": "https://github.com/TooTallNate/node-https-proxy-agent/blob/v5.0.0/README.md",
+      "licenseTextSource": "spdx",
+      "publisher": "Nathan Rajlich",
+      "email": "nathan@tootallnate.net",
+      "url": "http://n8.io/"
+    },
     "nan@2.14.2": {
       "name": "nan",
       "version": "2.14.2",
@@ -15,20 +29,6 @@
       "licenseFile": "node_modules/nan/LICENSE.md",
       "licenseUrl": "https://github.com/nodejs/nan/blob/v2.14.2/LICENSE.md",
       "licenseTextSource": "file"
-    },
-    "proxy-agent@5.0.0": {
-      "name": "proxy-agent",
-      "version": "5.0.0",
-      "range": "^5.0.0",
-      "licenses": "MIT",
-      "repoUrl": "https://github.com/TooTallNate/node-proxy-agent",
-      "versionedRepoUrl": "https://github.com/TooTallNate/node-proxy-agent/tree/v5.0.0",
-      "licenseFile": "node_modules/proxy-agent/README.md",
-      "licenseUrl": "https://github.com/TooTallNate/node-proxy-agent/blob/v5.0.0/README.md",
-      "licenseTextSource": "spdx",
-      "publisher": "Nathan Rajlich",
-      "email": "nathan@tootallnate.net",
-      "url": "http://n8.io/"
     },
     "semver@5.7.1": {
       "name": "semver",

@@ -14,7 +14,7 @@ var tap = require('tap')
 var MODULE_DIR = path.resolve(__dirname, '../../node_modules')
 var LICENSES = {
   'nan': 'MIT',
-  'proxy-agent': 'MIT',
+  'https-proxy-agent': 'MIT',
   'semver': 'ISC'
 }
 
