@@ -1,3 +1,18 @@
+### v7.1.1 (2022-02-16)
+
+--- NOTES NEEDS REVIEW ---
+<h3>Snyk has created this PR to upgrade nan from 2.14.2 to 2.15.0.</h3>
+
+![merge advice](https://app.snyk.io/badges/merge-advice/?package_manager=npm&package_name=nan&from_version=2.14.2&to_version=2.15.0&pr_id=36867f3e-63ec-4c63-8373-82ff717a724e&visibility=true&has_feature_flag=false)
+:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
+--------------------------
+
+* Replaced usage of `proxy-agent` with `https-proxy-agent`.
+
+* Updated `add-to-board` to use org level `NODE_AGENT_GH_TOKEN`
+
+* Changed trigger on binary upload to wait for release of module instead of waiting for a tag that starts with `v` to be created
+
 ### v7.1.0 (2022-01-11)
 
 * Added ability to download pre-builts through a proxy host.
