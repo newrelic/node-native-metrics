@@ -1,3 +1,15 @@
+### v7.1.1 (2022-02-16)
+
+* Replaced usage of `proxy-agent` with `https-proxy-agent`.
+
+* Bumped `nan` to ^2.15.0.
+
+* Updated `add-to-board` to use org level `NODE_AGENT_GH_TOKEN`
+
+* Changed trigger on binary upload to wait for release of module instead of waiting for a tag that starts with `v` to be created
+
+* Updated CI workflow to use `windows-2019` image instead of `windows-latest`.
+
 ### v7.1.0 (2022-01-11)
 
 * Added ability to download pre-builts through a proxy host.
@@ -10,6 +22,7 @@
 * Added job to automatically add issues/pr to Node.js Engineering board
 
 ### v7.0.2 (2021-08-26):
+
 * Updated code to only check `node-gyp` version when the module needs to be built to avoid hanging node and subsequently causing OOM errors.
 * Added a pre-commit hook to check if package.json changes and run `oss third-party manifest` and `oss third-party notices`. This will ensure the `third_party_manifest.json` and `THIRD_PARTY_NOTICES.md` are up to date.
 * Fixed intermittent timeout issue with the server smoke integration test.
