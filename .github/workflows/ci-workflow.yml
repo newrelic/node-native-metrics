@@ -51,7 +51,7 @@ jobs:
     - name: Run Integration
       run: npm run integration
 
-  windows:
+  windows-2019:
     runs-on: windows-2019
 
     strategy:
@@ -64,6 +64,40 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Install Dependencies
+      run: npm ci
+    - name: Rebuild
+      run: npm run rebuild
+    - name: Run Unit
+      run: npm run unit
+    - name: Run Integration
+      run: npm run integration
+
+  windows-latest:
+    runs-on: windows-latest
+
+    # Node 16+ should eventually bundle node-gyp>=8.4.0 to be compatible with Server 2022.
+    # Once compatible, can remove node-gyp upgrade.
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Get Node Version
+      id: node_version
+      run: echo "::set-output name=version::$(node --version | sed 's/^.//')"
+
+    # https://github.com/nodejs/node-gyp/blob/master/docs/Updating-npm-bundled-node-gyp.md#windows
+    - name: Upgrade node-gyp in npm
+      run: |
+        cd "C:\hostedtoolcache\windows\node\${{ steps.node_version.outputs.version }}\x64"
+        cd node_modules\npm\node_modules\@npmcli\run-script
+        npm install node-gyp@>=8.4.0
     - name: Install Dependencies
       run: npm ci
     - name: Rebuild
