@@ -1,17 +1,12 @@
 ### v7.1.1 (2022-02-16)
 
---- NOTES NEEDS REVIEW ---
-<h3>Snyk has created this PR to upgrade nan from 2.14.2 to 2.15.0.</h3>
-
-![merge advice](https://app.snyk.io/badges/merge-advice/?package_manager=npm&package_name=nan&from_version=2.14.2&to_version=2.15.0&pr_id=36867f3e-63ec-4c63-8373-82ff717a724e&visibility=true&has_feature_flag=false)
-:information_source: Keep your dependencies up-to-date. This makes it easier to fix existing vulnerabilities and to more quickly identify and fix newly disclosed vulnerabilities when they affect your project.
---------------------------
-
 * Replaced usage of `proxy-agent` with `https-proxy-agent`.
 
-* Updated `add-to-board` to use org level `NODE_AGENT_GH_TOKEN`
+* Bumped `nan` to ^2.15.0.
 
-* Changed trigger on binary upload to wait for release of module instead of waiting for a tag that starts with `v` to be created
+* Updated `add-to-board` to use org level `NODE_AGENT_GH_TOKEN`.
+
+* Changed trigger on binary upload to wait for release of module instead of waiting for a tag that starts with `v` to be created.
 
 ### v7.1.0 (2022-01-11)
 
@@ -25,6 +20,7 @@
 * Added job to automatically add issues/pr to Node.js Engineering board
 
 ### v7.0.2 (2021-08-26):
+
 * Updated code to only check `node-gyp` version when the module needs to be built to avoid hanging node and subsequently causing OOM errors.
 * Added a pre-commit hook to check if package.json changes and run `oss third-party manifest` and `oss third-party notices`. This will ensure the `third_party_manifest.json` and `THIRD_PARTY_NOTICES.md` are up to date.
 * Fixed intermittent timeout issue with the server smoke integration test.
