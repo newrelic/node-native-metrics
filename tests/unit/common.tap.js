@@ -47,8 +47,9 @@ tap.test('common tests', (t) => {
       common.logFinish('build', 'target', err)
       // eslint-disable-next-line no-console
       const [[msg]] = console.error.args
+
       t.equal(
-        msg,
+        msg.trim(),
         `Failed to execute native-metrics build: ${err.message}`,
         'should log console.error message'
       )
