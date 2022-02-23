@@ -1,3 +1,12 @@
+### v7.1.2 (2022-02-23)
+
+* Added `windows-latest` run for Node 16 only back to CI.
+
+* Added clarifying language to agent impacts when the module fails to install to install script.
+  * Indicated which page the missing metrics impact.
+  * Added new blurb to failure as the initial message can be missed/skimmed-over when there is significant build process logging.
+  * Indicated it is safe to run in production.
+
 ### v7.1.1 (2022-02-16)
 
 * Replaced usage of `proxy-agent` with `https-proxy-agent`.
