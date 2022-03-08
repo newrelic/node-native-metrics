@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Mon Feb 14 2022 17:08:33 GMT-0800 (Pacific Standard Time)",
+  "lastUpdated": "Tue Mar 08 2022 17:00:28 GMT-0500 (Eastern Standard Time)",
   "projectName": "Native Metrics for New Relic Node Agent",
   "projectUrl": "https://github.com/newrelic/node-native-metrics",
   "includeOptDeps": false,
@@ -19,15 +19,15 @@
       "email": "nathan@tootallnate.net",
       "url": "http://n8.io/"
     },
-    "nan@2.14.2": {
+    "nan@2.15.0": {
       "name": "nan",
-      "version": "2.14.2",
-      "range": "^2.14.2",
+      "version": "2.15.0",
+      "range": "^2.15.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/nodejs/nan",
-      "versionedRepoUrl": "https://github.com/nodejs/nan/tree/v2.14.2",
+      "versionedRepoUrl": "https://github.com/nodejs/nan/tree/v2.15.0",
       "licenseFile": "node_modules/nan/LICENSE.md",
-      "licenseUrl": "https://github.com/nodejs/nan/blob/v2.14.2/LICENSE.md",
+      "licenseUrl": "https://github.com/nodejs/nan/blob/v2.15.0/LICENSE.md",
       "licenseTextSource": "file"
     },
     "semver@5.7.1": {
@@ -67,6 +67,20 @@
       "licenseUrl": "https://github.com/newrelic/newrelic-oss-cli/blob/v0.1.2/LICENSE",
       "licenseTextSource": "file",
       "publisher": "New Relic"
+    },
+    "@newrelic/proxy@2.0.0": {
+      "name": "@newrelic/proxy",
+      "version": "2.0.0",
+      "range": "^2.0.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/newrelic/proxy",
+      "versionedRepoUrl": "https://github.com/newrelic/proxy/tree/v2.0.0",
+      "licenseFile": "node_modules/@newrelic/proxy/README.md",
+      "licenseUrl": "https://github.com/newrelic/proxy/blob/v2.0.0/README.md",
+      "licenseTextSource": "spdx",
+      "publisher": "Nathan Rajlich",
+      "email": "nathan@tootallnate.net",
+      "url": "http://n8.io/"
     },
     "async@3.2.0": {
       "name": "async",
