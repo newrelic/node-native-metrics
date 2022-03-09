@@ -6,7 +6,8 @@
 'use strict'
 
 const tap = require('tap')
-const { execSync } = require('child_process')
+const { execSync, fork } = require('child_process')
+const path = require('path')
 const fs = require('fs')
 const os = require('os')
 const CMDS = ['build', 'rebuild', 'install']
@@ -14,18 +15,30 @@ const platform = os.platform()
 const NO_PREBUILTS = ['darwin', 'win32']
 
 /**
- * Download verifies it can retrieve the current version from download.newrelic.com
- * There are times when `main` has just versioned the new artifact but has not been uploaded
- * to s3. Also, if running tests locally on mac, these tests are skipped as we only pre build for linux.
+ * Locates the pre-built native metrics binary in `./build/Release` folder.
  */
-function skipDownload() {
-  const branch = execSync(`git rev-parse --abbrev-ref HEAD`)
-  return branch === 'main' || NO_PREBUILTS.includes(platform)
-}
-
 function findBinary() {
   return fs.readdirSync('./build/Release').filter((file) => {
     return file.endsWith('.node')
+  })
+}
+
+/**
+ *  Helper to wait for a child process to send an expected message.
+ *
+ *  @param {EventEmitter} child forked process
+ *  @param {string} msg expected messeage from child process
+ */
+function waitFor(child, msg) {
+  return new Promise((resolve) => {
+    child.on('message', handler)
+
+    function handler(message) {
+      if (message.msg === msg) {
+        child.removeListener('message', handler)
+        resolve(message.port)
+      }
+    }
   })
 }
 
@@ -57,7 +70,10 @@ tap.test('pre-build commands', function (t) {
     t.end()
   })
 
-  t.test('download', { skip: skipDownload() }, function (t) {
+  t.test('download', async function (t) {
+    const downloadServer = fork(path.join(__dirname, './download-server.js'))
+    const port = await waitFor(downloadServer, 'STARTED')
+    process.env.NR_NATIVE_METRICS_DOWNLOAD_HOST = `http://localhost:${port}/`
     execSync('node ./lib/pre-build --no-build install native_metrics')
     const binary = findBinary()
     t.match(
@@ -65,36 +81,27 @@ tap.test('pre-build commands', function (t) {
       /_newrelic_native_metrics-\d{1,3}_\d{1,3}_\d{1,3}-native_metrics.*\.node/,
       'should download binary'
     )
-    t.end()
+    downloadServer.kill()
   })
 
-  t.test('download with proxy', { skip: skipDownload() }, async function (t) {
-    const { executeCli } = require('../../lib/pre-build')
-    let port
-    const http = require('http')
-    const proxy = require('@newrelic/proxy')
-    const server = proxy(http.createServer())
-    await new Promise((resolve) => {
-      server.listen(() => {
-        port = server.address().port
-        resolve()
-      })
-    })
-    process.env.NR_NATIVE_METRICS_NO_BUILD = 1
-    process.env.NR_NATIVE_METRICS_PROXY_HOST = `http://localhost:${port}`
-    executeCli('install', 'native_metrics')
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        const binary = findBinary()
-        t.match(
-          binary,
-          /_newrelic_native_metrics-\d{1,3}_\d{1,3}_\d{1,3}-native_metrics.*\.node/,
-          'should download binary'
-        )
-        server.close()
-        resolve()
-      }, 2000)
-    })
+  t.test('download with proxy', async function (t) {
+    const proxyServer = fork(path.join(__dirname, './proxy-server.js'))
+    const downloadServer = fork(path.join(__dirname, './download-server.js'))
+    const proxyPromise = waitFor(proxyServer, 'STARTED')
+    const downloadPromise = waitFor(downloadServer, 'STARTED')
+    const [proxyPort, downloadPort] = await Promise.all([proxyPromise, downloadPromise])
+
+    process.env.NR_NATIVE_METRICS_PROXY_HOST = `http://localhost:${proxyPort}`
+    process.env.NR_NATIVE_METRICS_DOWNLOAD_HOST = `http://localhost:${downloadPort}/`
+    execSync(`node ./lib/pre-build --no-build install native_metrics`)
+    const binary = findBinary()
+    t.match(
+      binary,
+      /_newrelic_native_metrics-\d{1,3}_\d{1,3}_\d{1,3}-native_metrics.*\.node/,
+      'should download binary'
+    )
+    proxyServer.kill()
+    downloadServer.kill()
   })
 
   t.test('invalid cmd(no-op)', function (t) {
