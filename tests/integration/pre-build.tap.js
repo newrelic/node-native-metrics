@@ -42,6 +42,8 @@ function waitFor(child, msg) {
   })
 }
 
+const isWindows = () => platform === 'win32'
+
 tap.test('pre-build commands', function (t) {
   t.beforeEach(() => {
     execSync('rm -rf ./build/Release/*')
@@ -70,7 +72,9 @@ tap.test('pre-build commands', function (t) {
     t.end()
   })
 
-  t.test('download', async function (t) {
+  // no reason to test downloading on windows. only reason we test on mac is so
+  // you can run these tests locally
+  t.test('download', { skip: isWindows() }, async function (t) {
     const downloadServer = fork(path.join(__dirname, './download-server.js'))
     const port = await waitFor(downloadServer, 'STARTED')
     process.env.NR_NATIVE_METRICS_DOWNLOAD_HOST = `http://localhost:${port}/`
@@ -84,7 +88,9 @@ tap.test('pre-build commands', function (t) {
     downloadServer.kill()
   })
 
-  t.test('download with proxy', async function (t) {
+  // no reason to test downloading on windows. only reason we test on mac is so
+  // you can run these tests locally
+  t.test('download with proxy', { skip: isWindows() }, async function (t) {
     const proxyServer = fork(path.join(__dirname, './proxy-server.js'))
     const downloadServer = fork(path.join(__dirname, './download-server.js'))
     const proxyPromise = waitFor(proxyServer, 'STARTED')
