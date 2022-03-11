@@ -79,6 +79,7 @@
   "devDependencies": {
     "@newrelic/eslint-config": "^0.0.2",
     "@newrelic/newrelic-oss-cli": "^0.1.2",
+    "@newrelic/proxy": "^2.0.0",
     "async": "^3.2.0",
     "aws-sdk": "^2.266.1",
     "eslint": "^7.32.0",
