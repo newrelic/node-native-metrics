@@ -1,5 +1,5 @@
 
-# Node Compatability Notes
+# Node Compatibility Notes
 This document details issues specific to certain versions of node in regards to
 the native metrics module. It is a living document to be updated as new problems
 are found.
