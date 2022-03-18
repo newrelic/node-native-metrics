@@ -7,9 +7,7 @@
       "src/GCBinder.cpp",
       "src/LoopChecker.hpp",
       "src/LoopChecker.cpp",
-      "src/Metric.hpp",
-      "src/RUsageMeter.hpp",
-      "src/RUsageMeter.cpp"
+      "src/Metric.hpp"
     ],
     "defines": [
       "NOMINMAX"

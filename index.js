@@ -39,9 +39,6 @@ function NativeMetricEmitter(opts) {
   this.bound = false
   this._timeout = null
 
-  this._rusageMeter = new natives.RUsageMeter()
-  this.usageEnabled = true
-
   this._gcBinder = new natives.GCBinder()
   this.gcEnabled = true
 
@@ -51,36 +48,6 @@ function NativeMetricEmitter(opts) {
   this.bind(opts.timeout)
 }
 util.inherits(NativeMetricEmitter, EventEmitter)
-
-/**
- * @interface RUsageStats
- *
- * @description
- *  Resource usage statistics.
- *
- *  Properties marked (X) are unmaintained by the operating system and are
- *  likely to be just `0`.
- *
- * @property {number} ru_utime    - user CPU time used in milliseconds
- * @property {number} ru_stime    - system CPU time used in milliseconds
- * @property {number} ru_maxrss   - maximum resident set size in bytes
- * @property {number} ru_ixrss    - integral shared memory size (X)
- * @property {number} ru_idrss    - integral unshared data size (X)
- * @property {number} ru_isrss    - integral unshared stack size (X)
- * @property {number} ru_minflt   - page reclaims (soft page faults) (X)
- * @property {number} ru_majflt   - page faults (hard page faults)
- * @property {number} ru_nswap    - swaps (X)
- * @property {number} ru_inblock  - block input operations
- * @property {number} ru_oublock  - block output operations
- * @property {number} ru_msgsnd   - IPC messages sent (X)
- * @property {number} ru_msgrcv   - IPC messages received (X)
- * @property {number} ru_nsignals - signals received (X)
- * @property {number} ru_nvcsw    - voluntary context switches (X)
- * @property {number} ru_nivcsw   - involuntary context switches (X)
- *
- * @see http://docs.libuv.org/en/v1.x/misc.html#c.uv_getrusage
- * @see http://docs.libuv.org/en/v1.x/misc.html#c.uv_rusage_t
- */
 
 /**
  * @interface LoopMetrics
@@ -125,33 +92,13 @@ util.inherits(NativeMetricEmitter, EventEmitter)
  * @param {number} [timeout]
  *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
-NativeMetricEmitter.prototype.bind = function bind(timeout) {
+NativeMetricEmitter.prototype.bind = function bind() {
   if (this.bound) {
     return
   }
 
-  timeout = timeout || DEFAULT_TIMEOUT
   this._gcBinder.bind()
   this._loopChecker.bind()
-
-  this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout).unref()
-  function nativeMetricTimeout() {
-    if (this._rusageMeter) {
-      /**
-       * Resource usage sampling event.
-       *
-       * @event NativeMetricEmitter#usage
-       * @type {object}
-       *
-       * @property {RUsageStats} diff     - The change in stats since last sampling.
-       * @property {RUsageStats} current  - The current usage statistics.
-       */
-      this.emit('usage', this._rusageMeter.read())
-    }
-    if (this.bound) {
-      this._timeout = setTimeout(nativeMetricTimeout.bind(this), timeout).unref()
-    }
-  }
 
   this.bound = true
 }
@@ -166,7 +113,6 @@ NativeMetricEmitter.prototype.unbind = function unbind() {
 
   this._gcBinder.unbind()
   this._loopChecker.unbind()
-  clearTimeout(this._timeout)
   this.bound = false
 }
 
