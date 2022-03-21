@@ -1,11 +1,12 @@
 ### v8.0.0 (2022-03-21)
 
-- Fixed spelling in compatibility documentation.
+* **BREAKING** Removed RUSageMeter.  This was used to get resource usage statistics via `libuv`. It is no longer needed since Node.js version 12 has support via `process.cpuUsage`.
 
-* Remove RUSageMeter, no longer needed since Node.js version 12 (fixes https://github.com/newrelic/node-native-metrics/issues/154)
+* Fixed spelling in compatibility documentation.
 
-* Added integration tests for downloading with proxy
- * Fixed the download tests to skip when running on branch or unsupported architectures
+* Added integration tests for downloading with proxy.
+
+* Fixed the download tests to skip when running on branch or unsupported architectures.
 
 ### v7.1.2 (2022-02-23)
 
