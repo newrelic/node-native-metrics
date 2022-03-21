@@ -1,3 +1,12 @@
+### v8.0.0 (2022-03-21)
+
+- Fixed spelling in compatibility documentation.
+
+* Remove RUSageMeter, no longer needed since Node.js version 12 (fixes https://github.com/newrelic/node-native-metrics/issues/154)
+
+* Added integration tests for downloading with proxy
+ * Fixed the download tests to skip when running on branch or unsupported architectures
+
 ### v7.1.2 (2022-02-23)
 
 * Added `windows-latest` run for Node 16 only back to CI.
