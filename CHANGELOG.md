@@ -1,4 +1,4 @@
-### v8.0.0 (2022-03-21)
+### v8.0.0 (2022-03-22)
 
 * **BREAKING** Removed RUSageMeter.  This was used to get resource usage statistics via `libuv`. It is no longer needed since Node.js version 12 has support via `process.cpuUsage`.
 
