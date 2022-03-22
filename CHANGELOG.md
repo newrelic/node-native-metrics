@@ -1,3 +1,13 @@
+### v8.0.0 (2022-03-22)
+
+* **BREAKING** Removed RUSageMeter.  This was used to get resource usage statistics via `libuv`. It is no longer needed since Node.js version 12 has support via `process.cpuUsage`.
+
+* Fixed spelling in compatibility documentation.
+
+* Added integration tests for downloading with proxy.
+
+* Fixed the download tests to skip when running on branch or unsupported architectures.
+
 ### v7.1.2 (2022-02-23)
 
 * Added `windows-latest` run for Node 16 only back to CI.
