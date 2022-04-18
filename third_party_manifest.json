@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Wed Apr 13 2022 15:24:53 GMT-0700 (Pacific Daylight Time)",
+  "lastUpdated": "Mon Apr 18 2022 09:13:46 GMT-0700 (Pacific Daylight Time)",
   "projectName": "Native Metrics for New Relic Node Agent",
   "projectUrl": "https://github.com/newrelic/node-native-metrics",
   "includeOptDeps": false,
@@ -244,15 +244,15 @@
       "licenseTextSource": "file",
       "publisher": "Christian Johansen"
     },
-    "tap@15.0.9": {
+    "tap@16.0.1": {
       "name": "tap",
-      "version": "15.0.9",
-      "range": "^15.0.9",
+      "version": "16.0.1",
+      "range": "^16.0.1",
       "licenses": "ISC",
       "repoUrl": "https://github.com/tapjs/node-tap",
-      "versionedRepoUrl": "https://github.com/tapjs/node-tap/tree/v15.0.9",
+      "versionedRepoUrl": "https://github.com/tapjs/node-tap/tree/v16.0.1",
       "licenseFile": "node_modules/tap/LICENSE",
-      "licenseUrl": "https://github.com/tapjs/node-tap/blob/v15.0.9/LICENSE",
+      "licenseUrl": "https://github.com/tapjs/node-tap/blob/v16.0.1/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Isaac Z. Schlueter",
       "email": "i@izs.me",
