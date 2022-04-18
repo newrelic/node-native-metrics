@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Mon Apr 11 2022 10:01:45 GMT-0700 (Pacific Daylight Time)",
+  "lastUpdated": "Mon Apr 18 2022 09:13:46 GMT-0700 (Pacific Daylight Time)",
   "projectName": "Native Metrics for New Relic Node Agent",
   "projectUrl": "https://github.com/newrelic/node-native-metrics",
   "includeOptDeps": false,
@@ -82,15 +82,15 @@
       "email": "nathan@tootallnate.net",
       "url": "http://n8.io/"
     },
-    "async@3.2.0": {
+    "async@3.2.3": {
       "name": "async",
-      "version": "3.2.0",
-      "range": "^3.2.0",
+      "version": "3.2.3",
+      "range": "^3.2.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/caolan/async",
-      "versionedRepoUrl": "https://github.com/caolan/async/tree/v3.2.0",
+      "versionedRepoUrl": "https://github.com/caolan/async/tree/v3.2.3",
       "licenseFile": "node_modules/async/LICENSE",
-      "licenseUrl": "https://github.com/caolan/async/blob/v3.2.0/LICENSE",
+      "licenseUrl": "https://github.com/caolan/async/blob/v3.2.3/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Caolan McMahon"
     },

@@ -539,7 +539,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### async
 
-This product includes source derived from [async](https://github.com/caolan/async) ([v3.2.0](https://github.com/caolan/async/tree/v3.2.0)), distributed under the [MIT License](https://github.com/caolan/async/blob/v3.2.0/LICENSE):
+This product includes source derived from [async](https://github.com/caolan/async) ([v3.2.3](https://github.com/caolan/async/tree/v3.2.3)), distributed under the [MIT License](https://github.com/caolan/async/blob/v3.2.3/LICENSE):
 
 ```
 Copyright (c) 2010-2018 Caolan McMahon
