@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Mon Jul 25 2022 15:52:07 GMT-0700 (Pacific Daylight Time)",
+  "lastUpdated": "Wed Jul 27 2022 09:48:33 GMT-0700 (Pacific Daylight Time)",
   "projectName": "Native Metrics for New Relic Node Agent",
   "projectUrl": "https://github.com/newrelic/node-native-metrics",
   "includeOptDeps": false,
@@ -19,15 +19,15 @@
       "email": "nathan@tootallnate.net",
       "url": "http://n8.io/"
     },
-    "nan@2.15.0": {
+    "nan@2.16.0": {
       "name": "nan",
-      "version": "2.15.0",
-      "range": "^2.15.0",
+      "version": "2.16.0",
+      "range": "^2.16.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/nodejs/nan",
-      "versionedRepoUrl": "https://github.com/nodejs/nan/tree/v2.15.0",
+      "versionedRepoUrl": "https://github.com/nodejs/nan/tree/v2.16.0",
       "licenseFile": "node_modules/nan/LICENSE.md",
-      "licenseUrl": "https://github.com/nodejs/nan/blob/v2.15.0/LICENSE.md",
+      "licenseUrl": "https://github.com/nodejs/nan/blob/v2.16.0/LICENSE.md",
       "licenseTextSource": "file"
     },
     "semver@5.7.1": {
