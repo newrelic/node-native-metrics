@@ -59,16 +59,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### nan
 
-This product includes source derived from [nan](https://github.com/nodejs/nan) ([v2.15.0](https://github.com/nodejs/nan/tree/v2.15.0)), distributed under the [MIT License](https://github.com/nodejs/nan/blob/v2.15.0/LICENSE.md):
+This product includes source derived from [nan](https://github.com/nodejs/nan) ([v2.16.0](https://github.com/nodejs/nan/tree/v2.16.0)), distributed under the [MIT License](https://github.com/nodejs/nan/blob/v2.16.0/LICENSE.md):
 
 ```
 The MIT License (MIT)
-=====================
 
-Copyright (c) 2018 NAN contributors
------------------------------------
-
-*NAN contributors listed at <https://github.com/nodejs/nan#contributors>*
+Copyright (c) 2018 [NAN contributors](<https://github.com/nodejs/nan#wg-members--collaborators>)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

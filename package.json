@@ -97,7 +97,7 @@
   },
   "dependencies": {
     "https-proxy-agent": "^5.0.0",
-    "nan": "^2.15.0",
+    "nan": "^2.16.0",
     "semver": "^5.5.1"
   },
   "files": [
