@@ -5,21 +5,21 @@
 
 'use strict'
 
-var a = require('async')
-var fs = require('fs')
-var path = require('path')
-var pkg = require('../../package')
-var tap = require('tap')
+const a = require('async')
+const fs = require('fs')
+const path = require('path')
+const pkg = require('../../package')
+const tap = require('tap')
 
-var MODULE_DIR = path.resolve(__dirname, '../../node_modules')
-var LICENSES = {
+const MODULE_DIR = path.resolve(__dirname, '../../node_modules')
+const LICENSES = {
   'nan': 'MIT',
   'https-proxy-agent': 'MIT',
   'semver': 'ISC'
 }
 
 tap.test('Dependency licenses', function (t) {
-  var deps = Object.keys(pkg.dependencies || {})
+  const deps = Object.keys(pkg.dependencies || {})
   deps.push.apply(deps, Object.keys(pkg.optionalDependencies || {}))
   a.map(
     deps,
@@ -35,8 +35,8 @@ tap.test('Dependency licenses', function (t) {
           },
           function parsePkg(depPackage, parsePkgCb) {
             try {
-              var parsedPackage = JSON.parse(depPackage)
-              var license = parsedPackage.license || parsedPackage.licenses
+              const parsedPackage = JSON.parse(depPackage)
+              const license = parsedPackage.license || parsedPackage.licenses
               process.nextTick(function () {
                 parsePkgCb(null, [dep, license])
               })
@@ -50,7 +50,7 @@ tap.test('Dependency licenses', function (t) {
     },
     function (err, depLicensesArray) {
       if (t.error(err, 'should not fail to retrieve licenses')) {
-        var depLicenses = depLicensesArray.reduce(function (obj, dep) {
+        const depLicenses = depLicensesArray.reduce(function (obj, dep) {
           obj[dep[0]] = dep[1]
           return obj
         }, {})

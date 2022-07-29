@@ -5,21 +5,21 @@
 
 'use strict'
 
-var tap = require('tap')
+const tap = require('tap')
 
 tap.test('Loop Metrics', function (t) {
-  var MICRO_TO_MILLIS = 1e-3
-  var SPIN_TIME = 2000
-  var CPU_EPSILON = SPIN_TIME * 0.05 // Allowed fudge factor for CPU times in MS
-  var metricEmitter = require('../../')()
-  var testStart = Date.now()
+  const MICRO_TO_MILLIS = 1e-3
+  const SPIN_TIME = 2000
+  const CPU_EPSILON = SPIN_TIME * 0.05 // Allowed fudge factor for CPU times in MS
+  const metricEmitter = require('../../')()
+  const testStart = Date.now()
 
   t.teardown(function () {
     metricEmitter.unbind()
   })
 
   // Check the structure of the metric object.
-  var metric = metricEmitter.getLoopMetrics().usage
+  let metric = metricEmitter.getLoopMetrics().usage
   t.type(metric, Object, 'should provide a metric object')
   t.type(metric.total, 'number', 'should have a total')
   t.type(metric.min, 'number', 'should have a min')
@@ -53,17 +53,17 @@ tap.test('Loop Metrics', function (t) {
   //      the actual loop time because the process isn't doing anything.
   setTimeout(function spinner() {
     t.comment('spinning cpu...')
-    var start = Date.now()
+    const start = Date.now()
     while (Date.now() - start < SPIN_TIME) {} // Spin the CPU for 2 seconds.
 
     // Finally, wait another tick and then check the loop stats.
     setTimeout(function () {
       metric = metricEmitter.getLoopMetrics()
-      var testDuration = Date.now() - testStart + CPU_EPSILON
-      var durationSquare = testDuration * testDuration
-      var usage = metric.usage
+      const testDuration = Date.now() - testStart + CPU_EPSILON
+      const durationSquare = testDuration * testDuration
+      const usage = metric.usage
 
-      var meanTime = usage.total / usage.count
+      const meanTime = usage.total / usage.count
       t.ok(
         usage.total * MICRO_TO_MILLIS > SPIN_TIME - CPU_EPSILON,
         'should have total greater than spin time'

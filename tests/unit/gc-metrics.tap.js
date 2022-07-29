@@ -5,23 +5,23 @@
 
 'use strict'
 
-var tap = require('tap')
+const tap = require('tap')
 
 tap.test('GC Metrics', function (t) {
   t.plan(17)
-  var metricEmitter = require('../../')()
+  const metricEmitter = require('../../')()
 
   global.gc()
 
-  var gcs = metricEmitter.getGCMetrics()
-  var keys = Object.keys(gcs)
+  const gcs = metricEmitter.getGCMetrics()
+  const keys = Object.keys(gcs)
   if (!t.ok(keys.length > 0, 'should notice at least one GC')) {
     return t.end()
   }
   t.type(keys[0], 'string', 'should have strings as keys')
 
   t.comment('GC stats objects')
-  var stats = gcs[keys[0]]
+  const stats = gcs[keys[0]]
   t.type(stats, 'object', 'should have stats objects')
   t.type(stats.typeId, 'number', 'should have the type ID')
   t.type(stats.type, 'string', 'should have the type name')
@@ -30,7 +30,7 @@ tap.test('GC Metrics', function (t) {
   }
 
   t.comment('GC stats metrics')
-  var metrics = stats.metrics
+  const metrics = stats.metrics
   t.type(metrics.total, 'number', 'should have total field')
   t.type(metrics.min, 'number', 'should have min field')
   t.type(metrics.max, 'number', 'should have max field')

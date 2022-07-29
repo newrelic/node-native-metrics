@@ -5,14 +5,14 @@
 
 'use strict'
 
-var tap = require('tap')
+const tap = require('tap')
 
-var TEST_DURATION = 30 * 1000
+const TEST_DURATION = 30 * 1000
 
 tap.test('loop performance test', { timeout: 2 * TEST_DURATION + 1000 }, function (t) {
-  var timeout = null
-  var callCount = 0
-  var natives = null
+  let timeout = null
+  let callCount = 0
+  let natives = null
 
   t.teardown(function () {
     if (natives) {
@@ -23,19 +23,19 @@ tap.test('loop performance test', { timeout: 2 * TEST_DURATION + 1000 }, functio
   t.comment('measuring without loop counter')
   setTimeoutCount()
   setTimeout(function () {
-    var noMetricsCount = callCount
+    const noMetricsCount = callCount
     callCount = 0
     clearTimeout(timeout)
 
     natives = require('../../')()
-    var readInterval = setInterval(function () {
+    const readInterval = setInterval(function () {
       natives.getLoopMetrics() // To reset the metrics
     }, 1000)
 
     t.comment('measuring with loop counter')
     setTimeoutCount()
     setTimeout(function () {
-      var withMetricsCount = callCount
+      const withMetricsCount = callCount
       callCount = 0
       clearTimeout(timeout)
       clearInterval(readInterval)
