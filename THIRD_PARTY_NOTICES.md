@@ -102,7 +102,7 @@ IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ### @newrelic/eslint-config
 
-This product includes source derived from [@newrelic/eslint-config](https://github.com/newrelic/eslint-config-newrelic) ([v0.0.2](https://github.com/newrelic/eslint-config-newrelic/tree/v0.0.2)), distributed under the [Apache-2.0 License](https://github.com/newrelic/eslint-config-newrelic/blob/v0.0.2/LICENSE):
+This product includes source derived from [@newrelic/eslint-config](https://github.com/newrelic/eslint-config-newrelic) ([v0.0.4](https://github.com/newrelic/eslint-config-newrelic/tree/v0.0.4)), distributed under the [Apache-2.0 License](https://github.com/newrelic/eslint-config-newrelic/blob/v0.0.4/LICENSE):
 
 ```
                                  Apache License
