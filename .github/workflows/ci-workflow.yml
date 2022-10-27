@@ -48,8 +48,22 @@ jobs:
       run: npm run rebuild
     - name: Run Unit
       run: npm run unit
+    - name: Post Unit Test Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/unit/
+        files: lcov.info
+        flags: unit-tests-${{ matrix.node-version }}-linux
     - name: Run Integration
       run: npm run integration
+    - name: Post Integration Test Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/integration/
+        files: lcov.info
+        flags: integration-tests-${{ matrix.node-version }}-linux
 
   windows-2019:
     runs-on: windows-2019
@@ -70,8 +84,22 @@ jobs:
       run: npm run rebuild
     - name: Run Unit
       run: npm run unit
+    - name: Post Unit Test Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/unit/
+        files: lcov.info
+        flags: unit-tests-${{ matrix.node-version }}-windows-2019
     - name: Run Integration
       run: npm run integration
+    - name: Post Integration Test Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/integration/
+        files: lcov.info
+        flags: integration-tests-${{ matrix.node-version }}-windows-2019
 
   windows-latest:
     runs-on: windows-latest
@@ -104,5 +132,19 @@ jobs:
       run: npm run rebuild
     - name: Run Unit
       run: npm run unit
+    - name: Post Unit Test Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/unit/
+        files: lcov.info
+        flags: unit-tests-${{ matrix.node-version }}-windows-latest
     - name: Run Integration
       run: npm run integration
+    - name: Post Integration Test Coverage
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: ./coverage/integration/
+        files: lcov.info
+        flags: integration-tests-${{ matrix.node-version }}-windows-latest
