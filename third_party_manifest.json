@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Fri Jul 29 2022 11:18:40 GMT-0400 (Eastern Daylight Time)",
+  "lastUpdated": "Thu Oct 27 2022 11:12:23 GMT-0400 (Eastern Daylight Time)",
   "projectName": "Native Metrics for New Relic Node Agent",
   "projectUrl": "https://github.com/newrelic/node-native-metrics",
   "includeOptDeps": false,
@@ -106,6 +106,19 @@
       "licenseTextSource": "file",
       "publisher": "Amazon Web Services",
       "url": "https://aws.amazon.com/"
+    },
+    "c8@7.12.0": {
+      "name": "c8",
+      "version": "7.12.0",
+      "range": "^7.12.0",
+      "licenses": "ISC",
+      "repoUrl": "https://github.com/bcoe/c8",
+      "versionedRepoUrl": "https://github.com/bcoe/c8/tree/v7.12.0",
+      "licenseFile": "node_modules/c8/LICENSE.txt",
+      "licenseUrl": "https://github.com/bcoe/c8/blob/v7.12.0/LICENSE.txt",
+      "licenseTextSource": "file",
+      "publisher": "Ben Coe",
+      "email": "ben@npmjs.com"
     },
     "eslint-config-prettier@8.3.0": {
       "name": "eslint-config-prettier",

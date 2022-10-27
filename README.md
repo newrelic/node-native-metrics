@@ -1,6 +1,8 @@
-[![Community Plus header](https://github.com/newrelic/opensource-website/raw/master/src/images/categories/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#community-plus)
+[![Community Plus header](https://github.com/newrelic/opensource-website/raw/main/src/images/categories/Community_Plus.png)](https://opensource.newrelic.com/oss-category/#community-plus)
 
-# Native Metrics for New Relic Node.js Agent [![native-metrics CI][ci-badge]][ci-link]
+# Native Metrics for New Relic Node.js Agent
+
+[![npm status badge][1]][2] [![native-metrics CI][ci-badge]][ci-link] [![codecov][3]][4]
 
 This module provides hooks into the native layer of Node.js to provide metrics for
 the [New Relic Node.js Agent][npm-newrelic]. It gathers information that isn't
@@ -179,3 +181,7 @@ The Native Metrics for New Relic Node.js Agent package is licensed under the [Ap
 [npm-newrelic]: https://www.npmjs.com/package/newrelic
 [install-node]: https://docs.newrelic.com/docs/agents/nodejs-agent/installation-configuration/install-nodejs-agent
 [compatibility]: https://docs.newrelic.com/docs/agents/nodejs-agent/getting-started/compatibility-requirements-nodejs-agent
+[1]: https://img.shields.io/npm/v/@newrelic/native-metrics.svg
+[2]: https://www.npmjs.com/package/@newrelic/native-metrics
+[3]: https://codecov.io/gh/newrelic/node-native-metrics/branch/main/graph/badge.svg
+[4]: https://codecov.io/gh/newrelic/node-native-metrics
