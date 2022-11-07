@@ -28,17 +28,19 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
 
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
+      id: version
       with:
         node-version: ${{ matrix.node-version }}
     - name: Get Node Version
       id: node_version
-      run: echo "::set-output name=version::$(node --version | sed 's/^.//')"
+      run: echo "version=${{ steps.version.outputs.node-version}}" | awk '{printf("%s ", $0)}' | sed 's/v\.//' >> $GITHUB_OUTPUT
+
 
     # https://github.com/nodejs/node-gyp/blob/master/docs/Updating-npm-bundled-node-gyp.md#windows
     - name: Upgrade node-gyp in npm
