@@ -36,13 +36,24 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Get Node Version
+      id: node_version
+      run: echo "::set-output name=version::$(node --version | sed 's/^.//')"
+
+    # https://github.com/nodejs/node-gyp/blob/master/docs/Updating-npm-bundled-node-gyp.md#windows
+    - name: Upgrade node-gyp in npm
+      run: |
+        cd "C:\hostedtoolcache\windows\node\${{ steps.node_version.outputs.version }}\x64"
+        cd node_modules\npm\node_modules\@npmcli\run-script
+        npm install node-gyp@>=8.4.0
+
     - name: Install Dependencies
       run: npm ci
     - name: Run build
       run: npm run build
   
   mac-build:
-    runs-on: mac-latest
+    runs-on: macos-latest
 
     strategy:
       matrix:
