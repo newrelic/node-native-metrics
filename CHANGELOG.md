@@ -1,3 +1,13 @@
+### v9.0.1 (2023-06-21)
+
+* Updated the slack invite link
+* Updated semver to 7.5.2.
+* Updated README links to point to new forum link due to repolinter ruleset change
+* Updated [xml2js](https://github.com/Leonidas-from-XIV/node-xml2js) to 0.5.0.
+* Updated [json5](https://github.com/json5/json5) from 2.2.1 to 2.2.2.
+* Added lockfile checks to CI workflow to prevent malicious changes
+* Updated [qs](https://github.com/ljharb/qs) to 6.5.3.
+
 ### v9.0.0 (2022-08-01)
 
 * **BREAKING** Removed support for Node 12.
