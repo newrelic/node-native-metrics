@@ -78,7 +78,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### semver
 
-This product includes source derived from [semver](https://github.com/npm/node-semver) ([v5.7.1](https://github.com/npm/node-semver/tree/v5.7.1)), distributed under the [ISC License](https://github.com/npm/node-semver/blob/v5.7.1/LICENSE):
+This product includes source derived from [semver](https://github.com/npm/node-semver) ([v7.5.2](https://github.com/npm/node-semver/tree/v7.5.2)), distributed under the [ISC License](https://github.com/npm/node-semver/blob/v7.5.2/LICENSE):
 
 ```
 The ISC License
@@ -564,7 +564,7 @@ THE SOFTWARE.
 
 ### aws-sdk
 
-This product includes source derived from [aws-sdk](https://github.com/aws/aws-sdk-js) ([v2.1278.0](https://github.com/aws/aws-sdk-js/tree/v2.1278.0)), distributed under the [Apache-2.0 License](https://github.com/aws/aws-sdk-js/blob/v2.1278.0/LICENSE.txt):
+This product includes source derived from [aws-sdk](https://github.com/aws/aws-sdk-js) ([v2.1354.0](https://github.com/aws/aws-sdk-js/tree/v2.1354.0)), distributed under the [Apache-2.0 License](https://github.com/aws/aws-sdk-js/blob/v2.1354.0/LICENSE.txt):
 
 ```
 
