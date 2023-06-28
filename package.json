@@ -109,6 +109,7 @@
     "src/*.hpp",
     "lib/common.js",
     "lib/pre-build.js",
+    "lib/gyp-utils.js",
     "binding.gyp",
     "*.md"
   ]
