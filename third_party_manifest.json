@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "Wed Jun 28 2023 16:53:28 GMT-0400 (Eastern Daylight Time)",
+  "lastUpdated": "Wed Jun 28 2023 16:55:41 GMT-0400 (Eastern Daylight Time)",
   "projectName": "Native Metrics for New Relic Node Agent",
   "projectUrl": "https://github.com/newrelic/node-native-metrics",
   "includeOptDeps": false,
@@ -108,15 +108,15 @@
       "publisher": "Amazon Web Services",
       "url": "https://aws.amazon.com/"
     },
-    "c8@7.12.0": {
+    "c8@8.0.0": {
       "name": "c8",
-      "version": "7.12.0",
-      "range": "^7.12.0",
+      "version": "8.0.0",
+      "range": "^8.0.0",
       "licenses": "ISC",
       "repoUrl": "https://github.com/bcoe/c8",
-      "versionedRepoUrl": "https://github.com/bcoe/c8/tree/v7.12.0",
+      "versionedRepoUrl": "https://github.com/bcoe/c8/tree/v8.0.0",
       "licenseFile": "node_modules/c8/LICENSE.txt",
-      "licenseUrl": "https://github.com/bcoe/c8/blob/v7.12.0/LICENSE.txt",
+      "licenseUrl": "https://github.com/bcoe/c8/blob/v8.0.0/LICENSE.txt",
       "licenseTextSource": "file",
       "publisher": "Ben Coe",
       "email": "ben@npmjs.com"
@@ -272,15 +272,15 @@
       "licenseTextSource": "file",
       "publisher": "Christian Johansen"
     },
-    "tap@16.3.2": {
+    "tap@16.3.7": {
       "name": "tap",
-      "version": "16.3.2",
-      "range": "^16.0.1",
+      "version": "16.3.7",
+      "range": "^16.3.7",
       "licenses": "ISC",
       "repoUrl": "https://github.com/tapjs/node-tap",
-      "versionedRepoUrl": "https://github.com/tapjs/node-tap/tree/v16.3.2",
+      "versionedRepoUrl": "https://github.com/tapjs/node-tap/tree/v16.3.7",
       "licenseFile": "node_modules/tap/LICENSE",
-      "licenseUrl": "https://github.com/tapjs/node-tap/blob/v16.3.2/LICENSE",
+      "licenseUrl": "https://github.com/tapjs/node-tap/blob/v16.3.7/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Isaac Z. Schlueter",
       "email": "i@izs.me",

@@ -774,7 +774,7 @@ This product includes source derived from [aws-sdk](https://github.com/aws/aws-s
 
 ### c8
 
-This product includes source derived from [c8](https://github.com/bcoe/c8) ([v7.12.0](https://github.com/bcoe/c8/tree/v7.12.0)), distributed under the [ISC License](https://github.com/bcoe/c8/blob/v7.12.0/LICENSE.txt):
+This product includes source derived from [c8](https://github.com/bcoe/c8) ([v8.0.0](https://github.com/bcoe/c8/tree/v8.0.0)), distributed under the [ISC License](https://github.com/bcoe/c8/blob/v8.0.0/LICENSE.txt):
 
 ```
 Copyright (c) 2017, Contributors
@@ -7237,12 +7237,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### tap
 
-This product includes source derived from [tap](https://github.com/tapjs/node-tap) ([v16.3.2](https://github.com/tapjs/node-tap/tree/v16.3.2)), distributed under the [ISC License](https://github.com/tapjs/node-tap/blob/v16.3.2/LICENSE):
+This product includes source derived from [tap](https://github.com/tapjs/node-tap) ([v16.3.7](https://github.com/tapjs/node-tap/tree/v16.3.7)), distributed under the [ISC License](https://github.com/tapjs/node-tap/blob/v16.3.7/LICENSE):
 
 ```
 The ISC License
 
-Copyright (c) 2011-2022 Isaac Z. Schlueter and Contributors
+Copyright (c) 2011-2023 Isaac Z. Schlueter and Contributors
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
