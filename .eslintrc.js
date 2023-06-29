@@ -8,5 +8,8 @@ module.exports = {
   extends: '@newrelic',
   rules: {
     'consistent-return': 'off'
+  },
+  parserOptions: {
+    ecmaVersion: '2020'
   }
 }
