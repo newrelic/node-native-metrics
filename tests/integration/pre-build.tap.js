@@ -13,6 +13,7 @@ const os = require('os')
 const CMDS = ['build', 'rebuild', 'install']
 const platform = os.platform()
 const NO_PREBUILTS = ['darwin', 'win32']
+const { IS_WIN } = require('../../lib/common')
 
 /**
  * Locates the pre-built native metrics binary in `./build/Release` folder.
@@ -41,8 +42,6 @@ function waitFor(child, msg) {
     }
   })
 }
-
-const isWindows = () => platform === 'win32'
 
 tap.test('pre-build commands', function (t) {
   t.beforeEach(() => {
@@ -74,7 +73,7 @@ tap.test('pre-build commands', function (t) {
 
   // no reason to test downloading on windows. only reason we test on mac is so
   // you can run these tests locally
-  t.test('download', { skip: isWindows() }, async function (t) {
+  t.test('download', { skip: IS_WIN }, async function (t) {
     const downloadServer = fork(path.join(__dirname, './download-server.js'))
     const port = await waitFor(downloadServer, 'STARTED')
     process.env.NR_NATIVE_METRICS_DOWNLOAD_HOST = `http://localhost:${port}/`
@@ -90,7 +89,7 @@ tap.test('pre-build commands', function (t) {
 
   // no reason to test downloading on windows. only reason we test on mac is so
   // you can run these tests locally
-  t.test('download with proxy', { skip: isWindows() }, async function (t) {
+  t.test('download with proxy', { skip: IS_WIN }, async function (t) {
     const proxyServer = fork(path.join(__dirname, './proxy-server.js'))
     const downloadServer = fork(path.join(__dirname, './download-server.js'))
     const proxyPromise = waitFor(proxyServer, 'STARTED')

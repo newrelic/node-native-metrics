@@ -14,7 +14,7 @@
     "unit": "c8 -o ./coverage/unit tap --expose-gc --jobs=1 --no-coverage tests/unit/*.tap.js",
     "integration": "c8 -o ./coverage/integration tap --timeout 360000 --jobs=1 --no-coverage tests/integration/*.tap.js",
     "native": "node tests/native/*.js",
-    "test": "npm run lint && npm run unit && npm run integration",
+    "test": "npm run unit && npm run integration",
     "install": "node ./lib/pre-build.js install native_metrics",
     "prepare": "husky install",
     "third-party-updates": "oss third-party manifest && oss third-party notices && git add THIRD_PARTY_NOTICES.md third_party_manifest.json"

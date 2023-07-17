@@ -9,6 +9,7 @@ const tap = require('tap')
 const sinon = require('sinon')
 const proxyquire = require('proxyquire')
 const preBuild = require('../../lib/pre-build')
+const { IS_WIN } = require('../../lib/common')
 const { rm, mkdir, chmod } = require('fs/promises')
 const fs = require('fs')
 const nock = require('nock')
@@ -49,10 +50,11 @@ tap.test('pre-build tests', (t) => {
       })
     })
 
-    t.test('should not make nested path if it already exists', async (t) => {
+    t.test('should not make nested path if it already exists', { skip: IS_WIN }, async (t) => {
       const fullPath = `${process.cwd()}/${fakePath}`
       await mkdir(fullPath, { recursive: true })
       t.ok(fs.statSync(fakePath), 'path exists')
+      // chmod does not work on windows, will skip
       await chmod(fullPath, '00400')
       return new Promise((resolve) => {
         preBuild.makePath(fakePath, (err) => {
