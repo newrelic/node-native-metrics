@@ -211,24 +211,6 @@ tap.test('pre-build tests', (t) => {
       })
     })
 
-    /* TODO: not sure how to test when res is a stream
-     * saving this for later
-    t.test('should fail if the res errors', (t) => {
-      const readStream = fs.createReadStream('foo-bar')
-      nock('https://download.newrelic.com/')
-        .get(//)
-        .reply(200, )
-
-      preBuild.download('test', (err) => {
-        t.match(err.message, /Failed to download/)
-        t.end()
-      })
-
-      const err = new Error('failed to finish')
-      readStream.emit('error', err)
-    })
-    */
-
     t.test('should use https proxy host', (t) => {
       process.env.NR_NATIVE_METRICS_PROXY_HOST = 'https://proxy-stuff.com'
       const expectedData = Buffer.from('testing', 'utf-8')
