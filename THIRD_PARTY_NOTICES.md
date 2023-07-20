@@ -36,6 +36,7 @@ code, the source code can be found at [https://github.com/newrelic/node-native-m
 * [lockfile-lint](#lockfile-lint)
 * [nock](#nock)
 * [prettier](#prettier)
+* [proxyquire](#proxyquire)
 * [segfault-handler](#segfault-handler)
 * [sinon](#sinon)
 * [tap](#tap)
@@ -774,7 +775,7 @@ This product includes source derived from [aws-sdk](https://github.com/aws/aws-s
 
 ### c8
 
-This product includes source derived from [c8](https://github.com/bcoe/c8) ([v7.12.0](https://github.com/bcoe/c8/tree/v7.12.0)), distributed under the [ISC License](https://github.com/bcoe/c8/blob/v7.12.0/LICENSE.txt):
+This product includes source derived from [c8](https://github.com/bcoe/c8) ([v8.0.0](https://github.com/bcoe/c8/tree/v8.0.0)), distributed under the [ISC License](https://github.com/bcoe/c8/blob/v8.0.0/LICENSE.txt):
 
 ```
 Copyright (c) 2017, Contributors
@@ -7166,6 +7167,37 @@ By: Ika
 
 ```
 
+### proxyquire
+
+This product includes source derived from [proxyquire](https://github.com/thlorenz/proxyquire) ([v2.1.3](https://github.com/thlorenz/proxyquire/tree/v2.1.3)), distributed under the [MIT License](https://github.com/thlorenz/proxyquire/blob/v2.1.3/LICENSE):
+
+```
+Copyright 2013 Thorsten Lorenz. 
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+```
+
 ### segfault-handler
 
 This product includes source derived from [segfault-handler](https://github.com/ddopson/node-segfault-handler) ([v1.3.0](https://github.com/ddopson/node-segfault-handler/tree/v1.3.0)), distributed under the [BSD-3-Clause License](https://github.com/ddopson/node-segfault-handler/blob/v1.3.0/LICENSE):
@@ -7237,12 +7269,12 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### tap
 
-This product includes source derived from [tap](https://github.com/tapjs/node-tap) ([v16.3.2](https://github.com/tapjs/node-tap/tree/v16.3.2)), distributed under the [ISC License](https://github.com/tapjs/node-tap/blob/v16.3.2/LICENSE):
+This product includes source derived from [tap](https://github.com/tapjs/node-tap) ([v16.3.7](https://github.com/tapjs/node-tap/tree/v16.3.7)), distributed under the [ISC License](https://github.com/tapjs/node-tap/blob/v16.3.7/LICENSE):
 
 ```
 The ISC License
 
-Copyright (c) 2011-2022 Isaac Z. Schlueter and Contributors
+Copyright (c) 2011-2023 Isaac Z. Schlueter and Contributors
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
