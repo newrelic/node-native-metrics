@@ -8,10 +8,6 @@
 const tap = require('tap')
 const sinon = require('sinon')
 const proxyquire = require('proxyquire')
-const preBuild = require('../../lib/pre-build')
-const { IS_WIN } = require('../../lib/common')
-const { rm, mkdir, chmod } = require('fs/promises')
-const fs = require('fs')
 const nock = require('nock')
 const zlib = require('zlib')
 
@@ -20,61 +16,62 @@ tap.test('pre-build tests', (t) => {
 
   t.test('makePath', (t) => {
     t.autoend()
+
     const fakePath = 'tests/unit/fake-path'
 
-    t.afterEach(async () => {
-      try {
-        await rm(`${process.cwd()}/${fakePath}`, { recursive: true })
-      } catch {
-        // swallow removing folder
+    let mockFsPromiseApi
+    let preBuild
+
+    t.beforeEach(() => {
+      mockFsPromiseApi = {
+        constants: {
+          R_OK: 4,
+          W_OK: 2
+        },
+        access: sinon.stub().resolves(),
+        mkdir: sinon.stub().resolves()
       }
-    })
-
-    t.test('should make a nested folder path accordingly if it does not exist', (t) => {
-      preBuild.makePath(fakePath, (err) => {
-        t.error(err)
-        t.ok(fs.statSync(fakePath), 'path should be made')
-        t.end()
+      preBuild = proxyquire('../../lib/pre-build', {
+        'fs/promises': mockFsPromiseApi
       })
     })
 
-    t.test('should return error if it cannot write nested path', async (t) => {
-      await mkdir(`${process.cwd()}/${fakePath}`, { recursive: true })
-      t.ok(fs.statSync(fakePath), 'path exists')
-      return new Promise((resolve) => {
-        preBuild.makePath(fakePath, (err) => {
-          t.error(err)
-          t.ok(fs.statSync(fakePath), 'path should still exist')
-          resolve()
-        })
-      })
+    t.test('should make a nested folder path accordingly if it does not exist', async (t) => {
+      mockFsPromiseApi.access.rejects({ code: 'ENOENT' })
+      await preBuild.makePath(fakePath)
+
+      t.ok(
+        mockFsPromiseApi.mkdir.calledOnceWith(`${process.cwd()}/${fakePath}`, { recursive: true }),
+        'should have called mkdir'
+      )
     })
 
-    t.test('should not make nested path if it already exists', { skip: IS_WIN }, async (t) => {
+    t.test('should throw if permissions to path are incorrect', async (t) => {
       const fullPath = `${process.cwd()}/${fakePath}`
-      await mkdir(fullPath, { recursive: true })
-      t.ok(fs.statSync(fakePath), 'path exists')
-      // chmod does not work on windows, will skip
-      await chmod(fullPath, '00400')
-      return new Promise((resolve) => {
-        preBuild.makePath(fakePath, (err) => {
-          t.ok(
-            err.message.startsWith(`Do not have access to '${fullPath}'`),
-            'should error with EACCESS'
-          )
-          resolve()
-        })
-      })
+      mockFsPromiseApi.access.rejects({ code: 'EACCESS' })
+      t.equal(mockFsPromiseApi.mkdir.callCount, 0, 'should not have called mkdir')
+      t.rejects(
+        preBuild.makePath(fakePath),
+        new Error(`Do not have access to '${fullPath}'`),
+        'should error with EACCESS'
+      )
     })
 
-    t.test('should return error if it fails to make nested path', (t) => {
-      const expectedErr = new Error('Failed to create dir')
-      sinon.stub(fs, 'mkdir')
-      fs.mkdir.yields(expectedErr)
-      preBuild.makePath(fakePath, (err) => {
-        t.same(err, expectedErr, 'should error when it cannot mkdir')
-        t.end()
-      })
+    t.test('should throw if creating the nested folder path fails', async (t) => {
+      mockFsPromiseApi.access.rejects({ code: 'ENOENT' })
+      const expectedError = new Error('whoops')
+      mockFsPromiseApi.mkdir.rejects(expectedError)
+
+      t.rejects(
+        preBuild.makePath(fakePath),
+        expectedError,
+        'should have rejected with expectedError'
+      )
+    })
+
+    t.test('should not create the nested folder path if it exists and is accessible', async (t) => {
+      await preBuild.makePath(fakePath)
+      t.equal(mockFsPromiseApi.mkdir.callCount, 0, 'should not have called mkdir')
     })
   })
 
@@ -97,65 +94,65 @@ tap.test('pre-build tests', (t) => {
     })
 
     t.test('should run clean configure if rebuild is true', (t) => {
-      gypStub.execGyp.yields(null)
-      build('target', true, (err) => {
-        t.error(err)
-        t.ok(gypStub.execGyp.callCount, 2, 'should call execGyp twice')
-        t.same(gypStub.execGyp.args[0][0], ['clean', 'configure'])
-        t.equal(gypStub.execGyp.args[1][0][3], 'target')
-        t.end()
-      })
+      gypStub.execGyp.returns(null)
+      build('target', true)
+
+      t.ok(gypStub.execGyp.callCount, 2, 'should call execGyp twice')
+      t.same(gypStub.execGyp.args[0][0], ['clean', 'configure'])
+      t.equal(gypStub.execGyp.args[1][0][3], 'target')
+      t.end()
     })
 
     t.test('should run configure and build if rebuild is false', (t) => {
-      gypStub.execGyp.yields(null)
-      build('target', false, (err) => {
-        t.error(err)
-        t.ok(gypStub.execGyp.callCount, 2, 'should call execGyp twice')
-        t.same(gypStub.execGyp.args[0][0], ['configure'])
-        t.end()
-      })
+      gypStub.execGyp.returns(null)
+      build('target', false)
+
+      t.ok(gypStub.execGyp.callCount, 2, 'should call execGyp twice')
+      t.same(gypStub.execGyp.args[0][0], ['configure'])
+      t.end()
     })
 
     t.test('should return error if configure fails', (t) => {
       const expectedErr = new Error('failed to execute cmd')
-      gypStub.execGyp.yields(expectedErr)
-      build('target', false, (err) => {
-        t.same(err, expectedErr)
-        t.end()
-      })
+      gypStub.execGyp.throws(expectedErr)
+      t.throws(() => build('target', false), expectedErr)
+      t.end()
     })
 
     t.test('should return error if build fails', (t) => {
       const expectedErr = new Error('failed to execute cmd')
-      gypStub.execGyp.onCall(0).yields(null)
-      gypStub.execGyp.onCall(1).yields(expectedErr)
-      build('target', false, (err) => {
-        t.same(err, expectedErr)
-        t.end()
-      })
+      gypStub.execGyp.onCall(0).returns(null)
+      gypStub.execGyp.onCall(1).throws(expectedErr)
+      t.throws(() => build('target', false), expectedErr)
+      t.end()
     })
   })
 
-  t.test('should move build accordingly', (t) => {
-    sinon.stub(fs, 'rename')
-    t.teardown(() => {
-      fs.rename.restore()
+  t.test('moveBuild', (t) => {
+    t.autoend()
+
+    let mockFsPromiseApi
+    let preBuild
+
+    t.beforeEach(() => {
+      mockFsPromiseApi = {
+        rename: sinon.stub().resolves()
+      }
+      preBuild = proxyquire('../../lib/pre-build', {
+        'fs/promises': mockFsPromiseApi
+      })
     })
 
-    preBuild.moveBuild('target', (err) => {
-      t.error(err)
-      t.equal(fs.rename.callCount, 1)
-      t.end()
+    t.test('should move build accordingly', async (t) => {
+      await preBuild.moveBuild('target')
+      t.equal(mockFsPromiseApi.rename.callCount, 1)
     })
-
-    // call cb manually to end test
-    fs.rename.args[0][2]()
   })
 
   t.test('download', (t) => {
     t.autoend()
     let sandbox
+    let preBuild
 
     t.before(() => {
       nock.disableNetConnect()
@@ -163,6 +160,9 @@ tap.test('pre-build tests', (t) => {
 
     t.beforeEach(() => {
       sandbox = sinon.createSandbox()
+      preBuild = proxyquire('../../lib/pre-build', {
+        'fs/promises': {}
+      })
     })
 
     t.afterEach(() => {
@@ -171,73 +171,67 @@ tap.test('pre-build tests', (t) => {
       delete process.env.NR_NATIVE_METRICS_DOWNLOAD_HOST
     })
 
-    t.test('should download and unzip file accordingly', (t) => {
+    t.test('should download and unzip file accordingly', async (t) => {
       const expectedData = Buffer.from('testing', 'utf-8')
       const file = zlib.gzipSync(expectedData)
       nock('https://download.newrelic.com/').get(/.*/).reply(200, file)
 
-      preBuild.download('test', (err, data) => {
-        t.error(err)
-        t.same(data, expectedData)
-        t.end()
-      })
+      const data = await preBuild.download('test')
+      t.same(data, expectedData)
     })
 
-    t.test('should return error if 404 occurs', (t) => {
+    t.test('should return error if 404 occurs', async (t) => {
       nock('https://download.newrelic.com/').get(/.*/).reply(404)
 
-      preBuild.download('test', (err) => {
-        t.equal(err.message, 'No pre-built artifacts for your OS/architecture.')
-        t.end()
-      })
+      t.rejects(
+        preBuild.download('test'),
+        new Error('No pre-built artifacts for your OS/architecture.'),
+        'should reject with expected error'
+      )
     })
 
-    t.test('should return failed to download error if response is not 200 nor 404', (t) => {
+    t.test('should return failed to download error if response is not 200 nor 404', async (t) => {
       nock('https://download.newrelic.com/').get(/.*/).reply(500)
 
-      preBuild.download('test', (err) => {
-        t.match(err.message, /Failed to download.*code 500/)
-        t.end()
-      })
+      t.rejects(
+        preBuild.download('test'),
+        new Error('Failed to download'),
+        'should reject with expected error'
+      )
     })
 
-    t.test('should fail if it cannot unzip', (t) => {
+    t.test('should fail if it cannot unzip', async (t) => {
       const expectedData = Buffer.from('testing', 'utf-8')
       nock('https://download.newrelic.com/').get(/.*/).reply(200, expectedData)
 
-      preBuild.download('test', (err) => {
-        t.match(err.message, /Failed to unzip.*/)
-        t.end()
-      })
+      t.rejects(
+        preBuild.download('test'),
+        new Error('Failed to unzip'),
+        'should reject with expected error'
+      )
     })
 
-    t.test('should use https proxy host', (t) => {
+    t.test('should use https proxy host', async (t) => {
       process.env.NR_NATIVE_METRICS_PROXY_HOST = 'https://proxy-stuff.com'
       const expectedData = Buffer.from('testing', 'utf-8')
       const file = zlib.gzipSync(expectedData)
       nock('https://download.newrelic.com/').get(/.*/).reply(200, file)
 
-      preBuild.download('test', (err, data) => {
-        t.error(err)
-        t.same(data, expectedData)
-        t.end()
-      })
+      const data = await preBuild.download('test')
+      t.same(data, expectedData)
     })
 
-    t.test('should use http proxy host', (t) => {
+    t.test('should use http proxy host', async (t) => {
       process.env.NR_NATIVE_METRICS_PROXY_HOST = 'http://proxy-stuff.com'
       const expectedData = Buffer.from('testing', 'utf-8')
       const file = zlib.gzipSync(expectedData)
       nock('http://download.newrelic.com/').get(/.*/).reply(200, file)
 
-      preBuild.download('test', (err, data) => {
-        t.error(err)
-        t.same(data, expectedData)
-        t.end()
-      })
+      const data = await preBuild.download('test')
+      t.same(data, expectedData)
     })
 
-    t.test('should use http download host', (t) => {
+    t.test('should use http download host', async (t) => {
       process.env.NR_NATIVE_METRICS_DOWNLOAD_HOST = 'http://fake-stuff.com/'
       // busting cache to re-load the env var so it uses a diff host
       delete require.cache[require.resolve('../../lib/pre-build')]
@@ -246,52 +240,68 @@ tap.test('pre-build tests', (t) => {
       const file = zlib.gzipSync(expectedData)
       nock('http://fake-stuff.com/').get(/.*/).reply(200, file)
 
-      localPreBuild.download('test', (err, data) => {
-        t.error(err)
-        t.same(data, expectedData)
-        t.end()
-      })
+      const data = await localPreBuild.download('test')
+      t.same(data, expectedData)
     })
   })
 
   t.test('saveDownload', (t) => {
     t.autoend()
     let sandbox
+    let preBuild
+    let mockFsPromiseApi
 
     t.beforeEach(() => {
       sandbox = sinon.createSandbox()
+
+      mockFsPromiseApi = {
+        writeFile: sinon.stub().resolves()
+      }
+
+      preBuild = proxyquire('../../lib/pre-build', {
+        'fs/promises': mockFsPromiseApi
+      })
+
       sandbox.stub(preBuild, 'makePath')
-      sandbox.stub(fs, 'writeFile')
     })
 
     t.afterEach(() => {
       sandbox.restore()
     })
 
-    t.test('should write download to appropriate path', (t) => {
-      preBuild.makePath.yields()
-      preBuild.saveDownload('target', 'data', t.end)
-      t.equal(fs.writeFile.callCount, 1, 'should save download')
-      // call the callback manually to end test
-      fs.writeFile.args[0][2]()
+    t.test('should write download to appropriate path', async (t) => {
+      preBuild.makePath.resolves()
+      await preBuild.saveDownload('target', 'data')
+      t.equal(mockFsPromiseApi.writeFile.callCount, 1, 'should save download')
     })
 
-    t.test('should return error if creating directory fails', (t) => {
+    t.test('should return error if creating directory fails', async (t) => {
       const expectedErr = new Error('failed to write')
-      preBuild.makePath.yields(expectedErr)
-      preBuild.saveDownload('target', 'data', (err) => {
-        t.same(err, expectedErr)
-        t.end()
-      })
+      preBuild.makePath.rejects(expectedErr)
+
+      t.rejects(
+        preBuild.saveDownload('target', 'data'),
+        expectedErr,
+        'should reject with expected error'
+      )
     })
   })
 
   t.test('install', (t) => {
     t.autoend()
     let sandbox
+    let mockFsPromiseApi
+    let preBuild
 
     t.beforeEach(() => {
       sandbox = sinon.createSandbox()
+
+      mockFsPromiseApi = {
+        rename: sinon.stub().resolves()
+      }
+      preBuild = proxyquire('../../lib/pre-build', {
+        'fs/promises': mockFsPromiseApi
+      })
       sandbox.stub(preBuild, 'build')
       sandbox.stub(preBuild, 'download')
       sandbox.stub(preBuild, 'saveDownload')
@@ -304,106 +314,82 @@ tap.test('pre-build tests', (t) => {
       delete process.env.NR_NATIVE_METRICS_NO_DOWNLOAD
     })
 
-    t.test('should download without building when no-build is specified', (t) => {
+    t.test('should download without building when no-build is specified', async (t) => {
       const data = 'foo'
       process.env.NR_NATIVE_METRICS_NO_BUILD = true
-      preBuild.download.yields(null, data)
-      preBuild.saveDownload.yields(null)
-      preBuild.install('target', (err) => {
-        t.error(err)
-        t.equal(preBuild.build.callCount, 0, 'should not build')
-        t.equal(preBuild.download.callCount, 1, 'should download only')
-        t.equal(preBuild.saveDownload.callCount, 1, 'should download only')
-        t.equal(preBuild.saveDownload.args[0][0], 'target')
-        t.equal(preBuild.saveDownload.args[0][1], data)
-        t.end()
-      })
+      preBuild.download.resolves(data)
+      preBuild.saveDownload.resolves()
+      await preBuild.install('target')
+      t.equal(preBuild.build.callCount, 0, 'should not build')
+      t.equal(preBuild.download.callCount, 1, 'should download only')
+      t.equal(preBuild.saveDownload.callCount, 1, 'should download only')
+      t.equal(preBuild.saveDownload.args[0][0], 'target')
+      t.equal(preBuild.saveDownload.args[0][1], data)
     })
 
-    t.test('should build and move', (t) => {
-      preBuild.build.yields(null)
-      preBuild.moveBuild.yields(null)
-      preBuild.install('target', (err) => {
-        t.error(err)
-        t.equal(preBuild.build.callCount, 1, 'should build')
-        t.equal(preBuild.moveBuild.callCount, 1, 'should move build')
-        t.equal(preBuild.download.callCount, 0, 'should not download')
-        t.end()
-      })
-    })
-
-    t.test('should download if build fails', (t) => {
-      const err = new Error('build failed, downloading')
-      preBuild.build.yields(err)
-      const data = 'foo'
-      preBuild.download.yields(null, data)
-      preBuild.saveDownload.yields(null)
-      preBuild.install('target', (err) => {
-        t.error(err)
-        t.equal(preBuild.build.callCount, 1, 'should build')
-        t.equal(preBuild.download.callCount, 1, 'should not download')
-        t.equal(preBuild.saveDownload.callCount, 1, 'should not download')
-        t.equal(preBuild.moveBuild.callCount, 0, 'should not move build')
-        t.end()
-      })
-    })
-
-    t.test('should download if moving build fails', (t) => {
-      const err = new Error('move failed, downloading')
-      preBuild.build.yields(null)
-      preBuild.moveBuild.yields(err)
-      const data = 'foo'
-      preBuild.download.yields(null, data)
-      preBuild.saveDownload.yields(null)
-      preBuild.install('target', (err) => {
-        t.error(err)
-        t.equal(preBuild.build.callCount, 1, 'should build')
-        t.equal(preBuild.moveBuild.callCount, 1, 'should move build')
-        t.equal(preBuild.download.callCount, 1, 'should not download')
-        t.equal(preBuild.saveDownload.callCount, 1, 'should not download')
-        t.end()
-      })
-    })
-
-    t.test('should fail if move build fails and download are true', (t) => {
+    t.test('should build without downloading when no-download is specified', async (t) => {
       process.env.NR_NATIVE_METRICS_NO_DOWNLOAD = true
-      preBuild.build.yields(null)
-      const err = new Error('move failed, downloading')
-      preBuild.build.yields(null)
-      preBuild.moveBuild.yields(err)
-      preBuild.install('target', (err) => {
-        t.equal(err.message, 'Downloading is disabled.')
-        t.equal(preBuild.download.callCount, 0, 'should not download')
-        t.end()
-      })
+      preBuild.build.resolves(null)
+      preBuild.moveBuild.resolves(null)
+      await preBuild.install('target')
+      t.equal(preBuild.build.callCount, 1, 'should build')
+      t.equal(preBuild.moveBuild.callCount, 1, 'should move build')
+      t.equal(preBuild.download.callCount, 0, 'should not download')
     })
 
-    t.test('should fail if download fails', (t) => {
-      process.env.NR_NATIVE_METRICS_NO_BUILD = true
-      const expectedErr = new Error('download failed')
-      preBuild.download.yields(expectedErr)
-      preBuild.install('target', (err) => {
-        t.same(err, expectedErr)
-        t.equal(preBuild.build.callCount, 0, 'should not build')
-        t.equal(preBuild.download.callCount, 1, 'should download only')
-        t.equal(preBuild.saveDownload.callCount, 0, 'should not save download')
-        t.end()
-      })
-    })
-
-    t.test('should fail if save download fails', (t) => {
+    t.test('should only download if both env vars are set', async (t) => {
+      process.env.NR_NATIVE_METRICS_NO_DOWNLOAD = true
       process.env.NR_NATIVE_METRICS_NO_BUILD = true
       const data = 'foo'
-      preBuild.download.yields(null, data)
-      const expectedErr = new Error('saving download failed')
-      preBuild.saveDownload.yields(expectedErr)
-      preBuild.install('target', (err) => {
-        t.same(err, expectedErr)
-        t.equal(preBuild.build.callCount, 0, 'should not build')
-        t.equal(preBuild.download.callCount, 1, 'should download only')
-        t.equal(preBuild.saveDownload.callCount, 1, 'should not save download')
-        t.end()
-      })
+      preBuild.download.resolves(data)
+      preBuild.saveDownload.resolves()
+      preBuild.build.resolves(null)
+      preBuild.moveBuild.resolves(null)
+
+      await preBuild.install('target')
+
+      t.equal(preBuild.build.callCount, 0, 'should not build')
+      t.equal(preBuild.moveBuild.callCount, 0, 'should not move build')
+      t.equal(preBuild.download.callCount, 1, 'should download')
+      t.equal(preBuild.saveDownload.callCount, 1, 'should save download')
+    })
+
+    t.test('should try download then build by default', async (t) => {
+      const data = 'foo'
+      preBuild.download.resolves(data)
+      preBuild.saveDownload.rejects(new Error('whoops'))
+      preBuild.build.resolves(null)
+      preBuild.moveBuild.resolves(null)
+
+      await preBuild.install('target')
+
+      t.equal(preBuild.build.callCount, 1, 'should build')
+      t.equal(preBuild.moveBuild.callCount, 1, 'should move build')
+      t.equal(preBuild.download.callCount, 1, 'should download')
+      t.equal(preBuild.saveDownload.callCount, 1, 'should save download')
+    })
+
+    t.test('should throw when download fails and noBuild is set', async (t) => {
+      process.env.NR_NATIVE_METRICS_NO_BUILD = true
+      const data = 'foo'
+      preBuild.download.resolves(data)
+      preBuild.saveDownload.rejects(new Error('whoops'))
+      preBuild.build.resolves(null)
+      preBuild.moveBuild.resolves(null)
+
+      t.rejects(preBuild.install('target'), new Error('Building is disabled by configuration'))
+    })
+
+    t.test('should fail if save download fails and building is disabled', async (t) => {
+      process.env.NR_NATIVE_METRICS_NO_BUILD = true
+      const data = 'foo'
+      preBuild.download.resolves(data)
+      preBuild.saveDownload.throws(new Error('saving download failed'))
+
+      t.rejects(preBuild.install('target'), new Error('Building is disabled by configuration'))
+
+      t.equal(preBuild.build.callCount, 0, 'should not build')
+      t.equal(preBuild.download.callCount, 1, 'should download only')
     })
   })
 
@@ -431,31 +417,36 @@ tap.test('pre-build tests', (t) => {
       sandbox.restore()
     })
     ;['build', 'rebuild'].forEach((cmd) => {
-      t.test(`should build and move when cmd is '${cmd}'`, (t) => {
-        localPreBuild.build.yields(null)
-        localPreBuild.moveBuild.yields(null)
-        localPreBuild.executeCli(cmd, 'target')
+      t.test(`should build and move when cmd is '${cmd}'`, async (t) => {
+        localPreBuild.build.resolves()
+        localPreBuild.moveBuild.resolves()
+        await localPreBuild.executeCli(cmd, 'target')
         t.equal(localPreBuild.build.callCount, 1, 'should build')
         t.equal(localPreBuild.moveBuild.callCount, 1, 'should move build')
         t.equal(commonStub.logFinish.callCount, 1, 'should log finish')
-        t.end()
       })
     })
 
-    t.test('sho8uld call install if cmd is install', (t) => {
-      localPreBuild.executeCli('install', 'target')
+    t.test('should call install if cmd is install', async (t) => {
+      await localPreBuild.executeCli('install', 'target')
       t.equal(localPreBuild.install.callCount, 1, 'should call install')
-      t.end()
     })
 
-    t.test('should log finish and not move build if build fails', (t) => {
+    t.test('should log finish if install fails', async (t) => {
+      const err = new Error('install failed')
+      localPreBuild.install.rejects(err)
+      await localPreBuild.executeCli('install', 'target')
+      t.equal(localPreBuild.install.callCount, 1, 'should call install')
+      t.equal(commonStub.logFinish.callCount, 1, 'should log finish')
+    })
+
+    t.test('should log finish and not move build if build fails', async (t) => {
       const err = new Error('build failed')
-      localPreBuild.build.yields(err)
+      localPreBuild.build.throws(err)
       localPreBuild.executeCli('build', 'target')
       t.equal(localPreBuild.build.callCount, 1, 'should build')
       t.equal(localPreBuild.moveBuild.callCount, 0, 'should not move build')
       t.equal(commonStub.logFinish.callCount, 1, 'should log finish')
-      t.end()
     })
   })
 })
