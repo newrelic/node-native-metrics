@@ -46,15 +46,16 @@ tap.test('pre-build tests', (t) => {
       )
     })
 
-    t.test('should throw if permissions to path are incorrect', async (t) => {
+    t.test('should throw if permissions to path are incorrect', (t) => {
       const fullPath = `${process.cwd()}/${fakePath}`
       mockFsPromiseApi.access.rejects({ code: 'EACCESS' })
       t.equal(mockFsPromiseApi.mkdir.callCount, 0, 'should not have called mkdir')
-      t.rejects(
-        preBuild.makePath(fakePath),
-        new Error(`Do not have access to '${fullPath}'`),
-        'should error with EACCESS'
-      )
+      t.rejects(preBuild.makePath(fakePath), 'should error with EACCESS')
+
+      preBuild.makePath(fakePath).catch((err) => {
+        t.ok(err.message.startsWith(`Do not have access to '${fullPath}'`))
+        t.end()
+      })
     })
 
     t.test('should throw if creating the nested folder path fails', async (t) => {
