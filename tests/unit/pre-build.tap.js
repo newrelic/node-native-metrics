@@ -10,6 +10,7 @@ const sinon = require('sinon')
 const proxyquire = require('proxyquire')
 const nock = require('nock')
 const zlib = require('zlib')
+const { IS_WIN } = require('../../lib/common')
 
 tap.test('pre-build tests', (t) => {
   t.autoend()
@@ -46,16 +47,15 @@ tap.test('pre-build tests', (t) => {
       )
     })
 
-    t.test('should throw if permissions to path are incorrect', (t) => {
+    t.test('should throw if permissions to path are incorrect', { skip: IS_WIN }, async (t) => {
       const fullPath = `${process.cwd()}/${fakePath}`
       mockFsPromiseApi.access.rejects({ code: 'EACCESS' })
       t.equal(mockFsPromiseApi.mkdir.callCount, 0, 'should not have called mkdir')
-      t.rejects(preBuild.makePath(fakePath), 'should error with EACCESS')
-
-      preBuild.makePath(fakePath).catch((err) => {
-        t.ok(err.message.startsWith(`Do not have access to '${fullPath}'`))
-        t.end()
-      })
+      t.rejects(
+        preBuild.makePath(fakePath),
+        new Error(`Do not have access to '${fullPath}'`),
+        'should error with EACCESS'
+      )
     })
 
     t.test('should throw if creating the nested folder path fails', async (t) => {
