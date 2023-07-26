@@ -42,6 +42,7 @@ tap.test('pre-build tests', (t) => {
       await preBuild.makePath(fakePath)
 
       console.log(mockFsPromiseApi.mkdir.args)
+      console.log(`${process.cwd()}/${fakePath}`)
       t.ok(
         mockFsPromiseApi.mkdir.calledOnceWith(`${process.cwd()}/${fakePath}`, { recursive: true }),
         'should have called mkdir'
