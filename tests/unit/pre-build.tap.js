@@ -41,6 +41,7 @@ tap.test('pre-build tests', (t) => {
       mockFsPromiseApi.access.rejects({ code: 'ENOENT' })
       await preBuild.makePath(fakePath)
 
+      console.log(mockFsPromiseApi.mkdir.args)
       t.ok(
         mockFsPromiseApi.mkdir.calledOnceWith(`${process.cwd()}/${fakePath}`, { recursive: true }),
         'should have called mkdir'
