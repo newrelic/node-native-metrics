@@ -19,7 +19,7 @@ function findBinary() {
 
 // building module to serve in the server instead of grabbing from
 // download.newrelic.com
-execSync(`node ./lib/pre-build install native_metrics`)
+execSync(`node ./lib/pre-build rebuild native_metrics`)
 // moving module to avoid a passing test on download
 // even though the file existing in the build/Release folder
 execSync(`mv ./build/Release/*.node ${BINARY_TMP}`)

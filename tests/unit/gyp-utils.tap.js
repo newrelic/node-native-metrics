@@ -10,7 +10,7 @@ const sinon = require('sinon')
 const cp = require('child_process')
 const common = require('../../lib/common')
 const gypUtils = require('../../lib/gyp-utils')
-const EventEmitter = require('events')
+const fs = require('fs')
 
 tap.test('gyp-utils tests', (t) => {
   t.autoend()
@@ -30,14 +30,13 @@ tap.test('gyp-utils tests', (t) => {
       t.end()
     })
 
-    // TODO: figure out how to stub require.resolve
-    /* t.test('should return node-gyp path', (t) => {
-      require.cache['node-gyp'] = process.cwd()
+    t.test('should return null if all lookups fail`', (t) => {
       sinon.stub(fs, 'accessSync')
-      fs.accessSync.returns(true)
+      fs.accessSync.throws(new Error('nope, could not access'))
       const gypPath = gypUtils.findNodeGyp()
+      t.equal(gypPath, null)
       t.end()
-    })*/
+    })
   })
 
   t.test('extractGypCmd', (t) => {
@@ -109,53 +108,43 @@ tap.test('gyp-utils tests', (t) => {
 
     t.beforeEach(() => {
       sandbox = sinon.createSandbox()
-      sandbox.stub(cp, 'spawn')
+      sandbox.stub(cp, 'spawnSync')
     })
 
     t.afterEach(() => {
       sandbox.restore()
     })
 
-    t.test('should return if code is 0', (t) => {
-      const emitter = new EventEmitter()
-      cp.spawn.returns(emitter)
-      gypUtils.execGyp([], {}, t.end)
+    t.test('should return if status is 0', (t) => {
+      cp.spawnSync.returns({ status: 0 })
+      gypUtils.execGyp([], {})
       t.same(
-        cp.spawn.args[0][2],
+        cp.spawnSync.args[0][2],
         { stdio: [0, 1, 2] },
-        'spawn opts should include stdio if not quiet'
+        'spawnSync opts should include stdio if not quiet'
       )
-      emitter.emit('close', 0)
+      t.end()
     })
 
     t.test('should not set stdio on spawn if opts.quiet is true', (t) => {
       const opts = { quiet: true }
-      const emitter = new EventEmitter()
-      cp.spawn.returns(emitter)
-      gypUtils.execGyp([], opts, t.end)
-      t.same(cp.spawn.args[0][2], {}, 'spawn opts should include stdio if not quiet')
-      emitter.emit('close', 0)
+      cp.spawnSync.returns({ status: 0 })
+      gypUtils.execGyp([], opts)
+      t.same(cp.spawnSync.args[0][2], {}, 'spawn opts should include stdio if not quiet')
+      t.end()
     })
 
     t.test('should return with error if spawn fails', (t) => {
-      const emitter = new EventEmitter()
-      cp.spawn.returns(emitter)
       const expectedErr = new Error('failed to spawn gyp cmd')
-      gypUtils.execGyp([], {}, (err) => {
-        t.same(err, expectedErr)
-        t.end()
-      })
-      emitter.emit('error', expectedErr)
+      cp.spawnSync.throws(expectedErr)
+      t.throws(() => gypUtils.execGyp([], {}), expectedErr)
+      t.end()
     })
 
     t.test('should return with error if code is not 0', (t) => {
-      const emitter = new EventEmitter()
-      cp.spawn.returns(emitter)
-      gypUtils.execGyp([], {}, (err) => {
-        t.equal(err.message, 'Command exited with non-zero code: 1')
-        t.end()
-      })
-      emitter.emit('close', 1)
+      cp.spawnSync.returns({ status: 1 })
+      t.throws(() => gypUtils.execGyp([], {}), 'Command exited with non-zero code: 1')
+      t.end()
     })
   })
 })
