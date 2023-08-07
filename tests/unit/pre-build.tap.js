@@ -351,7 +351,7 @@ tap.test('pre-build tests', (t) => {
       t.equal(preBuild.saveDownload.callCount, 1, 'should save download')
     })
 
-    t.test('should try download then build by default', async (t) => {
+    t.test('should attempt download first then build if download fails by default', async (t) => {
       const data = 'foo'
       preBuild.download.resolves(data)
       preBuild.saveDownload.rejects(new Error('whoops'))
@@ -360,10 +360,11 @@ tap.test('pre-build tests', (t) => {
 
       await preBuild.install('target')
 
-      t.equal(preBuild.build.callCount, 1, 'should build')
-      t.equal(preBuild.moveBuild.callCount, 1, 'should move build')
-      t.equal(preBuild.download.callCount, 1, 'should download')
-      t.equal(preBuild.saveDownload.callCount, 1, 'should save download')
+      t.ok(preBuild.download.calledBefore(preBuild.saveDownload), 'should download first')
+      t.ok(preBuild.saveDownload.calledAfter(preBuild.download), 'should save download second')
+
+      t.ok(preBuild.build.calledAfter(preBuild.saveDownload), 'should build third')
+      t.ok(preBuild.moveBuild.calledAfter(preBuild.build), 'should move build last')
     })
 
     t.test('should throw when download fails and noBuild is set', async (t) => {
