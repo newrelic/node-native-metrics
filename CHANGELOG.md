@@ -1,3 +1,16 @@
+### v10.0.0 (2023-08-28)
+
+* **BREAKING**: Removed support for Node 14.
+
+* Added support for Node 20.
+
+* Updated install stage to attempt download first, and fall back to build if download fails
+
+* Refactored code to make it easier to test
+ * Added full suite of unit tests
+
+* Updated word-wrap from 1.2.3 to 1.2.4.
+
 ### v9.0.1 (2023-06-21)
 
 * Updated the slack invite link
