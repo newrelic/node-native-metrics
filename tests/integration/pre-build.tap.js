@@ -19,9 +19,15 @@ const { IS_WIN } = require('../../lib/common')
  * Locates the pre-built native metrics binary in `./build/Release` folder.
  */
 function findBinary() {
-  return fs.readdirSync('./build/Release').filter((file) => {
-    return file.endsWith('.node')
-  })
+  try {
+    return fs.readdirSync('./build/Release').filter((file) => {
+      return file.endsWith('.node')
+    })
+  } catch (err) {
+    if (err?.code === 'ENOENT') {
+      return []
+    }
+  }
 }
 
 /**
@@ -45,7 +51,7 @@ function waitFor(child, msg) {
 
 tap.test('pre-build commands', function (t) {
   t.beforeEach(() => {
-    execSync('rm -rf ./build/Release/*')
+    execSync('rm -rf ./build')
   })
 
   CMDS.forEach((cmd) => {

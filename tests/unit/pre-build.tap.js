@@ -10,15 +10,13 @@ const sinon = require('sinon')
 const proxyquire = require('proxyquire')
 const nock = require('nock')
 const zlib = require('zlib')
-const { IS_WIN } = require('../../lib/common')
+const { IS_WIN, BUILD_PATH } = require('../../lib/common')
 
 tap.test('pre-build tests', (t) => {
   t.autoend()
 
   t.test('makePath', (t) => {
     t.autoend()
-
-    const fakePath = 'tests/unit/fake-path'
 
     let mockFsPromiseApi
     let preBuild
@@ -39,17 +37,16 @@ tap.test('pre-build tests', (t) => {
 
     t.test('should make a nested folder path accordingly if it does not exist', async (t) => {
       mockFsPromiseApi.access.rejects({ code: 'ENOENT' })
-      await preBuild.makePath(fakePath)
+      await preBuild.makePath()
       t.equal(mockFsPromiseApi.mkdir.callCount, 1, 'should have called mkdir')
     })
 
     t.test('should throw if permissions to path are incorrect', { skip: IS_WIN }, async (t) => {
-      const fullPath = `${process.cwd()}/${fakePath}`
       mockFsPromiseApi.access.rejects({ code: 'EACCESS' })
       t.equal(mockFsPromiseApi.mkdir.callCount, 0, 'should not have called mkdir')
       t.rejects(
-        preBuild.makePath(fakePath),
-        new Error(`Do not have access to '${fullPath}'`),
+        preBuild.makePath(),
+        new Error(`Do not have access to '${BUILD_PATH}'`),
         'should error with EACCESS'
       )
     })
@@ -59,15 +56,11 @@ tap.test('pre-build tests', (t) => {
       const expectedError = new Error('whoops')
       mockFsPromiseApi.mkdir.rejects(expectedError)
 
-      t.rejects(
-        preBuild.makePath(fakePath),
-        expectedError,
-        'should have rejected with expectedError'
-      )
+      t.rejects(preBuild.makePath(), expectedError, 'should have rejected with expectedError')
     })
 
     t.test('should not create the nested folder path if it exists and is accessible', async (t) => {
-      await preBuild.makePath(fakePath)
+      await preBuild.makePath()
       t.equal(mockFsPromiseApi.mkdir.callCount, 0, 'should not have called mkdir')
     })
   })
