@@ -1,3 +1,8 @@
+### v10.0.1 (2023-09-08)
+
+* Fixed issue where it could not download prebuilts.
+ * Fixed issue in Node 20 with using a proxy server to download prebuilts.
+
 ### v10.0.0 (2023-08-28)
 
 * **BREAKING**: Removed support for Node 14.
