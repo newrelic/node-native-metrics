@@ -1,6 +1,7 @@
 ### v10.0.1 (2023-09-11)
 
-* Fixed issue where it could not download prebuilts.
+* Fixed issue where this package could not download prebuilts.
+
 
 * Fixed issue in Node 20 with using a proxy server to download prebuilts.
 
