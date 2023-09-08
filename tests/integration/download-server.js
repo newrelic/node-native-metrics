@@ -25,6 +25,8 @@ execSync(`node ./lib/pre-build rebuild native_metrics`)
 execSync(`mv ./build/Release/*.node ${BINARY_TMP}`)
 const [file] = findBinary()
 const binaryPath = path.join(BINARY_TMP, file)
+// remove build folder as it is recreated during install/download
+execSync(`rm -rf ./build`)
 
 const server = http.createServer(function (req, res) {
   const raw = fs.createReadStream(binaryPath)
