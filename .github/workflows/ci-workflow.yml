@@ -9,6 +9,9 @@ on:
       - '**'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
@@ -19,9 +22,9 @@ jobs:
         node-version: [lts/*]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
@@ -31,112 +34,151 @@ jobs:
     - name: Inspect Lockfile
       run: npm run lint:lockfile
 
-  linux:
-    runs-on: ubuntu-latest
-
+  test_x86_x64:
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
-
+        os: [ ubuntu-latest, windows-latest ]
+        node: [ 16, 18, 20 ]
+        arch: [ x86, x64 ]
+        exclude:
+          # Ubuntu does not ship x86 builds.
+          - { os: ubuntu-latest, arch: x86 }
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install Dependencies
-      run: npm ci
-    - name: Rebuild
-      run: npm run rebuild
-    - name: Run Unit
-      run: npm run unit
-    - name: Post Unit Test Coverage
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./coverage/unit/
-        files: lcov.info
-        flags: unit-tests-${{ matrix.node-version }}-linux
-    - name: Run Integration
-      run: npm run integration
-    - name: Post Integration Test Coverage
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./coverage/integration/
-        files: lcov.info
-        flags: integration-tests-${{ matrix.node-version }}-linux
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.arch }}
+      - uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: ${{ matrix.os }}-${{ matrix.arch }}-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}
+      - name: Install
+        run: npm install
+      - name: Unit Test
+        run: npm run unit
+      - name: Post Unit Test Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/unit/
+          files: lcov.info
+          flags: unit-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
+      - name: Integration Test
+        run: npm run integration
+      - name: Post Integration Test Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/integration/
+          files: lcov.info
+          flags: integration-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
 
-  windows-2019:
-    runs-on: windows-2019
 
+  test_macos_arm:
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
-
+        os: [ macos-14 ]
+        node: [ 16, 18, 20 ]
+        arch: [ arm64 ]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install Dependencies
-      run: npm ci
-    - name: Rebuild
-      run: npm run rebuild
-    - name: Run Unit
-      run: npm run unit
-    - name: Post Unit Test Coverage
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./coverage/unit/
-        files: lcov.info
-        flags: unit-tests-${{ matrix.node-version }}-windows-2019
-    - name: Run Integration
-      run: npm run integration
-    - name: Post Integration Test Coverage
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./coverage/integration/
-        files: lcov.info
-        flags: integration-tests-${{ matrix.node-version }}-windows-2019
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: ${{ matrix.os }}-${{ matrix.arch }}-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.arch }}
+      - name: Install
+        run: npm install
+      - name: Unit Test
+        run: npm run unit
+      - name: Post Unit Test Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/unit/
+          files: lcov.info
+          flags: unit-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
+      - name: Integration Test
+        run: npm run integration
+      - name: Post Integration Test Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/integration/
+          files: lcov.info
+          flags: integration-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
 
-  windows-latest:
-    runs-on: windows-latest
-
-    # Node 16+ should eventually bundle node-gyp>=8.4.0 to be compatible with Server 2022.
-    # Once compatible, can remove node-gyp upgrade.
+  test_linux_arm:
+    # Skip this group if the PR doesn't originate from the main repo.
+    # Trying to run this on standard runners is just going to fail due to
+    # lack of CPU resources.
+    if: ${{ vars.NR_RUNNER != '' }}
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]
-
+        node: [ 16, 18, 20 ]
+    runs-on: ${{ vars.NR_RUNNER }}
+    name: Linux / Node ${{ matrix.node }} arm64
+    timeout-minutes: 15
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install Dependencies
-      run: npm ci
-    - name: Rebuild
-      run: npm run rebuild
-    - name: Run Unit
-      run: npm run unit
-    - name: Post Unit Test Coverage
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./coverage/unit/
-        files: lcov.info
-        flags: unit-tests-${{ matrix.node-version }}-windows-latest
-    - name: Run Integration
-      run: npm run integration
-    - name: Post Integration Test Coverage
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./coverage/integration/
-        files: lcov.info
-        flags: integration-tests-${{ matrix.node-version }}-windows-latest
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Compute cache key
+        run: echo -e "CACHE_KEY=$(shasum -a 256 package.json | cut -f1 -d ' ')" >> "$GITHUB_ENV"
+      - name: Restore modules cache
+        id: cache_restore
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: linux-arm-node-${{ matrix.node }}-${{ env.CACHE_KEY }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          build-args: |
+            NODE_VERSION=${{ matrix.node }}
+          file: linux_arm.dockerfile
+          tags: linux_arm:node-${{ matrix.node }}
+          load: true
+          push: false
+          platforms: linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Run test
+        uses: addnab/docker-run-action@v3
+        with:
+          image: linux_arm:node-${{ matrix.node }}
+          options: --platform linux/arm64 -v ${{ github.workspace }}:/host
+          run: |
+            cp -R /host/node_modules . 2>/dev/null
+            rm -rf /host/node_modules 2>/dev/null
+            # npm install will fail on Node 18 every time unless we use this
+            # very odd fix:
+            # https://github.com/npm/cli/issues/4652#issuecomment-1126672629
+            npm install --verbose --maxsockets 1
+            cp -R node_modules /host/
+            npm run unit
+            # Skipping integration until we can get native arm64 runners
+            # npm run integration
+      - name: Update modules cache
+        uses: actions/cache/save@v4
+        # We always want to run this step even if the "test" step failed.
+        if: ${{ steps.cache_restore.outputs.cache-hit != 'true' && !cancelled() }}
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: linux-arm-node-${{ matrix.node }}-${{ env.CACHE_KEY }}

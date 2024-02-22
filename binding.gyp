@@ -1,4 +1,9 @@
 {
+  "variables": {
+    # Node.js >= 20 seems to have issues with this. Search
+    # "'openssl_fips' is not defined while evaluating" for many results.
+    "openssl_fips": 0
+  },
   "targets": [{
     "target_name": "native_metrics",
     "sources": [

@@ -1,11 +1,227 @@
 name: Create Release
+on:
+  workflow_dispatch:
+    inputs:
+      changelog_file:
+        description: Name of changelog file.
+        type: string
+        required: false
+        default: CHANGELOG.md
 
-on: [workflow_dispatch]
-
+      dry_run:
+        description: Build package but don't tag or publish.
+        type: boolean
+        required: true
+        default: false
 jobs:
-  tag-and-publish:
-    uses: newrelic/node-newrelic/.github/workflows/release-creation.yml@main
-    with:
-      changelog_file: CHANGELOG.md
-    secrets:
-      npm_token: ${{ secrets.NODE_AGENT_NPM_TOKEN }}
+  build_x86_x64:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+        node: [ 16, 18, 20 ]
+        arch: [ x86, x64 ]
+        exclude:
+          # Ubuntu does not ship x86 builds.
+          - { os: ubuntu-latest, arch: x86 }
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.arch }}
+      - uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: ${{ matrix.os }}-${{ matrix.arch }}-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}
+      - name: Install
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.node }}
+          path: prebuilds
+
+  build_macos_arm:
+    strategy:
+      matrix:
+        os: [ macos-14 ]
+        node: [ 16, 18, 20 ]
+        arch: [ arm64 ]
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: ${{ matrix.os }}-${{ matrix.arch }}-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}
+      - name: Use node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          architecture: ${{ matrix.arch }}
+      - name: Install
+        run: npm install
+      - name: Build
+        run: npm run build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.node }}
+          path: prebuilds
+
+  build_linux_arm:
+    # Skip this group if the PR doesn't originate from the main repo.
+    # Trying to run this on standard runners is just going to fail due to
+    # lack of CPU resources.
+    if: ${{ vars.NR_RUNNER != '' }}
+    strategy:
+      matrix:
+        node: [ 16, 18, 20 ]
+    runs-on: ${{ vars.NR_RUNNER }}
+    name: Linux / Node ${{ matrix.node }} arm64
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Compute cache key
+        run: echo -e "CACHE_KEY=$(shasum -a 256 package.json | cut -f1 -d ' ')" >> "$GITHUB_ENV"
+      - name: Restore modules cache
+        id: cache_restore
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: linux-arm-node-${{ matrix.node }}-${{ env.CACHE_KEY }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          build-args: |
+            NODE_VERSION=${{ matrix.node }}
+          file: linux_arm.dockerfile
+          tags: linux_arm:node-${{ matrix.node }}
+          load: true
+          push: false
+          platforms: linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Run build
+        uses: addnab/docker-run-action@v3
+        with:
+          image: linux_arm:node-${{ matrix.node }}
+          options: --platform linux/arm64 -v ${{ github.workspace }}:/host
+          run: |
+            cp -R /host/node_modules . 2>/dev/null
+            rm -rf /host/node_modules 2>/dev/null
+            # npm install will fail on Node 18 every time unless we use this
+            # very odd fix:
+            # https://github.com/npm/cli/issues/4652#issuecomment-1126672629
+            npm install --verbose --maxsockets 1
+            cp -R node_modules /host/
+            npm run build
+            cp -R prebuilds /host/
+      - name: Update modules cache
+        uses: actions/cache/save@v4
+        # We always want to run this step even if the "test" step failed.
+        if: ${{ steps.cache_restore.outputs.cache-hit != 'true' && !cancelled() }}
+        with:
+          path: ${{ github.workspace }}/node_modules
+          key: linux-arm-node-${{ matrix.node }}-${{ env.CACHE_KEY }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-arm64-${{ matrix.node }}
+          path: prebuilds
+
+  package:
+    needs: [ build_x86_x64, build_macos_arm, build_linux_arm ]
+    runs-on: ubuntu-latest
+    name: Create package
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: |
+          mkdir prebuilds
+          rm -f .gitignore
+      - uses: actions/download-artifact@v4
+        with:
+          path: ${{ github.workspace }}/prebuilds
+          merge-multiple: true
+      - run: echo -e "PKG_VERSION=$(jq -r .version < package.json)" >> "$GITHUB_ENV"
+      - run: npm pack
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-module
+          path: newrelic-native-metrics-${{ env.PKG_VERSION }}.tgz
+
+  # Our typical flow looks like:
+  # 1. prepare-release workflow
+  # 2. create-release workflow
+  #
+  # We can't do that (easily) because access to artifacts from other workflows
+  # are difficult to access (requires a personal access token). See
+  # https://github.com/actions/download-artifact#download-artifacts-from-other-workflow-runs-or-repositories
+  #
+  # Given that, we need to replicate all of our create-release steps inline
+  # here.
+  tag_release:
+    if: ${{ inputs.dry_run == false }}
+    needs: [ package ]
+    runs-on: ubuntu-latest
+    name: Tag Release
+    steps:
+      - uses: actions/checkout@v4
+      # We need access to the prep scripts in the node-newrelic repo.
+      - uses: actions/checkout@v4
+        with:
+          repository: newrelic/node-newrelic
+          path: agent-repo
+      - uses: actions/setup-node@v4
+      - run: |
+          # Install agent-repo dependencies.
+          npm ci --prefix agent-repo
+      - name: Configure GitHub Credentials
+        run: |
+          git config user.name ${GITHUB_ACTOR}
+          git config user.email gh-actions-${GITHUB_ACTOR}@github.com
+      - name: Create Release Tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node ./agent-repo/bin/create-release-tag.js --branch ${{ github.ref }} --repo ${{ github.repository }} --workflows test.yml,prepare-release.yml
+      - name: Get Created Tag
+        id: get_tag
+        run: echo "latest_tag=$(git describe --tags --abbrev=0)" >> ${GITHUB_OUTPUT}
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node ./agent-repo/bin/create-github-release.js --tag ${{ steps.get_tag.outputs.latest_tag }} --repo ${{ github.repository }} --changelog ${{ inputs.changelog_file }}
+
+  publish:
+    if: ${{ inputs.dry_run == false }}
+    needs: [ tag_release ]
+    runs-on: ubuntu-latest
+    name: Publish Package
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: 'https://registry.npmjs.org'
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-module
+      - run: echo -e "PKG_NAME=$(ls -1A *.tgz | head -n 1)" >> "$GITHUB_ENV"
+      - run: npm publish --access=public ${PKG_NAME}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AGENT_NPM_TOKEN }}
