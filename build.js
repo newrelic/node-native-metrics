@@ -18,9 +18,11 @@ const { spawn } = require('child_process')
 
 main()
   .then(() => {
+    // eslint-disable-next-line no-console
     console.log('build done')
   })
   .catch((error) => {
+    // eslint-disable-next-line no-console
     console.error(error)
   })
 
