@@ -113,14 +113,15 @@ jobs:
 #          flags: integration-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
 
   test_linux_arm:
+    # Skip this group if the PR doesn't originate from the main repo.
+    # Trying to run this on standard runners is just going to fail due to
+    # lack of CPU resources.
+    if: ${{ vars.NR_RUNNER != '' }}
     strategy:
       max-parallel: 1
       matrix:
         node: [ 16, 18, 20 ]
-#    runs-on: ${{ vars.NR_RUNNER || 'ubuntu-latest' }}
     runs-on: ${{ vars.NR_RUNNER }}
-#    concurrency:
-#      group: linux_arm-${{ github.workflow }}-${{ github.ref }}
     name: Linux / Node ${{ matrix.node }} arm64
     timeout-minutes: 15
     steps:
