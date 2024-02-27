@@ -114,12 +114,17 @@ jobs:
 
   test_linux_arm:
     strategy:
+      max-parallel: 1
       matrix:
         node: [ 16, 18, 20 ]
-    runs-on: ${{ vars.NR_RUNNER || 'ubuntu-latest' }}
+#    runs-on: ${{ vars.NR_RUNNER || 'ubuntu-latest' }}
+    runs-on: ${{ vars.NR_RUNNER }}
+    concurrency:
+      group: linux_arm-${{ github.workflow }}-${{ github.ref }}
     name: Linux / Node ${{ matrix.node }} arm64
     timeout-minutes: 15
     steps:
+      - run: cat /proc/cpuinfo
       - name: Checkout
         uses: actions/checkout@v4
       - name: Set up QEMU
