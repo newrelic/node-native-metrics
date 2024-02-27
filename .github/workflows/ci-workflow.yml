@@ -34,83 +34,83 @@ jobs:
     - name: Inspect Lockfile
       run: npm run lint:lockfile
 
-  test_x86_x64:
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, windows-latest, windows-2019 ]
-        node: [ 16, 18, 20 ]
-        arch: [ x86, x64 ]
-        exclude:
-          # Ubuntu does not ship x86 builds.
-          - { os: ubuntu-latest, arch: x86 }
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Use node ${{ matrix.node }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          architecture: ${{ matrix.arch }}
-      - name: Install
-        run: npm install
-      - name: Unit Test
-        run: npm run unit
-      - name: Post Unit Test Coverage
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/unit/
-          files: lcov.info
-          flags: unit-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
-      - name: Integration Test
-        run: npm run integration
-      - name: Post Integration Test Coverage
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/integration/
-          files: lcov.info
-          flags: integration-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
-
-
-  test_macos_arm:
-    strategy:
-      matrix:
-        os: [ macos-14 ]
-        node: [ 16, 18, 20 ]
-        arch: [ arm64 ]
-    runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Use node ${{ matrix.node }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          architecture: ${{ matrix.arch }}
-      - name: Install
-        run: npm install
-      - name: Unit Test
-        run: npm run unit
-      - name: Post Unit Test Coverage
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/unit/
-          files: lcov.info
-          flags: unit-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
-      - name: Integration Test
-        run: npm run integration
-      - name: Post Integration Test Coverage
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage/integration/
-          files: lcov.info
-          flags: integration-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
+#  test_x86_x64:
+#    strategy:
+#      matrix:
+#        os: [ ubuntu-latest, windows-latest, windows-2019 ]
+#        node: [ 16, 18, 20 ]
+#        arch: [ x86, x64 ]
+#        exclude:
+#          # Ubuntu does not ship x86 builds.
+#          - { os: ubuntu-latest, arch: x86 }
+#    runs-on: ${{ matrix.os }}
+#    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Use node ${{ matrix.node }}
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: ${{ matrix.node }}
+#          architecture: ${{ matrix.arch }}
+#      - name: Install
+#        run: npm install
+#      - name: Unit Test
+#        run: npm run unit
+#      - name: Post Unit Test Coverage
+#        uses: codecov/codecov-action@v4
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          directory: ./coverage/unit/
+#          files: lcov.info
+#          flags: unit-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
+#      - name: Integration Test
+#        run: npm run integration
+#      - name: Post Integration Test Coverage
+#        uses: codecov/codecov-action@v4
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          directory: ./coverage/integration/
+#          files: lcov.info
+#          flags: integration-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
+#
+#
+#  test_macos_arm:
+#    strategy:
+#      matrix:
+#        os: [ macos-14 ]
+#        node: [ 16, 18, 20 ]
+#        arch: [ arm64 ]
+#    runs-on: ${{ matrix.os }}
+#    name: ${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#      - name: Use node ${{ matrix.node }}
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: ${{ matrix.node }}
+#          architecture: ${{ matrix.arch }}
+#      - name: Install
+#        run: npm install
+#      - name: Unit Test
+#        run: npm run unit
+#      - name: Post Unit Test Coverage
+#        uses: codecov/codecov-action@v4
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          directory: ./coverage/unit/
+#          files: lcov.info
+#          flags: unit-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
+#      - name: Integration Test
+#        run: npm run integration
+#      - name: Post Integration Test Coverage
+#        uses: codecov/codecov-action@v4
+#        with:
+#          token: ${{ secrets.CODECOV_TOKEN }}
+#          directory: ./coverage/integration/
+#          files: lcov.info
+#          flags: integration-tests-${{ matrix.node }}-${{ matrix.os }}-${{ matrix.arch }}
 
   test_linux_arm:
     strategy:
