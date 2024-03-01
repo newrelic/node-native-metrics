@@ -2,12 +2,6 @@ name: Create Release
 on:
   workflow_dispatch:
     inputs:
-      changelog_file:
-        description: Name of changelog file.
-        type: string
-        required: false
-        default: CHANGELOG.md
-
       dry_run:
         description: Build package but don't tag or publish.
         type: boolean
@@ -207,7 +201,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          node ./agent-repo/bin/create-github-release.js --tag ${{ steps.get_tag.outputs.latest_tag }} --repo ${{ github.repository }} --changelog ${{ inputs.changelog_file }}
+          node ./agent-repo/bin/create-github-release.js --tag ${{ steps.get_tag.outputs.latest_tag }} --repo ${{ github.repository }} --changelog CHANGELOG.md
 
   publish:
     if: ${{ inputs.dry_run == false }}
