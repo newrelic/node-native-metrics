@@ -22,9 +22,15 @@ $ npm install --save @newrelic/native-metrics
 ```
 
 Note that this is a native module and thus must be compiled to function.
-Pre-built binaries are provided for Linux servers running supported versions of
-Node. If you are not using Linux or not using a supported version of Node, you
-will need to have a compiler installed on the machine where this is to be
+Pre-built binaries are included in the package for the following platforms, across all LTS versions of Node.js:
+
++ Linux/amd64
++ Linux/arm64
++ macOS/arm64
++ Windows/x64
++ Windows/x86
+
+If your system does not match the above matrix, you will need to have a compiler installed on the machine where this is to be
 deployed. See [node-gyp](https://www.npmjs.com/package/node-gyp#installation)
 for more information on compiling native addons.
 
@@ -33,43 +39,10 @@ another, the two machines must have the same operating system and architecture.
 If they are not, you will need to re-build the native module after deploying in
 order to get the correct binaries.
 
-During installation, the module will first attempt build from source on the
-target machine. If that fails, it will attempt to download a pre-built binary
-for your system. You can disable the download attempt by setting
-`NR_NATIVE_METRICS_NO_DOWNLOAD` to `true` in your environment before
-installation.
+During installation, the module will first attempt to locate a prebuilt binary for the target machine within its included list of prebuilt binaries. If that fails, it will attempt a standard [node-gyp](https://www.npmjs.com/package/node-gyp#installation) build. If you do not want to use prebuilt binary, or know that it will need to be built, you can force a build:
 
 ```sh
-$ export NR_NATIVE_METRICS_NO_DOWNLOAD=true
-$ npm install @newrelic/native-metrics
-```
-
-If you would like to skip the build step and only attempt to download a
-pre-build binary, set `NR_NATIVE_METRICS_NO_BUILD` to `true`.
-
-```sh
-$ export NR_NATIVE_METRICS_NO_BUILD=true
-$ npm install @newrelic/native-metrics
-```
-
-If both env vars are set, `NO_BUILD` will override `NO_DOWNLOAD`.
-
-If you are working behind a firewall and want to cache the downloads internally
-you can set the value of the download host and remote path instead of forcing a
-build:
-
-```sh
-$ export NR_NATIVE_METRICS_DOWNLOAD_HOST=http://your-internal-cache/
-$ export NR_NATIVE_METRICS_REMOTE_PATH=path/to/download/folder/
-$ npm install @newrelic/native-metrics
-```
-
-You can also specify a proxy host to route requests through using the `NR_NATIVE_METRICS_PROXY_HOST` environment variable:
-
-```sh
-$ export NR_NATIVE_METRICS_NO_BUILD=true
-$ export NR_NATIVE_METRICS_PROXY_HOST=http://your-proxy-host/
-$ npm install @newrelic/native-metrics
+$ npm install @newrelic/native-metrics --build-from-source
 ```
 
 For more information, please see the agent [installation guide][install-node] and [compatibility and requirements][compatibility].

@@ -7,8 +7,7 @@
 
 const EventEmitter = require('events').EventEmitter
 const util = require('util')
-const preBuild = require('./lib/pre-build')
-const natives = preBuild.load('native_metrics')
+const natives = require('node-gyp-build')(__dirname)
 const semver = require('semver')
 
 const DEFAULT_TIMEOUT = 15 * 1000 // 15 seconds
