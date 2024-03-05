@@ -193,7 +193,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          node ./agent-repo/bin/create-release-tag.js --branch ${{ github.ref }} --repo ${{ github.repository }} --workflows test.yml,prepare-release.yml
+          node ./agent-repo/bin/create-release-tag.js --branch ${{ github.ref }} --repo ${{ github.repository }} --workflows prepare-release.yml
       - name: Get Created Tag
         id: get_tag
         run: echo "latest_tag=$(git describe --tags --abbrev=0)" >> ${GITHUB_OUTPUT}
