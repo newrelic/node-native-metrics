@@ -1,3 +1,11 @@
+### v10.1.0 (2024-03-05)
+
+* Migrated to using prebuildify and node-gyp-install.
+  + Prebuilt binaries are now shipped in the npm package.
+  + Prebuilt binaries are included for Node.js 16, 18, and 20 across Windows x86/x64, Linux amd64/arm64, and macOS arm64.
+  + The environment variables `NR_NATIVE_METRICS_NO_DOWNLOAD`, `NR_NATIVE_METRICS_NO_BUILD`, `NR_NATIVE_METRICS_DOWNLOAD_HOST`, and `NR_NATIVE_METRICS_REMOTE_PATH` have been removed.
+* Bumped [@babel/traverse](https://github.com/babel/babel/tree/HEAD/packages/babel-traverse) from 7.22.5 to 7.23.2.
+
 ### v10.0.1 (2023-09-11)
 
 * Fixed issue where this package could not download prebuilts.
