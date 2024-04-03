@@ -98,6 +98,7 @@
   },
   "dependencies": {
     "nan": "^2.18.0",
+    "node-gyp": "^10.1.0",
     "node-gyp-build": "^4.8.0",
     "prebuildify": "^6.0.0",
     "semver": "^7.5.2"
