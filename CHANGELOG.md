@@ -1,3 +1,14 @@
+### v10.1.1 (2024-04-09)
+
+#### Miscellaneous chores
+
+* Skipped macOS integration tests in CI ([#245](https://github.com/newrelic/node-native-metrics/pull/245)) ([20b096f](https://github.com/newrelic/node-native-metrics/commit/20b096ffbc615a34a87e6818222ab44925341b79))
+
+#### Continuous integration
+
+* Removed `use_new_release` input from prepare release workflow ([#247](https://github.com/newrelic/node-native-metrics/pull/247)) ([6cadc52](https://github.com/newrelic/node-native-metrics/commit/6cadc5289596fc98942274a614d6e4cfcc7af26c))
+* Updated CI process for releases ([#246](https://github.com/newrelic/node-native-metrics/pull/246)) ([aa63ee8](https://github.com/newrelic/node-native-metrics/commit/aa63ee830288b096b48c6064bf19456eb9f9c635))
+
 ### v10.1.0 (2024-03-05)
 
 * Migrated to using prebuildify and node-gyp-install.
