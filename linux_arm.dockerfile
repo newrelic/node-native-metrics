@@ -7,6 +7,6 @@ WORKDIR /app
 RUN mkdir /app/src
 COPY ./src/ /app/src/
 COPY ./tests/ /app/tests/
-COPY binding.gyp index.js package.json package-lock.json build.js /app/
+COPY binding.gyp index.js package.json build.js /app/
 
 CMD npm install && npm test
