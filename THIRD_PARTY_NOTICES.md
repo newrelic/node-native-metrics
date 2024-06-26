@@ -39,7 +39,6 @@ code, the source code can be found at [https://github.com/newrelic/node-native-m
 * [nock](#nock)
 * [prettier](#prettier)
 * [proxyquire](#proxyquire)
-* [segfault-handler](#segfault-handler)
 * [sinon](#sinon)
 * [tap](#tap)
 
@@ -48,7 +47,7 @@ code, the source code can be found at [https://github.com/newrelic/node-native-m
 
 ### nan
 
-This product includes source derived from [nan](https://github.com/nodejs/nan) ([v2.18.0](https://github.com/nodejs/nan/tree/v2.18.0)), distributed under the [MIT License](https://github.com/nodejs/nan/blob/v2.18.0/LICENSE.md):
+This product includes source derived from [nan](https://github.com/nodejs/nan) ([v2.19.0](https://github.com/nodejs/nan/tree/v2.19.0)), distributed under the [MIT License](https://github.com/nodejs/nan/blob/v2.19.0/LICENSE.md):
 
 ```
 The MIT License (MIT)
@@ -65,7 +64,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### node-gyp-build
 
-This product includes source derived from [node-gyp-build](https://github.com/prebuild/node-gyp-build) ([v4.8.0](https://github.com/prebuild/node-gyp-build/tree/v4.8.0)), distributed under the [MIT License](https://github.com/prebuild/node-gyp-build/blob/v4.8.0/LICENSE):
+This product includes source derived from [node-gyp-build](https://github.com/prebuild/node-gyp-build) ([v4.8.1](https://github.com/prebuild/node-gyp-build/tree/v4.8.1)), distributed under the [MIT License](https://github.com/prebuild/node-gyp-build/blob/v4.8.1/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -126,7 +125,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 ### prebuildify
 
-This product includes source derived from [prebuildify](https://github.com/prebuild/prebuildify) ([v6.0.0](https://github.com/prebuild/prebuildify/tree/v6.0.0)), distributed under the [MIT License](https://github.com/prebuild/prebuildify/blob/v6.0.0/LICENSE):
+This product includes source derived from [prebuildify](https://github.com/prebuild/prebuildify) ([v6.0.1](https://github.com/prebuild/prebuildify/tree/v6.0.1)), distributed under the [MIT License](https://github.com/prebuild/prebuildify/blob/v6.0.1/LICENSE):
 
 ```
 The MIT License (MIT)
@@ -7272,40 +7271,6 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-```
-
-### segfault-handler
-
-This product includes source derived from [segfault-handler](https://github.com/ddopson/node-segfault-handler) ([v1.3.0](https://github.com/ddopson/node-segfault-handler/tree/v1.3.0)), distributed under the [BSD-3-Clause License](https://github.com/ddopson/node-segfault-handler/blob/v1.3.0/LICENSE):
-
-```
-Copyright (c) 2015-2019 Dave Dopson.
-Copyright (c) 2019 Kenneth Geisshirt.
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-
-1. Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
-2. Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in the
-   documentation and/or other materials provided with the distribution.
-3. Neither the name of the copyright holder nor the names of its contributors
-   may be used to endorse or promote products derived from this software
-   without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITYcAND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHERcIN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
 ### sinon
