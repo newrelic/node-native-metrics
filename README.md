@@ -2,6 +2,8 @@
 
 # Native Metrics for New Relic Node.js Agent
 
+no-op
+
 [![npm status badge][1]][2] [![native-metrics CI][ci-badge]][ci-link] [![codecov][3]][4]
 
 This module provides hooks into the native layer of Node.js to provide metrics for
