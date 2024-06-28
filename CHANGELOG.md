@@ -1,3 +1,17 @@
+### v10.2.0 (2024-06-28)
+
+#### Features
+
+* Added support for Node 22.
+
+#### Miscellaneous chores
+
+* Added Node 22 to CI ([#250](https://github.com/newrelic/node-native-metrics/pull/250)) ([523426f](https://github.com/newrelic/node-native-metrics/commit/523426fa70cecbf99820c04e0495a7d4f6f62d26))
+* **deps-dev:** bump braces from 3.0.2 to 3.0.3 ([#257](https://github.com/newrelic/node-native-metrics/pull/257)) ([38b36a6](https://github.com/newrelic/node-native-metrics/commit/38b36a6f06d1750b2b45cf318dad6d036559a37c))
+* Made pre-commit hook require dep updates before running update third party deps ([#251](https://github.com/newrelic/node-native-metrics/pull/251)) ([bfab44d](https://github.com/newrelic/node-native-metrics/commit/bfab44d54add9549145cbaebd73223387b150f58))
+* Removed copying package-lock.json to linux arm docker container ([#261](https://github.com/newrelic/node-native-metrics/pull/261)) ([da2d7c1](https://github.com/newrelic/node-native-metrics/commit/da2d7c16f7e4c4bb9e21ba03f4b1260bfec2404f))
+* Removed outdated Slack reference ([#253](https://github.com/newrelic/node-native-metrics/pull/253)) ([d76afb4](https://github.com/newrelic/node-native-metrics/commit/d76afb40f0ef17030134213971d4239189dd63f8))
+
 ### v10.1.1 (2024-04-09)
 
 #### Miscellaneous chores
