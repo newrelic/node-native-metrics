@@ -17,10 +17,7 @@ uint64_t getUsageSumInUS() {
   uv_rusage_t usage;
   uv_getrusage(&usage);
   return (
-    usage.ru_utime.tv_sec * SEC_TO_MICRO +
-    usage.ru_utime.tv_usec +
-    usage.ru_stime.tv_sec * SEC_TO_MICRO +
-    usage.ru_stime.tv_usec
+    usage.ru_utime.tv_sec * SEC_TO_MICRO // less math
   );
 }
 
