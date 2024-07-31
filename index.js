@@ -8,32 +8,15 @@
 const EventEmitter = require('events').EventEmitter
 const util = require('util')
 const natives = require('node-gyp-build')(__dirname)
-const semver = require('semver')
-
 const DEFAULT_TIMEOUT = 15 * 1000 // 15 seconds
-let GC_TYPE_NAMES = null
 
-// In Node 18(v8 10) the GCType enum added `MinorMarkCompact`
-// we have to update our mapping to properly account for this
-if (semver.satisfies(process.version, '>=18')) {
-  GC_TYPE_NAMES = {
-    1: 'Scavenge',
-    2: 'MinorMarkCompact',
-    4: 'MarkSweepCompact',
-    8: 'IncrementalMarking',
-    16: 'ProcessWeakCallbacks',
-    31: 'All'
-  }
-} else {
-  GC_TYPE_NAMES = {
-    1: 'Scavenge',
-    2: 'MarkSweepCompact',
-    4: 'IncrementalMarking',
-    8: 'ProcessWeakCallbacks',
-
-    3: 'All', // Node v4 and earlier only have Scavenge and MarkSweepCompact.
-    15: 'All'
-  }
+const GC_TYPE_NAMES = {
+  1: 'Scavenge',
+  2: 'MinorMarkCompact',
+  4: 'MarkSweepCompact',
+  8: 'IncrementalMarking',
+  16: 'ProcessWeakCallbacks',
+  31: 'All'
 }
 
 /**
