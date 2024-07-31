@@ -1,3 +1,16 @@
+### v11.0.0 (2024-07-31)
+#### ⚠ BREAKING CHANGES
+
+* Removed support for Node.js 16 (#273)
+
+#### Features
+
+* Removed support for Node.js 16 ([#273](https://github.com/newrelic/node-native-metrics/issues/273)) ([#274](https://github.com/newrelic/node-native-metrics/pull/274)) ([9f2d5c3](https://github.com/newrelic/node-native-metrics/commit/9f2d5c3dca1e4d3effcef2531d027d13bec39c0c))
+
+#### Miscellaneous chores
+
+* Updated CI to use native arm64 runner ([#264](https://github.com/newrelic/node-native-metrics/pull/264)) ([de17116](https://github.com/newrelic/node-native-metrics/commit/de171164cdb63a62b7c59754d0a412de635eb39b))
+
 ### v10.2.0 (2024-06-28)
 
 #### Features
