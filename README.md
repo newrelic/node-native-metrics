@@ -47,6 +47,62 @@ $ npm install @newrelic/native-metrics --build-from-source
 
 For more information, please see the agent [installation guide][install-node] and [compatibility and requirements][compatibility].
 
+### Musl Libc Systems
+
+As noted above, this module ships pre-built binaries for most standard systems,
+i.e. systems based on the [GNU C Library](https://en.wikipedia.org/wiki/Glibc).
+As of August 2024, Node.js does not provide "official" releases that are based
+on [musl libc](https://en.wikipedia.org/wiki/Musl); such builds are only
+available via the [unofficial builds](https://github.com/nodejs/unofficial-builds)
+project. Therefore, if deploying to musl based systems, e.g. Alpine Linux, you
+must provide a [node-gyp](https://github.com/nodejs/node-gyp) compatible build
+environment.
+
+As an example, to install and use this module on an Alpine Linux based Docker
+image, we can utilize the [multi-stage build](https://docs.docker.com/build/building/multi-stage/)
+pattern to build a compatible image:
+
+**package.json**:
+```json
+{
+  "dependencies": {
+    "@newrelic/native-metrics": "^11.0.0"
+  }
+}
+```
+
+**index.js**:
+```js
+'use strict'
+
+const metrics = require('@newrelic/native-metrics')
+console.log("gcEnabled:", metrics().gcEnabled)
+```
+
+**Dockerfile**:
+```Dockerfile
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+COPY index.js package.json .
+
+RUN apk add g++ make py3-pip
+RUN npm install --production
+
+FROM node:20-alpine
+COPY --from=builder app/ /app/
+WORKDIR /app
+CMD node index.js
+```
+
+With those files in place, we can build and run the image:
+
+```sh
+$ docker build --tag demo .
+$ docker run --rm -it demo
+gcEnabled: true
+```
+
 ## Usage
 
 ```js
