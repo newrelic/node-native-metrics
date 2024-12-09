@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:lockfile": "lockfile-lint --path package-lock.json --type npm --allowed-hosts npm --validate-https --validate-integrity",
-    "unit": "c8 -o ./coverage/unit node --test --expose-gc tests/unit/*.test.js",
+    "unit": "c8 -o ./coverage/unit node --expose-gc --test tests/unit/*.test.js",
     "integration": "c8 -o ./coverage/integration tap --timeout 360000 --jobs=1 --no-coverage tests/integration/*.tap.js",
     "native": "node tests/native/*.js",
     "test": "npm run unit && npm run integration",
