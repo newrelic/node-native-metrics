@@ -28,7 +28,8 @@ test('Loop Metrics', async (t) => {
   assert.strictEqual(typeof metric.sumOfSquares, 'number', 'should have a sumOfSquares')
   assert.strictEqual(typeof metric.count, 'number', 'should have a count')
 
-  // Check that the values are reset after the first call.
+  // Check that the values are reset after the first call. Since this is
+  // synchronous with the previous call, all results should be zero.
   metric = metricEmitter.getLoopMetrics().usage
   assert.deepStrictEqual(
     metric,
