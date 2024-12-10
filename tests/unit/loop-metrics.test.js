@@ -46,7 +46,7 @@ test('Loop Metrics', async (t) => {
   // Queue up a loop with some CPU burn.
   await new Promise((resolve) => setTimeout(resolve, 100))
 
-  console.log('spinning cpu...')
+  // spinning cpu...
   const start = Date.now()
   while (Date.now() - start < SPIN_TIME) {} // Spin the CPU for 2 seconds.
 
@@ -59,11 +59,7 @@ test('Loop Metrics', async (t) => {
   const usage = metric.usage
 
   const meanTime = usage.total / usage.count
-  if (process.arch === 'arm64') {
-    console.log(
-      `{ min: ${usage.min}, max: ${usage.max}, meanTime: ${meanTime}, count: ${usage.count}, total: ${usage.total} }`
-    )
-  }
+
   assert.ok(
     usage.total * MICRO_TO_MILLIS > SPIN_TIME - CPU_EPSILON,
     'should have total greater than spin time'
