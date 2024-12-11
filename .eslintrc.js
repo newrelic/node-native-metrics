@@ -10,6 +10,6 @@ module.exports = {
     'consistent-return': 'off'
   },
   parserOptions: {
-    ecmaVersion: '2020'
+    ecmaVersion: '2021'
   }
 }
