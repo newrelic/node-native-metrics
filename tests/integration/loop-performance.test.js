@@ -1,13 +1,14 @@
 /*
- * Copyright 2020 New Relic Corporation. All rights reserved.
+ * Copyright 2024 New Relic Corporation. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  */
 
 'use strict'
 
-const tap = require('tap')
+const test = require('node:test')
+const assert = require('node:assert')
 
-const TEST_DURATION = 30 * 1000
+const TEST_DURATION = 30 * 1_000
 let performanceThreshold = 0.98
 if (process.platform === 'darwin') {
   // The GitHub macOS runners are slow and vary widely in their slowness
@@ -17,7 +18,7 @@ if (process.platform === 'darwin') {
   performanceThreshold = 0.97
 }
 
-tap.test('loop performance test', { timeout: 2 * TEST_DURATION + 1000 }, function (t) {
+test('loop performance test', { timeout: 2 * TEST_DURATION + 1_000 }, (t, end) => {
   // The purpose of this test is to measure how much tracking metrics
   // impacts the processing overhead of the application loop. To do so, we:
   //
@@ -32,13 +33,13 @@ tap.test('loop performance test', { timeout: 2 * TEST_DURATION + 1000 }, functio
   let callCount = 0
   let natives = null
 
-  t.teardown(function () {
+  t.after(function () {
     if (natives) {
       natives.unbind()
     }
   })
 
-  t.comment('measuring without loop counter')
+  // measuring without loop counter
   setTimeoutCount()
   setTimeout(function () {
     const noMetricsCount = callCount
@@ -48,9 +49,9 @@ tap.test('loop performance test', { timeout: 2 * TEST_DURATION + 1000 }, functio
     natives = require('../../')()
     const readInterval = setInterval(function () {
       natives.getLoopMetrics() // To reset the metrics
-    }, 1000)
+    }, 1_000)
 
-    t.comment('measuring with loop counter')
+    // measuring with loop counter
     setTimeoutCount()
     setTimeout(function () {
       const withMetricsCount = callCount
@@ -58,12 +59,12 @@ tap.test('loop performance test', { timeout: 2 * TEST_DURATION + 1000 }, functio
       clearTimeout(timeout)
       clearInterval(readInterval)
 
-      t.comment(noMetricsCount + ' vs ' + withMetricsCount)
-      t.ok(
+      // console.log(noMetricsCount + ' vs ' + withMetricsCount)
+      assert.ok(
         noMetricsCount * performanceThreshold < withMetricsCount,
         `should not impact performance by more than ${1 - performanceThreshold}%`
       )
-      t.end()
+      end()
     }, TEST_DURATION)
   }, TEST_DURATION)
 
