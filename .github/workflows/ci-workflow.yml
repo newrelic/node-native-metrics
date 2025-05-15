@@ -38,11 +38,12 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        node: [ 18, 20, 22 ]
+        node: [ 18, 20, 22, 24 ]
         arch: [ x86, x64 ]
         exclude:
           # Ubuntu does not ship x86 builds.
           - { os: ubuntu-latest, arch: x86 }
+          - { os: windows-latest, arch: x86, node: 24 }
     runs-on: ${{ matrix.os }}
     name: "${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}"
     steps:
@@ -85,7 +86,7 @@ jobs:
 #    strategy:
 #      matrix:
 #        os: [ macos-14 ]
-#        node: [ 18, 20, 22 ]
+#        node: [ 18, 20, 22, 24 ]
 #        arch: [ arm64 ]
 #    runs-on: ${{ matrix.os }}
 #    name: "${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}"
@@ -129,7 +130,7 @@ jobs:
     if: ${{ vars.NR_RUNNER != '' }}
     strategy:
       matrix:
-        node: [ 18, 20, 22 ]
+        node: [ 18, 20, 22, 24 ]
     runs-on: ${{ vars.NR_RUNNER }}
     name: Linux / Node ${{ matrix.node }} arm64
     timeout-minutes: 15
