@@ -7,11 +7,11 @@
 #### Miscellaneous chores
 
 * Added documentation for musl libc systems ([#277](https://github.com/newrelic/node-native-metrics/pull/277)) ([869e524](https://github.com/newrelic/node-native-metrics/commit/869e524786681fd024325bb0a8ce4972dbdb6082))
-* Updated integration tests to node:test ([#283](https://github.com/newrelic/node-native-metrics/pull/283)) ([a28342c](https://github.com/newrelic/node-native-metrics/commit/a28342ce6d1bda891ffc1230209268c932af3113))
 
 #### Tests
 
 * Updated unit tests to use `node:test` ([#282](https://github.com/newrelic/node-native-metrics/pull/282)) ([7a53a19](https://github.com/newrelic/node-native-metrics/commit/7a53a192103163920e236c247216f71ba302a4ce))
+* Updated integration tests to node:test ([#283](https://github.com/newrelic/node-native-metrics/pull/283)) ([a28342c](https://github.com/newrelic/node-native-metrics/commit/a28342ce6d1bda891ffc1230209268c932af3113))
 
 ### v11.0.0 (2024-07-31)
 #### ⚠ BREAKING CHANGES
