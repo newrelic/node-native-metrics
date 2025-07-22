@@ -1,3 +1,14 @@
+### v12.0.0 (2025-07-22)
+#### ⚠ BREAKING CHANGES
+
+This version of the Node.js agent is a SemVer MAJOR update and contains the following breaking changes. MAJOR versions may drop support for language runtimes that have reached End-of-Life according to the maintainer. Additionally, MAJOR versions may drop support for and remove certain instrumentation. For more details on these changes please see the [migration guide](https://docs.newrelic.com/docs/apm/agents/nodejs-agent/installation-configuration/update-nodejs-agent/).
+
+* Removed Node.js 18 support
+
+#### Features
+
+* Removed Node.js 18 support ([#287](https://github.com/newrelic/node-native-metrics/pull/287)) ([401be22](https://github.com/newrelic/node-native-metrics/commit/401be22759bfa81d8e4504c20b7e511a10f7fd39))
+
 ### v11.1.0 (2025-05-15)
 
 #### Features
