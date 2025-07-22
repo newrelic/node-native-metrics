@@ -1,3 +1,12 @@
+### v12.0.0 (2025-07-22)
+#### ⚠ BREAKING CHANGES
+
+* Removed Node.js 18 support
+
+#### Features
+
+* Removed Node.js 18 support ([#287](https://github.com/newrelic/node-native-metrics/pull/287)) ([401be22](https://github.com/newrelic/node-native-metrics/commit/401be22759bfa81d8e4504c20b7e511a10f7fd39))
+
 ### v11.1.0 (2025-05-15)
 
 #### Features
