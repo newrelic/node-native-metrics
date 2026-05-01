@@ -81,7 +81,7 @@ console.log("gcEnabled:", metrics().gcEnabled)
 
 **Dockerfile**:
 ```Dockerfile
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 COPY index.js package.json .
@@ -89,7 +89,7 @@ COPY index.js package.json .
 RUN apk add g++ make py3-pip
 RUN npm install --production
 
-FROM node:20-alpine
+FROM node:22-alpine
 COPY --from=builder app/ /app/
 WORKDIR /app
 CMD node index.js
