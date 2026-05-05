@@ -1,3 +1,17 @@
+### v13.0.0 (2026-05-05)
+#### ⚠ BREAKING CHANGES
+
+
+* Removed Node.js 20 support
+
+#### Features
+
+* Removed Node.js 20 support ([#292](https://github.com/newrelic/node-native-metrics/pull/292)) ([b5306f8](https://github.com/newrelic/node-native-metrics/commit/b5306f86831c2efe05d22e0f865b1162df73432a))
+
+#### Miscellaneous chores
+
+* Update release workflow ([#290](https://github.com/newrelic/node-native-metrics/pull/290)) ([21854c8](https://github.com/newrelic/node-native-metrics/commit/21854c84417978fe23f2742e1acc51866fe4afd9))
+
 ### v12.0.0 (2025-07-22)
 #### ⚠ BREAKING CHANGES
 
