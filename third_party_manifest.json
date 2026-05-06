@@ -1,30 +1,30 @@
 {
-  "lastUpdated": "Tue May 13 2025 15:43:13 GMT-0400 (Eastern Daylight Time)",
+  "lastUpdated": "Tue May 05 2026 17:17:18 GMT-0400 (Eastern Daylight Time)",
   "projectName": "Native Metrics for New Relic Node Agent",
   "projectUrl": "https://github.com/newrelic/node-native-metrics",
   "includeOptDeps": false,
   "includeDev": true,
   "dependencies": {
-    "nan@2.22.2": {
+    "nan@2.26.2": {
       "name": "nan",
-      "version": "2.22.2",
+      "version": "2.26.2",
       "range": "^2.22.2",
       "licenses": "MIT",
       "repoUrl": "https://github.com/nodejs/nan",
-      "versionedRepoUrl": "https://github.com/nodejs/nan/tree/v2.22.2",
+      "versionedRepoUrl": "https://github.com/nodejs/nan/tree/v2.26.2",
       "licenseFile": "node_modules/nan/LICENSE.md",
-      "licenseUrl": "https://github.com/nodejs/nan/blob/v2.22.2/LICENSE.md",
+      "licenseUrl": "https://github.com/nodejs/nan/blob/v2.26.2/LICENSE.md",
       "licenseTextSource": "file"
     },
-    "node-gyp-build@4.8.4": {
+    "node-gyp-build@4.8.1": {
       "name": "node-gyp-build",
-      "version": "4.8.4",
+      "version": "4.8.1",
       "range": "^4.8.1",
       "licenses": "MIT",
       "repoUrl": "https://github.com/prebuild/node-gyp-build",
-      "versionedRepoUrl": "https://github.com/prebuild/node-gyp-build/tree/v4.8.4",
+      "versionedRepoUrl": "https://github.com/prebuild/node-gyp-build/tree/v4.8.1",
       "licenseFile": "node_modules/node-gyp-build/LICENSE",
-      "licenseUrl": "https://github.com/prebuild/node-gyp-build/blob/v4.8.4/LICENSE",
+      "licenseUrl": "https://github.com/prebuild/node-gyp-build/blob/v4.8.1/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Mathias Buus",
       "url": "@mafintosh"
@@ -95,28 +95,28 @@
       "licenseTextSource": "file",
       "publisher": "Caolan McMahon"
     },
-    "aws-sdk@2.1591.0": {
+    "aws-sdk@2.1656.0": {
       "name": "aws-sdk",
-      "version": "2.1591.0",
+      "version": "2.1656.0",
       "range": "^2.266.1",
       "licenses": "Apache-2.0",
       "repoUrl": "https://github.com/aws/aws-sdk-js",
-      "versionedRepoUrl": "https://github.com/aws/aws-sdk-js/tree/v2.1591.0",
+      "versionedRepoUrl": "https://github.com/aws/aws-sdk-js/tree/v2.1656.0",
       "licenseFile": "node_modules/aws-sdk/LICENSE.txt",
-      "licenseUrl": "https://github.com/aws/aws-sdk-js/blob/v2.1591.0/LICENSE.txt",
+      "licenseUrl": "https://github.com/aws/aws-sdk-js/blob/v2.1656.0/LICENSE.txt",
       "licenseTextSource": "file",
       "publisher": "Amazon Web Services",
       "url": "https://aws.amazon.com/"
     },
-    "borp@0.20.0": {
+    "borp@0.20.2": {
       "name": "borp",
-      "version": "0.20.0",
+      "version": "0.20.2",
       "range": "^0.20.0",
       "licenses": "MIT",
       "repoUrl": "https://github.com/mcollina/borp",
-      "versionedRepoUrl": "https://github.com/mcollina/borp/tree/v0.20.0",
+      "versionedRepoUrl": "https://github.com/mcollina/borp/tree/v0.20.2",
       "licenseFile": "node_modules/borp/LICENSE",
-      "licenseUrl": "https://github.com/mcollina/borp/blob/v0.20.0/LICENSE",
+      "licenseUrl": "https://github.com/mcollina/borp/blob/v0.20.2/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Matteo Collina",
       "email": "hello@matteocollina.com"
@@ -221,15 +221,15 @@
       "publisher": "Andrey Okonetchnikov",
       "email": "andrey@okonet.ru"
     },
-    "lockfile-lint@4.13.2": {
+    "lockfile-lint@4.14.0": {
       "name": "lockfile-lint",
-      "version": "4.13.2",
+      "version": "4.14.0",
       "range": "^4.9.6",
       "licenses": "Apache-2.0",
       "repoUrl": "https://github.com/lirantal/lockfile-lint",
-      "versionedRepoUrl": "https://github.com/lirantal/lockfile-lint/tree/v4.13.2",
+      "versionedRepoUrl": "https://github.com/lirantal/lockfile-lint/tree/v4.14.0",
       "licenseFile": "node_modules/lockfile-lint/LICENSE",
-      "licenseUrl": "https://github.com/lirantal/lockfile-lint/blob/v4.13.2/LICENSE",
+      "licenseUrl": "https://github.com/lirantal/lockfile-lint/blob/v4.14.0/LICENSE",
       "licenseTextSource": "file",
       "publisher": "Liran Tal",
       "email": "liran.tal@gmail.com",
@@ -247,6 +247,20 @@
       "licenseTextSource": "file",
       "publisher": "Pedro Teixeira",
       "email": "pedro.teixeira@gmail.com"
+    },
+    "node-gyp@12.3.0": {
+      "name": "node-gyp",
+      "version": "12.3.0",
+      "range": "^12.3.0",
+      "licenses": "MIT",
+      "repoUrl": "https://github.com/nodejs/node-gyp",
+      "versionedRepoUrl": "https://github.com/nodejs/node-gyp/tree/v12.3.0",
+      "licenseFile": "node_modules/node-gyp/LICENSE",
+      "licenseUrl": "https://github.com/nodejs/node-gyp/blob/v12.3.0/LICENSE",
+      "licenseTextSource": "file",
+      "publisher": "Nathan Rajlich",
+      "email": "nathan@tootallnate.net",
+      "url": "http://tootallnate.net"
     },
     "prettier@2.8.8": {
       "name": "prettier",
