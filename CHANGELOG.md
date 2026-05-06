@@ -1,3 +1,18 @@
+### v13.0.0 (2026-05-06)
+#### ⚠ BREAKING CHANGES
+
+
+* Removed Node.js 20 support
+
+#### Features
+
+* Removed Node.js 20 support ([#292](https://github.com/newrelic/node-native-metrics/pull/292)) ([b5306f8](https://github.com/newrelic/node-native-metrics/commit/b5306f86831c2efe05d22e0f865b1162df73432a))
+
+#### Miscellaneous chores
+
+* Added `node-gyp` v12 to dev deps to get tests to run on `windows-latest` ([#294](https://github.com/newrelic/node-native-metrics/pull/294)) ([7d0a2d7](https://github.com/newrelic/node-native-metrics/commit/7d0a2d705da84719886d91189497f1ab698e3080))
+* Update release workflow ([#290](https://github.com/newrelic/node-native-metrics/pull/290)) ([21854c8](https://github.com/newrelic/node-native-metrics/commit/21854c84417978fe23f2742e1acc51866fe4afd9))
+
 ### v12.0.0 (2025-07-22)
 #### ⚠ BREAKING CHANGES
 
