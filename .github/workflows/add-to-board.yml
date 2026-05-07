@@ -1,4 +1,6 @@
 name: Auto Assign to Project(s)
+permissions:
+  contents: read
 
 on:
   issues:
