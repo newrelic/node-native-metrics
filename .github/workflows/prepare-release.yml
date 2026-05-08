@@ -1,4 +1,8 @@
 name: Prepare Release PR
+# Reusable callee prep-release.yml declares its own contents/pull-requests write perms.
+permissions:
+  contents: read
+
 
 on:
   workflow_dispatch:
