@@ -17,23 +17,25 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        node: [ 22, 24 ]
+        node: [ 22, 24, 26 ]
         arch: [ x86, x64 ]
         exclude:
           # Ubuntu does not ship x86 builds.
           - { os: ubuntu-latest, arch: x86 }
+          # Neither does Windows.
           - { os: windows-latest, arch: x86, node: 24 }
+          - { os: windows-latest, arch: x86, node: 26 }
     runs-on: ${{ matrix.os }}
     name: "${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Use node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.arch }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/node_modules
           key: "${{ matrix.os }}-${{ matrix.arch }}-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}"
@@ -42,7 +44,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.node }}"
           path: prebuilds
@@ -51,19 +53,19 @@ jobs:
     strategy:
       matrix:
         os: [ macos-14 ]
-        node: [ 22, 24 ]
+        node: [ 22, 24, 26 ]
         arch: [ arm64 ]
     runs-on: ${{ matrix.os }}
     name: "${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: actions/cache@v4
+        uses: actions/checkout@v6
+      - uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/node_modules
           key: "${{ matrix.os }}-${{ matrix.arch }}-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}"
       - name: Use node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.arch }}
@@ -72,7 +74,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: "${{ matrix.os }}-${{ matrix.arch }}-${{ matrix.node }}"
           path: prebuilds
@@ -84,18 +86,18 @@ jobs:
     if: ${{ vars.NR_RUNNER != '' }}
     strategy:
       matrix:
-        node: [ 22, 24 ]
+        node: [ 22, 24, 26 ]
     runs-on: ${{ vars.NR_RUNNER }}
     name: Linux / Node ${{ matrix.node }} arm64
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Use node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/node_modules
           key: "linux-arm64-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}"
@@ -104,7 +106,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: "linux-arm64-${{ matrix.node }}"
           path: prebuilds
@@ -114,8 +116,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Create package
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
       - run: |
           mkdir prebuilds
           rm -f .gitignore
@@ -125,7 +127,7 @@ jobs:
           merge-multiple: true
       - run: echo -e "PKG_VERSION=$(jq -r .version < package.json)" >> "$GITHUB_ENV"
       - run: npm pack
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: npm-module
           path: newrelic-native-metrics-${{ env.PKG_VERSION }}.tgz
@@ -146,13 +148,13 @@ jobs:
     runs-on: ubuntu-latest
     name: Tag Release
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       # We need access to the prep scripts in the node-newrelic repo.
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           repository: newrelic/node-newrelic
           path: agent-repo
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
       - run: |
           # Install agent-repo dependencies.
           npm install --prefix agent-repo
@@ -180,7 +182,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Publish Package
     steps:
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           # Required minimum Node version for Trusted Publishing is 24.5.0.
           node-version: 24.x

@@ -24,9 +24,9 @@ jobs:
         node-version: [lts/*]
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install Dependencies
@@ -40,23 +40,25 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest ]
-        node: [ 22, 24 ]
+        node: [ 22, 24, 26 ]
         arch: [ x86, x64 ]
         exclude:
           # Ubuntu does not ship x86 builds.
           - { os: ubuntu-latest, arch: x86 }
+          # Neither does Windows.
           - { os: windows-latest, arch: x86, node: 24 }
+          - { os: windows-latest, arch: x86, node: 26 }
     runs-on: ${{ matrix.os }}
     name: "${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Use node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.arch }}
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/node_modules
           key: "${{ matrix.os }}-${{ matrix.arch }}-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}"
@@ -65,7 +67,9 @@ jobs:
       - name: Unit Test
         run: npm run unit
       - name: Post Unit Test Coverage
-        uses: codecov/codecov-action@v4
+        # v5.5.4 because v6.0.1 requires Node 24 and we can't do that here
+        # until we drop support for Node 22.
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/unit/
@@ -74,7 +78,9 @@ jobs:
       - name: Integration Test
         run: npm run integration
       - name: Post Integration Test Coverage
-        uses: codecov/codecov-action@v4
+        # v5.5.4 because v6.0.1 requires Node 24 and we can't do that here
+        # until we drop support for Node 22.
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/integration/
@@ -94,13 +100,13 @@ jobs:
 #    name: "${{ matrix.os }} / Node ${{ matrix.node }} ${{ matrix.arch }}"
 #    steps:
 #      - name: Checkout
-#        uses: actions/checkout@v4
-#      - uses: actions/cache@v4
+#        uses: actions/checkout@v6
+#      - uses: actions/cache@v5
 #        with:
 #          path: ${{ github.workspace }}/node_modules
 #          key: "${{ matrix.os }}-${{ matrix.arch }}-node-${{ matrix.node }}-${{ hashFiles('./package.json') }}"
 #      - name: Use node ${{ matrix.node }}
-#        uses: actions/setup-node@v4
+#        uses: actions/setup-node@v6
 #        with:
 #          node-version: ${{ matrix.node }}
 #          architecture: ${{ matrix.arch }}
@@ -132,18 +138,18 @@ jobs:
     if: ${{ vars.NR_RUNNER != '' }}
     strategy:
       matrix:
-        node: [ 22, 24 ]
+        node: [ 22, 24, 26 ]
     runs-on: ${{ vars.NR_RUNNER }}
     name: Linux / Node ${{ matrix.node }} arm64
     timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Compute cache key
         run: echo -e "CACHE_KEY=$(shasum -a 256 package.json | cut -f1 -d ' ')" >> "$GITHUB_ENV"
       - name: Restore modules cache
         id: cache_restore
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v5
         with:
           path: ${{ github.workspace }}/node_modules
           key: linux-arm-node-${{ matrix.node }}-${{ env.CACHE_KEY }}
@@ -152,7 +158,9 @@ jobs:
       - name: Unit Test
         run: npm run unit
       - name: Post Unit Test Coverage
-        uses: codecov/codecov-action@v4
+        # v5.5.4 because v6.0.1 requires Node 24 and we can't do that here
+        # until we drop support for Node 22.
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/unit/
@@ -161,7 +169,9 @@ jobs:
       - name: Integration Test
         run: npm run integration
       - name: Post Integration Test Coverage
-        uses: codecov/codecov-action@v4
+        # v5.5.4 because v6.0.1 requires Node 24 and we can't do that here
+        # until we drop support for Node 22.
+        uses: codecov/codecov-action@75cd11691c0faa626561e295848008c8a7dddffe
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/integration
