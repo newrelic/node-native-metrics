@@ -1,3 +1,14 @@
+### v13.1.0 (2026-06-29)
+
+#### Miscellaneous chores
+
+* Removed `repolinter` as it is no longer necessary, assigned necessary permissions to remaining workflows ([#296](https://github.com/newrelic/node-native-metrics/pull/296)) ([c5c05f9](https://github.com/newrelic/node-native-metrics/commit/c5c05f954ebd5d9a5fa079b845992b6993b14502))
+* Updated to include Node.js 26 ([#299](https://github.com/newrelic/node-native-metrics/pull/299)) ([e927faf](https://github.com/newrelic/node-native-metrics/commit/e927faf6d26e3061ee4ea4014ccee044c3531f5e))
+
+#### Continuous integration
+
+* Added appropriate permissions to `prepare-release.yml` ([#297](https://github.com/newrelic/node-native-metrics/pull/297)) ([ef3eb3e](https://github.com/newrelic/node-native-metrics/commit/ef3eb3e4fc69df71c30d36f9d180113d23e61644))
+
 ### v13.0.0 (2026-05-06)
 #### ⚠ BREAKING CHANGES
 
