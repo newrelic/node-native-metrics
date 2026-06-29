@@ -35,6 +35,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.arch }}
+          check-latest: true
       - uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/node_modules
@@ -69,6 +70,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.arch }}
+          check-latest: true
       - name: Install
         run: npm install
       - name: Build
@@ -97,6 +99,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
+          check-latest: true
       - uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/node_modules
@@ -118,6 +121,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
+        with:
+          check-latest: true
       - run: |
           mkdir prebuilds
           rm -f .gitignore
@@ -155,6 +160,8 @@ jobs:
           repository: newrelic/node-newrelic
           path: agent-repo
       - uses: actions/setup-node@v6
+        with:
+          check-latest: true
       - run: |
           # Install agent-repo dependencies.
           npm install --prefix agent-repo
@@ -187,6 +194,7 @@ jobs:
           # Required minimum Node version for Trusted Publishing is 24.5.0.
           node-version: 24.x
           registry-url: 'https://registry.npmjs.org'
+          check-latest: true
       - uses: actions/download-artifact@v4
         with:
           name: npm-module
