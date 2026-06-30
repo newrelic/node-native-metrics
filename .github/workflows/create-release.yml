@@ -161,6 +161,7 @@ jobs:
           path: agent-repo
       - uses: actions/setup-node@v6
         with:
+          node-version: 'lts/*'
           check-latest: true
       - run: |
           # Install agent-repo dependencies.
@@ -191,8 +192,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v6
         with:
-          # Required minimum Node version for Trusted Publishing is 24.5.0.
-          node-version: 24.x
+          node-version: 'lts/*'
           registry-url: 'https://registry.npmjs.org'
           check-latest: true
       - uses: actions/download-artifact@v4
