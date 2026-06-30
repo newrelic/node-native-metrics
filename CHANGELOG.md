@@ -2,7 +2,7 @@
 
 #### Features
 
-* Updated testing to include Node.js 26 ([#299](https://github.com/newrelic/node-native-metrics/pull/299)) ([e927faf](https://github.com/newrelic/node-native-metrics/commit/e927faf6d26e3061ee4ea4014ccee044c3531f5e))
+* Added Node.js 26 support ([#299](https://github.com/newrelic/node-native-metrics/pull/299)) ([e927faf](https://github.com/newrelic/node-native-metrics/commit/e927faf6d26e3061ee4ea4014ccee044c3531f5e))
 
 ### v13.0.0 (2026-05-06)
 #### ⚠ BREAKING CHANGES
