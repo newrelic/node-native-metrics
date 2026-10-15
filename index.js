@@ -8,7 +8,6 @@
 const EventEmitter = require('events').EventEmitter
 const util = require('util')
 const natives = require('node-gyp-build')(__dirname)
-const DEFAULT_TIMEOUT = 15 * 1000 // 15 seconds
 
 const GC_TYPE_NAMES = {
   1: 'Scavenge',
@@ -26,16 +25,11 @@ const GC_TYPE_NAMES = {
  *
  * @constructor
  * @classdesc
- *  Emits events for various native events or periodic sampling.
- *
- * @param {number} [opts.timeout]
- *  The number of milliseconds between samplings. Defaults to 15 seconds.
+ *  Emits events for various native events.
  */
-function NativeMetricEmitter(opts) {
-  opts = opts || { timeout: DEFAULT_TIMEOUT }
+function NativeMetricEmitter() {
   EventEmitter.call(this)
   this.bound = false
-  this._timeout = null
 
   this._gcBinder = new natives.GCBinder()
   this.gcEnabled = true
@@ -43,7 +37,7 @@ function NativeMetricEmitter(opts) {
   this._loopChecker = new natives.LoopChecker()
   this.loopEnabled = true
 
-  this.bind(opts.timeout)
+  this.bind()
 }
 util.inherits(NativeMetricEmitter, EventEmitter)
 
@@ -83,12 +77,6 @@ util.inherits(NativeMetricEmitter, EventEmitter)
 
 /**
  * Binds the emitter to the internal, V8 hooks to start populating data.
- *
- * @fires NativeMetricEmitter#gc
- * @fires NativeMetricEmitter#usage
- *
- * @param {number} [timeout]
- *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
 NativeMetricEmitter.prototype.bind = function bind() {
   if (this.bound) {
@@ -102,7 +90,7 @@ NativeMetricEmitter.prototype.bind = function bind() {
 }
 
 /**
- * Removes internal hooks and stops any open sampling timers.
+ * Removes internal hooks, stopping the population of metric data.
  */
 NativeMetricEmitter.prototype.unbind = function unbind() {
   if (!this.bound) {
@@ -161,12 +149,13 @@ let emitter = null
  * Retrieves the {@link NativeMetricEmitter} singleton instance.
  *
  * @param {object} [opts]
- *  Options for constructing the emitter. See {@link NativeMetricEmitter} for
- *  default values. Only used on the first call to construct the instance.
+ *  Accepted for backwards compatibility but ignored; the emitter no longer
+ *  takes any construction options.
  */
+// eslint-disable-next-line no-unused-vars
 module.exports = function getMetricEmitter(opts) {
   if (!emitter) {
-    emitter = new NativeMetricEmitter(opts)
+    emitter = new NativeMetricEmitter()
   }
   return emitter
 }
