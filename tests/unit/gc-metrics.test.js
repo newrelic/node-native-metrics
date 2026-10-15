@@ -40,3 +40,26 @@ test('GC Metrics', async () => {
   assert.ok(metrics.sumOfSquares > 0, 'should have reasonable values for sumOfSquares')
   assert.ok(metrics.count > 0, 'should have reasonable values for count')
 })
+
+test('GC Metrics skips unknown GC types', (t) => {
+  const metricEmitter = require('../..')()
+
+  const sampleMetric = { total: 1, min: 1, max: 1, sumOfSquares: 1, count: 1 }
+  const originalRead = metricEmitter._gcBinder.read
+  t.after(() => {
+    metricEmitter._gcBinder.read = originalRead
+  })
+
+  // 1 is a known type (Scavenge); 99 is not present in GC_TYPE_NAMES and
+  // simulates a GC type reported by a newer V8.
+  metricEmitter._gcBinder.read = () => ({
+    1: { ...sampleMetric },
+    99: { ...sampleMetric }
+  })
+
+  const gcs = metricEmitter.getGCMetrics()
+  assert.deepStrictEqual(Object.keys(gcs), ['Scavenge'], 'should only include the known type')
+  assert.ok(!('undefined' in gcs), 'should not emit an "undefined" key for unknown types')
+  assert.strictEqual(gcs.Scavenge.type, 'Scavenge')
+  assert.strictEqual(gcs.Scavenge.typeId, 1)
+})
