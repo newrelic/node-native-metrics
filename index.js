@@ -32,10 +32,7 @@ function NativeMetricEmitter() {
   this.bound = false
 
   this._gcBinder = new natives.GCBinder()
-  this.gcEnabled = true
-
   this._loopChecker = new natives.LoopChecker()
-  this.loopEnabled = true
 
   this.bind()
 }

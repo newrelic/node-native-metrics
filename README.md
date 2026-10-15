@@ -76,7 +76,7 @@ pattern to build a compatible image:
 'use strict'
 
 const metrics = require('@newrelic/native-metrics')
-console.log("gcEnabled:", metrics().gcEnabled)
+console.log("loaded:", metrics().bound)
 ```
 
 **Dockerfile**:
@@ -100,7 +100,7 @@ With those files in place, we can build and run the image:
 ```sh
 $ docker build --tag demo .
 $ docker run --rm -it demo
-gcEnabled: true
+loaded: true
 ```
 
 ## Usage
@@ -109,29 +109,24 @@ gcEnabled: true
 var getMetricEmitter = require('@newrelic/native-metrics')
 
 var emitter = getMetricEmitter()
-if (emitter.gcEnabled) {
-  setInterval(() => {
-    var gcMetrics = emitter.getGCMetrics()
-    for (var type in gcMetrics) {
-      console.log('GC type name:', type)
-      console.log('GC type id:', gcMetrics[type].typeId)
-      console.log('GC metrics:', gcMetrics[type].metrics)
-    }
-  }, 1000)
-}
-if (emitter.usageEnabled) {
-  emitter.on('usage', (usage) => console.log(usage))
-}
-if (emitter.loopEnabled) {
-  setInterval(() => {
-    var loopMetrics = emitter.getLoopMetrics()
-    console.log('Total time:', loopMetrics.usage.total)
-    console.log('Min time:', loopMetrics.usage.min)
-    console.log('Max time:', loopMetrics.usage.max)
-    console.log('Sum of squares:', loopMetrics.usage.sumOfSquares)
-    console.log('Count:', loopMetrics.usage.count)
-  }, 1000)
-}
+
+setInterval(() => {
+  var gcMetrics = emitter.getGCMetrics()
+  for (var type in gcMetrics) {
+    console.log('GC type name:', type)
+    console.log('GC type id:', gcMetrics[type].typeId)
+    console.log('GC metrics:', gcMetrics[type].metrics)
+  }
+}, 1000)
+
+setInterval(() => {
+  var loopMetrics = emitter.getLoopMetrics()
+  console.log('Total time:', loopMetrics.usage.total)
+  console.log('Min time:', loopMetrics.usage.min)
+  console.log('Max time:', loopMetrics.usage.max)
+  console.log('Sum of squares:', loopMetrics.usage.sumOfSquares)
+  console.log('Count:', loopMetrics.usage.count)
+}, 1000)
 ```
 
 To stop collecting metrics, call `NativeMetricEmitter#unbind`. This removes the
