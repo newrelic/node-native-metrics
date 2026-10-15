@@ -147,13 +147,8 @@ let emitter = null
 
 /**
  * Retrieves the {@link NativeMetricEmitter} singleton instance.
- *
- * @param {object} [opts]
- *  Accepted for backwards compatibility but ignored; the emitter no longer
- *  takes any construction options.
  */
-// eslint-disable-next-line no-unused-vars
-module.exports = function getMetricEmitter(opts) {
+module.exports = function getMetricEmitter() {
   if (!emitter) {
     emitter = new NativeMetricEmitter()
   }
