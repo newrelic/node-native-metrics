@@ -24,6 +24,10 @@ main()
   .catch((error) => {
     // eslint-disable-next-line no-console
     console.error(error)
+    // Signal failure so that a broken prebuild fails CI and `npm run build`
+    // instead of exiting 0. Use `exitCode` rather than `exit()` so buffered
+    // output flushes first.
+    process.exitCode = 1
   })
 
 async function main() {
