@@ -43,6 +43,21 @@ LoopChecker::LoopChecker():
   _checkHandle.data = (void*)this;
 }
 
+LoopChecker::~LoopChecker() {
+  // Stop the check handle and release it from the event loop. Guard against a
+  // handle that is already closing so a repeated teardown is safe.
+  uv_check_stop(&_checkHandle);
+  if (!uv_is_closing((uv_handle_t*)&_checkHandle)) {
+    uv_close((uv_handle_t*)&_checkHandle, &LoopChecker::_closeCB);
+  }
+}
+
+void LoopChecker::_closeCB(uv_handle_t* handle) {
+  // Intentionally empty: `_checkHandle` is an inline member of LoopChecker and
+  // its memory is owned by that object, so there is nothing to free here.
+  (void)handle;
+}
+
 void LoopChecker::_checkCB(uv_check_t* handle) {
   LoopChecker* self = (LoopChecker*)handle->data;
   const uint64_t usage = getUsageSumInUS();
