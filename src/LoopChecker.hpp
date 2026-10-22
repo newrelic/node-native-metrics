@@ -48,6 +48,8 @@ public:
 
   static NAN_METHOD(Read);
 
+  ~LoopChecker();
+
 private:
   LoopChecker();
 
@@ -57,6 +59,13 @@ private:
   }
 
   static void _checkCB(uv_check_t* handle);
+
+  // libuv requires handles to be closed via `uv_close` before their memory is
+  // released. `_checkHandle` is an inline member, so the close callback must
+  // not touch the handle (the owning LoopChecker may already be gone); it is a
+  // no-op whose only purpose is to let libuv finish releasing the handle from
+  // the loop.
+  static void _closeCB(uv_handle_t* handle);
 
   uv_check_t _checkHandle;
   uint64_t _checkUsage;
