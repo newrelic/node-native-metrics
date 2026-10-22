@@ -8,7 +8,6 @@
 const EventEmitter = require('events').EventEmitter
 const util = require('util')
 const natives = require('node-gyp-build')(__dirname)
-const DEFAULT_TIMEOUT = 15 * 1000 // 15 seconds
 
 const GC_TYPE_NAMES = {
   1: 'Scavenge',
@@ -26,24 +25,16 @@ const GC_TYPE_NAMES = {
  *
  * @constructor
  * @classdesc
- *  Emits events for various native events or periodic sampling.
- *
- * @param {number} [opts.timeout]
- *  The number of milliseconds between samplings. Defaults to 15 seconds.
+ *  Emits events for various native events.
  */
-function NativeMetricEmitter(opts) {
-  opts = opts || { timeout: DEFAULT_TIMEOUT }
+function NativeMetricEmitter() {
   EventEmitter.call(this)
   this.bound = false
-  this._timeout = null
 
   this._gcBinder = new natives.GCBinder()
-  this.gcEnabled = true
-
   this._loopChecker = new natives.LoopChecker()
-  this.loopEnabled = true
 
-  this.bind(opts.timeout)
+  this.bind()
 }
 util.inherits(NativeMetricEmitter, EventEmitter)
 
@@ -83,12 +74,6 @@ util.inherits(NativeMetricEmitter, EventEmitter)
 
 /**
  * Binds the emitter to the internal, V8 hooks to start populating data.
- *
- * @fires NativeMetricEmitter#gc
- * @fires NativeMetricEmitter#usage
- *
- * @param {number} [timeout]
- *  The number of milliseconds between samplings. Defaults to 15 seconds.
  */
 NativeMetricEmitter.prototype.bind = function bind() {
   if (this.bound) {
@@ -102,7 +87,7 @@ NativeMetricEmitter.prototype.bind = function bind() {
 }
 
 /**
- * Removes internal hooks and stops any open sampling timers.
+ * Removes internal hooks, stopping the population of metric data.
  */
 NativeMetricEmitter.prototype.unbind = function unbind() {
   if (!this.bound) {
@@ -138,6 +123,12 @@ NativeMetricEmitter.prototype.getGCMetrics = function getGCMetrics() {
   for (const typeId in gcMetrics) {
     if (gcMetrics.hasOwnProperty(typeId) && gcMetrics[typeId].count > 0) {
       const typeName = GC_TYPE_NAMES[String(typeId)]
+      if (typeName === undefined) {
+        // V8 may report a GC type that is not in our known mapping (for
+        // example, a type added in a newer V8). Skip it rather than emitting
+        // a `results.undefined` entry with `type: undefined`.
+        continue
+      }
       results[typeName] = {
         typeId: parseInt(typeId, 10),
         type: typeName,
@@ -153,14 +144,10 @@ let emitter = null
 
 /**
  * Retrieves the {@link NativeMetricEmitter} singleton instance.
- *
- * @param {object} [opts]
- *  Options for constructing the emitter. See {@link NativeMetricEmitter} for
- *  default values. Only used on the first call to construct the instance.
  */
-module.exports = function getMetricEmitter(opts) {
+module.exports = function getMetricEmitter() {
   if (!emitter) {
-    emitter = new NativeMetricEmitter(opts)
+    emitter = new NativeMetricEmitter()
   }
   return emitter
 }

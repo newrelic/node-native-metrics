@@ -76,7 +76,7 @@ pattern to build a compatible image:
 'use strict'
 
 const metrics = require('@newrelic/native-metrics')
-console.log("gcEnabled:", metrics().gcEnabled)
+console.log("loaded:", metrics().bound)
 ```
 
 **Dockerfile**:
@@ -100,7 +100,7 @@ With those files in place, we can build and run the image:
 ```sh
 $ docker build --tag demo .
 $ docker run --rm -it demo
-gcEnabled: true
+loaded: true
 ```
 
 ## Usage
@@ -109,45 +109,34 @@ gcEnabled: true
 var getMetricEmitter = require('@newrelic/native-metrics')
 
 var emitter = getMetricEmitter()
-if (emitter.gcEnabled) {
-  setInterval(() => {
-    var gcMetrics = emitter.getGCMetrics()
-    for (var type in gcMetrics) {
-      console.log('GC type name:', type)
-      console.log('GC type id:', gcMetrics[type].typeId)
-      console.log('GC metrics:', gcMetrics[type].metrics)
-    }
-  }, 1000)
-}
-if (emitter.usageEnabled) {
-  emitter.on('usage', (usage) => console.log(usage))
-}
-if (emitter.loopEnabled) {
-  setInterval(() => {
-    var loopMetrics = emitter.getLoopMetrics()
-    console.log('Total time:', loopMetrics.usage.total)
-    console.log('Min time:', loopMetrics.usage.min)
-    console.log('Max time:', loopMetrics.usage.max)
-    console.log('Sum of squares:', loopMetrics.usage.sumOfSquares)
-    console.log('Count:', loopMetrics.usage.count)
-  }, 1000)
-}
+
+setInterval(() => {
+  var gcMetrics = emitter.getGCMetrics()
+  for (var type in gcMetrics) {
+    console.log('GC type name:', type)
+    console.log('GC type id:', gcMetrics[type].typeId)
+    console.log('GC metrics:', gcMetrics[type].metrics)
+  }
+}, 1000)
+
+setInterval(() => {
+  var loopMetrics = emitter.getLoopMetrics()
+  console.log('Total time:', loopMetrics.usage.total)
+  console.log('Min time:', loopMetrics.usage.min)
+  console.log('Max time:', loopMetrics.usage.max)
+  console.log('Sum of squares:', loopMetrics.usage.sumOfSquares)
+  console.log('Count:', loopMetrics.usage.count)
+}, 1000)
 ```
 
-The metric emitter keeps a referenced timer running for its periodic sampling
-events. For a graceful shutdown of the process call `NativeMetricEmitter#unbind`.
+To stop collecting metrics, call `NativeMetricEmitter#unbind`. This removes the
+internal V8 and event loop hooks. Collection can be resumed later by calling
+`NativeMetricEmitter#bind` again.
 
 ```js
-getMetricEmitter().unbind() // Process will now close gracefully.
-```
-
-If you would like to change the period of the sampling, simply unbind and then
-call `NativeMetricEmitter#bind` with the new period.
-
-```js
-var emitter = getMetricEmitter({timeout: 15000})
-emitter.unbind()
-emitter.bind(10000) // Samples will now fire once every 10 seconds.
+var emitter = getMetricEmitter()
+emitter.unbind() // Stop collecting metrics.
+emitter.bind()   // Resume collecting metrics.
 ```
 
 ## Testing
