@@ -179,3 +179,24 @@ jobs:
           directory: ./coverage/integration
           files: lcov.info
           flags: integration-tests-${{ matrix.node }}-linux-arm64
+
+  # Compiles the native sources from source (not the prebuilt binary used by the
+  # other test jobs) and runs the C++ gtest suite via `npm run native`.
+  native_test:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+    runs-on: ${{ matrix.os }}
+    name: "Native C++ tests / ${{ matrix.os }}"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Use node 22
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          check-latest: true
+      - name: Install
+        run: npm install
+      - name: Native Test
+        run: npm run native

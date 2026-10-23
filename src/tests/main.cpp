@@ -14,9 +14,12 @@ namespace tests {
 NAN_METHOD(Test) {
   Nan::HandleScope scope;
 
-  // Initialize gtest
+  // Initialize gtest. `argv` must be writable (and NULL-terminated) because
+  // `InitGoogleTest` may rewrite it, so use a mutable buffer rather than a
+  // string literal.
+  char argv0[] = "tests";
+  char* argv[] = {argv0, nullptr};
   int argc = 1;
-  char* argv[] = {"tests"};
   testing::InitGoogleTest(&argc, argv);
 
   // Return the status code.
