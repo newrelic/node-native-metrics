@@ -11,6 +11,10 @@
 
 namespace nr {
 
+// Forward declaration so the lifecycle unit test fixture (defined in
+// nr::tests) can be named as a friend below.
+namespace tests { class LoopCheckerLifecycleTest; }
+
 class LoopChecker : public Nan::ObjectWrap {
 public:
   static NAN_MODULE_INIT(Init) {
@@ -51,6 +55,10 @@ public:
   ~LoopChecker();
 
 private:
+  // Grants the lifecycle unit tests access to the private constructor and the
+  // `_checkHandle` so they can verify the destructor closes it.
+  friend class tests::LoopCheckerLifecycleTest;
+
   LoopChecker();
 
   static inline Nan::Persistent<v8::Function> & constructor() {
