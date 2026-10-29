@@ -121,7 +121,7 @@ NativeMetricEmitter.prototype.getGCMetrics = function getGCMetrics() {
   const gcMetrics = this._gcBinder.read()
   const results = Object.create(null)
   for (const typeId in gcMetrics) {
-    if (gcMetrics.hasOwnProperty(typeId) && gcMetrics[typeId].count > 0) {
+    if (Object.hasOwn(gcMetrics, typeId) && gcMetrics[typeId].count > 0) {
       const typeName = GC_TYPE_NAMES[String(typeId)]
       if (typeName === undefined) {
         // V8 may report a GC type that is not in our known mapping (for
