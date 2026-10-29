@@ -11,6 +11,10 @@
 
 namespace nr {
 
+// Forward declaration so the lifecycle unit test fixture (defined in
+// nr::tests) can be named as a friend below.
+namespace tests { class LoopCheckerLifecycleTest; }
+
 class LoopChecker : public Nan::ObjectWrap {
 public:
   static NAN_MODULE_INIT(Init) {
@@ -48,7 +52,13 @@ public:
 
   static NAN_METHOD(Read);
 
+  ~LoopChecker();
+
 private:
+  // Grants the lifecycle unit tests access to the private constructor and the
+  // `_checkHandle` so they can verify the destructor closes it.
+  friend class tests::LoopCheckerLifecycleTest;
+
   LoopChecker();
 
   static inline Nan::Persistent<v8::Function> & constructor() {
@@ -57,6 +67,13 @@ private:
   }
 
   static void _checkCB(uv_check_t* handle);
+
+  // libuv requires handles to be closed via `uv_close` before their memory is
+  // released. `_checkHandle` is an inline member, so the close callback must
+  // not touch the handle (the owning LoopChecker may already be gone); it is a
+  // no-op whose only purpose is to let libuv finish releasing the handle from
+  // the loop.
+  static void _closeCB(uv_handle_t* handle);
 
   uv_check_t _checkHandle;
   uint64_t _checkUsage;

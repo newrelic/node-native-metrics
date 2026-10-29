@@ -49,8 +49,13 @@
           "src/tests/gtest-all.cc",
           "src/tests/main.cpp",
 
+          # Production sources under test (needed by lifecycle_test.cpp)
+          "src/GCBinder.cpp",
+          "src/LoopChecker.cpp",
+
           # Actual tests
-          "src/tests/metrics_test.cpp"
+          "src/tests/metrics_test.cpp",
+          "src/tests/lifecycle_test.cpp"
         ],
         "defines": [
           "NOMINMAX"

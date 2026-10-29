@@ -12,6 +12,22 @@
 
 namespace nr {
 
+// Forward declaration so the lifecycle unit test fixture (defined in
+// nr::tests) can be named as a friend below.
+namespace tests { class GCBinderLifecycleTest; }
+
+// GCBinder is intentionally single-instance. NAN's GC prologue/epilogue hooks
+// are global free functions (`_gcPrologue`/`_gcEpilogue`) that dispatch through
+// the single static `_instance` pointer, so only one live GCBinder can be bound
+// to the V8 GC hooks at a time.
+//
+// Lifecycle:
+//   - The constructor sets `_instance = this`.
+//   - `New` throws if a live instance already exists (`_instance != NULL`).
+//   - The destructor unbinds the GC hooks and clears `_instance`, so a fresh
+//     GCBinder can be constructed cleanly once the previous one is collected.
+//     Per-instance state (`_gcStartTimeHR`, `_gcMetrics`) is reinitialized by
+//     construction, so a re-created instance starts clean.
 class GCBinder : public Nan::ObjectWrap {
 public:
   static NAN_MODULE_INIT(Init) {
@@ -57,11 +73,26 @@ public:
 
   ~GCBinder() {
     _unbind();
-    _instance = NULL;
+    _clearInstanceIfCurrent(this);
   }
 
 private:
+  // Grants the lifecycle unit tests access to private state (notably
+  // `_instance`) so they can verify the single-instance teardown guard.
+  friend class tests::GCBinderLifecycleTest;
+
   static GCBinder* _instance;
+
+  // Clears the shared `_instance` pointer, but only if it still refers to
+  // `self`. This is the destructor's teardown guard: a stale instance being
+  // destroyed after a newer one became live must not wipe out the newer
+  // instance's registration. Factored out as a static helper so it can be unit
+  // tested with plain pointers, without constructing a V8-entangled GCBinder.
+  static void _clearInstanceIfCurrent(GCBinder* self) {
+    if (_instance == self) {
+      _instance = NULL;
+    }
+  }
 
   static NAN_GC_CALLBACK(_gcPrologue) {
     if (GCBinder::_instance) {
