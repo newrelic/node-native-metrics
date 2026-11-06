@@ -1,3 +1,7 @@
+⚠️  This package has been decommissioned. The functionality has been merged into
+the core [`newrelic`](https://github.com/newrelic/node-newrelic) module as of
+[release 14.11.0](https://github.com/newrelic/node-newrelic/releases/tag/v14.11.0).
+
 <a href="https://opensource.newrelic.com/oss-category/#community-plus"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/dark/Community_Plus.png"><source media="(prefers-color-scheme: light)" srcset="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/Community_Plus.png"><img alt="New Relic Open Source community plus project banner." src="https://github.com/newrelic/opensource-website/raw/main/src/images/categories/Community_Plus.png"></picture></a>
 
 # Native Metrics for New Relic Node.js Agent
